@@ -1,0 +1,175 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F4;
+    color: #000;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: Arial, sans-serif;
+}
+
+/* Container to make the profile page full width and height */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    width: 1200px;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #175C21;
+    color: #FFFFFF;
+    width: 100%;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+.navButton {
+    background-color: #E8F2EB;
+    color: #175C21;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.navButton.active {
+    background-color: #175C21;
+    color: #FFFFFF;
+}
+
+.logoutButton {
+    background-color: #E8F2EB;
+    color: red;
+}
+
+/* Profile Section */
+.profileContainer {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+.profileContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #E8F2EB;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.profileImage img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.profileInfo {
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.infoItem {
+    margin-bottom: 15px;
+}
+
+.infoItem label {
+    display: block;
+    font-weight: bold;
+    color: #175C21;
+}
+
+.infoContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.infoContent input {
+    width: calc(100% - 40px);
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.infoContent p {
+    font-size: 16px;
+    color: #555;
+}
+
+.editButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #175C21;
+    font-size: 16px;
+}
+
+.securitySection {
+    margin-top: 20px;
+}
+
+.updatePasswordButton {
+    background-color: #175C21;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.logoutButton {
+    margin-top: 20px;
+    background-color: #E8F2EB;
+    color: red;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Footer Section */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #175C21;
+    color: #FFFFFF;
+    font-size: 14px;
+    width: 100%;
+}

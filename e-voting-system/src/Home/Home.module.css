@@ -1,0 +1,157 @@
+/* Reset and Basic Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF;
+    color: #000;
+    line-height: 1.6;
+  }
+  
+  /* Header Section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #175C21;
+    color: #FFFFFF;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .headerButtons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .headerButton {
+    background-color: #E8F2EB;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Why Birzeit Vote Section */
+  .whySection {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .whySection h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .whySection p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .whyImage {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+  }
+  
+  /* Who We Are Section */
+  .whoWeAre {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .whoWeAre h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+   .cardContainer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .card {
+    background-color: #E8F2EB;
+    padding: 20px;
+    border-radius: 8px;
+    width: 150px;
+    text-align: center;
+  }
+  
+  .card h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #175C21;
+  }
+  
+  .card p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .cardImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  /* Contact Us Section */
+  .contactSection {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .contactSection h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .contactSection form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .inputField {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #E8F2EB;
+  }
+  
+  .contactButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #175C21;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  /* Footer Section */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #175C21;
+    color: #FFFFFF;
+    font-size: 14px;
+  }
+  

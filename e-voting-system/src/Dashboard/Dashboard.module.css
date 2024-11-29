@@ -1,0 +1,147 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .container{
+    width: 100%;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF;
+    color: #000;
+    line-height: 1.6;
+  }
+  
+  /* Header Styles */
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #175C21;
+    color: #FFFFFF;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .header nav {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .navButton {
+    background-color: #E8F2EB;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .logoutButton {
+    background-color: #E8F2EB;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Section Styles */
+  .latestNews, .liveElections, .upcomingEvents, .candidatePosts, .electionResults {
+    width: 1200px;
+    max-width: auto;
+    padding: 20px;
+    margin: 20px;
+    background-color: #E8F2EB;
+    border-radius: 8px;
+  }
+  
+  .latestNews h2, .liveElections h2, .upcomingEvents h2, .candidatePosts h2, .electionResults h2 {
+    font-size: 22px;
+    color: #175C21;
+    margin-bottom: 10px;
+  }
+  
+  .latestNews ul, .liveElections ul {
+    list-style: none;
+  }
+  
+  .latestNews li, .liveElections li {
+    margin: 10px 0;
+    color: #555;
+  }
+  
+  /* Calendar Styles */
+  .calendar {
+    text-align: center;
+  }
+  
+  .calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .calendar th, .calendar td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .calendar td {
+    background-color: #FFFFFF;
+  }
+  
+  .calendar td:hover {
+    background-color: #E8F2EB;
+    cursor: pointer;
+  }
+  
+  .nextMonthButton {
+    background-color: #E8F2EB;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Candidate Posts */
+  .postsContainer {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .post {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 5px;
+    width: calc(50% - 20px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post h3 {
+    color: #175C21;
+    margin-bottom: 10px;
+  }
+  
+  /* Footer */
+  .footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    background-color: #175C21;
+    color: #FFFFFF;
+    font-size: 14px;
+  }
+  

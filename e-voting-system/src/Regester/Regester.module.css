@@ -1,0 +1,154 @@
+/* Reset and Basic Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .container {
+    height: 100%;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    position: relative; /* To make the back button work inside this container */
+  }
+  
+  /* Back Button */
+  .backButton { /* Updated to match the React component className */
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  /* Title */
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin: 20px 0;
+  }
+  
+  /* Input Fields */
+  .inputField { /* Updated to match the React component className */
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #E8F2EB;
+    color: #000;
+    font-size: 16px;
+  }
+  
+  /* Dropdowns (same style as input fields) */
+  .inputField select { /* Updated to match the React component className */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  
+  /* Upload Button */
+  .inputUpload {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #E8F2EB;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px 0;
+    text-align: center;
+    position: relative;
+  }
+  
+  .inputUpload input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Make the default file input invisible */
+    cursor: pointer;
+  }
+  
+  .inputUpload .fileName {
+    display: block;
+    margin-top: 10px;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .inputUpload::before {
+    content: "Upload Personal Image"; /* Placeholder text */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: #888;
+    pointer-events: none; /* Prevents the text from interfering with clicking the file input */
+  }
+  
+  .inputUpload input[type="file"]:not(:empty) + .fileName {
+    color: #333; /* Change color to indicate file is selected */
+    content:"";
+  }
+  
+  
+  
+  /* Register and Cancel Buttons */
+  .registerButton { /* Updated to match the React component className */
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #175C21;
+    color: #FFFFFF;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .cancelButton { /* Updated to match the React component className */
+    background: none;
+    border: none;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .loginButton { /* Updated to match the React component className */
+    width: 30%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #175C21;
+    color: #FFFFFF;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  /* Footer */
+  footer {
+    color: #A0A0A0;
+    font-size: 14px;
+    margin-top: 30px;
+  }
+  
