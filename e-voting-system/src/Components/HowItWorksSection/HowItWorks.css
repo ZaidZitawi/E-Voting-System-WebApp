@@ -1,0 +1,105 @@
+/* src/components/HowItWorks/HowItWorks.css */
+
+/* Section Styles */
+.how-it-works {
+    padding: 80px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .section-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 60px;
+    color: #333;
+    font-family: "Chonburi", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  /* Steps Grid */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Step Card Styles */
+  .step-card {
+    background-color: #fff;
+    padding: 40px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    border: 2px solid #347928; 
+  }
+  
+  .step-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .step-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #347928;
+    margin-bottom: 20px;
+  }
+  
+  .step-icon {
+    font-size: 48px;
+    color: #347928;
+    margin-bottom: 20px;
+  }
+  
+  .step-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
+  .step-description {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  /* Hover Effects */
+  .step-card:hover .step-icon {
+    color: #2c6a21;
+  }
+  
+  .step-card:hover .step-title {
+    color: #2c6a21;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .how-it-works {
+      padding: 60px 10px;
+    }
+  
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 40px;
+    }
+  
+    .step-card {
+      padding: 30px 15px;
+    }
+  
+    .step-icon {
+      font-size: 40px;
+    }
+  
+    .step-title {
+      font-size: 20px;
+    }
+  
+    .step-description {
+      font-size: 14px;
+    }
+  }
+  

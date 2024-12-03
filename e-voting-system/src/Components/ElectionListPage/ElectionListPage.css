@@ -1,0 +1,37 @@
+/* src/components/ElectionListPage/ElectionListPage.css */
+
+.election-list-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #fffbe6; /* Replaced var(--color-secondary) */
+}
+
+.main-content2 {
+  margin-top: 80px; /* Replaced var(--header-height) */
+  flex: 1;
+  display: block; /* Removed flex as SideNavBar is removed */
+  padding: 16px; /* Replaced var(--spacing-medium) */
+  box-sizing: border-box;
+  background-color: #ffffff; /* Replaced var(--color-light) */
+}
+
+.content-area2 {
+  width: 100%;
+  max-width: 1200px; /* Limit maximum width for better readability */
+  margin: 0 auto; /* Center the content */
+  padding: 16px; /* Replaced var(--spacing-medium) */
+  box-sizing: border-box;
+  background-color: #ffffff; /* Replaced var(--color-light) */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .main-conten2t {
+    padding: 8px; /* Replaced var(--spacing-small) */
+  }
+
+  .content-area2 {
+    padding: 8px; /* Replaced var(--spacing-small) */
+  }
+}

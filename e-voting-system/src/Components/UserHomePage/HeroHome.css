@@ -1,0 +1,128 @@
+/* src/components/UserHomePage/HeroHome.css */
+
+.hero-section {
+  position: relative;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(52, 121, 40, 0.7));
+  padding: 40px;
+  text-align: center;
+  color: #ffffff;
+  border-radius: 12px;
+  max-width: 700px;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.hero-overlay h1 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+}
+
+.hero-overlay p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  font-family: 'Merriweather', serif;
+  line-height: 1.6;
+}
+
+.hero-overlay .btn {
+  padding: 14px 28px;
+  font-size: 16px;
+  background-color: #fdd835;
+  color: #333333;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.hero-overlay .btn:hover {
+  background-color: #fbc02d;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(52, 121, 40, 0.3);
+}
+
+.hero-overlay .btn::after {
+  content: '➔';
+  display: inline-block;
+  margin-left: 8px;
+  animation: arrowMove 1s infinite;
+}
+
+.toggle-bg-btn {
+  margin-top: 20px;
+  background: none;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.toggle-bg-btn:hover {
+  background-color: #ffffff;
+  color: #347928;
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes arrowMove {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-overlay {
+    padding: 20px;
+  }
+
+  .hero-overlay h1 {
+    font-size: 32px;
+  }
+
+  .hero-overlay p {
+    font-size: 16px;
+  }
+
+  .hero-overlay .btn,
+  .toggle-bg-btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

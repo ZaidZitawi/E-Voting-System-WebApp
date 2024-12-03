@@ -1,0 +1,95 @@
+/* src/components/UserHomePage/SideNavBar.css */
+
+.side-nav-bar {
+  position: fixed;
+  top: 85px; 
+  left: 0;
+  width: 17%;
+  height: calc(100% - 80px); 
+  background-color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #e0e0e0;
+
+}
+  
+  .profile-section {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .profile-section img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-section h3 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .profile-section .btn {
+    display: block;
+    margin: 5px auto;
+    width: 90%;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+  
+  .nav-links {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .nav-links ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .nav-links ul li {
+    margin-bottom: 15px;
+  }
+  
+  .nav-links ul li a {
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .nav-links ul li a .nav-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+  }
+  
+  .nav-links ul li a:hover {
+    background-color: #347928;
+    color: #000;
+  }
+  
+  .nav-links ul li a.active-link {
+    background-color: #347928;
+    color: #fff;
+  }
+  
+  .nav-links ul li a.active-link .nav-icon {
+    filter: brightness(0) invert(1);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .side-nav-bar {
+      position: relative;
+      top: 0;
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+    }
+  }
