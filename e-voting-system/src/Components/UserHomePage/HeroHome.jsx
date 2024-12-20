@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './HeroHome.css';
-import heroImage from '../../assets/Birzeit_University_PIC.jpg'; // Replace with your image path
+import heroImage from '../../assets/biroil.png'; 
 
 const HeroHome = () => {
   const scrollToFeatured = () => {

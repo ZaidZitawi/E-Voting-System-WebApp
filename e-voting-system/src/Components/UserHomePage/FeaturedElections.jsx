@@ -1,137 +1,122 @@
 // src/components/UserHomePage/FeaturedElections.jsx
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './FeaturedElections.css';
-import featuredElectionImage from '../../assets/file.ico'; // Replace with your actual image path
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Link } from "react-router-dom";
+import featuredElectionImage from "../../assets/file.ico";
+import "./FeaturedElections.css";
+import axios from 'axios'; // Import axios for HTTP requests
 
+// Lazy load the Slider component for performance optimization
+const Slider = React.lazy(() => import("react-slick"));
 
-const FeaturedElections = () => {
-  const featuredElections = [
-    {
-      id: 1,
-      title: 'Student Council Elections',
-      description: 'Vote for your student council representatives.',
-      image: featuredElectionImage,
-    },
-    {
-      id: 2,
-      title: 'Sports Club Elections',
-      description: 'Elect the new leaders of the sports club.',
-      image: featuredElectionImage,
-    },
-    {
-      id: 3,
-      title: 'Art Society Elections',
-      description: 'Choose the new heads of the art society.',
-      image: featuredElectionImage,
-    },
-    {
-      id: 4,
-      title: 'Science Club Elections',
-      description: 'Vote for the new science club leaders.',
-      image: featuredElectionImage,
-    },
-    {
-      id: 5,
-      title: 'Debate Club Elections',
-      description: 'Elect the new debate club committee.',
-      image: featuredElectionImage,
-    },
-    {
-      id: 6,
-      title: 'Tech Innovators Club Elections',
-      description: 'Lead the future of technology on campus.',
-      image: featuredElectionImage,
-    },
-    {
-      id: 7,
-      title: 'Cultural Fest Committee Elections',
-      description: 'Organize the most vibrant cultural fest.',
-      image: featuredElectionImage,
-    },
-    // Add more featured elections as needed
-  ];
+const FeaturedElections = React.memo(() => {
+  // 1. State variables for featured elections, loading status, and errors
+  const [featuredElections, setFeaturedElections] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Initially loading
+  const [error, setError] = useState(null); // To capture any errors
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const cardsToShow = 2; // Display two cards per slide
-  const totalSlides = Math.ceil(featuredElections.length / cardsToShow);
+  // 2. Fetch featured elections from the backend when the component mounts
+  useEffect(() => {
+    const fetchFeaturedElections = async () => {
+      setIsLoading(true); // Start loading
+      setError(null); // Reset any previous errors
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
-  };
+      try {
+        // Retrieve the token from localStorage
+        const token = localStorage.getItem('authToken');
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex < totalSlides - 1 ? prevIndex + 1 : prevIndex
-    );
-  };
+        if (!token) {
+          throw new Error('No authentication token found. Please log in.');
+        }
 
-  const isFirstSlide = currentIndex === 0;
-  const isLastSlide = currentIndex === totalSlides - 1;
+        // Make a GET request to the /elections/featured endpoint
+        const response = await axios.get('http://localhost:8080/elections/featured', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
 
-  const getCurrentSlideItems = () => {
-    const startIndex = currentIndex * cardsToShow;
-    const endIndex = startIndex + cardsToShow;
-    return featuredElections.slice(startIndex, endIndex);
-  };
+        // Assuming the response data is an array of ElectionDTO objects
+        setFeaturedElections(response.data);
+      } catch (err) {
+        setError(err.response?.data?.message || err.message || 'Failed to fetch featured elections.');
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    };
+
+    fetchFeaturedElections();
+  }, []); // Empty dependency array ensures this runs once on mount
+
+  // 3. Slider settings (modified)
+  const settings = useMemo(() => ({
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    // Remove centerMode to simplify spacing
+    // centerMode: true,
+    // centerPadding: "50px",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          // centerPadding: "30px",
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          // centerPadding: "20px",
+        },
+      },
+    ],
+  }), []);
+
+  // 4. Render elections from state instead of hardcoded data
+  const renderElections = useCallback(() => {
+    if (isLoading) {
+      return <div className="loader">Loading featured elections...</div>; // Replace with spinner if desired
+    }
+
+    if (error) {
+      return <div className="error-message">{error}</div>;
+    }
+
+    if (featuredElections.length === 0) {
+      return <div>No featured elections available at the moment.</div>;
+    }
+
+    return featuredElections.map((election) => (
+      <div key={election.electionId} className="featured-card">
+        {/* Use election.imageUrl if available, else fallback to a default image */}
+        <img src={election.imageUrl || featuredElectionImage} alt={election.title} loading="lazy" />
+        <div className="featured-content">
+          <h3>{election.title}</h3>
+          <p>{election.description}</p>
+          <Link to={`/elections/${election.electionId}`} className="btn btn-secondary">
+            Learn More
+          </Link>
+        </div>
+      </div>
+    ));
+  }, [featuredElections, isLoading, error]);
 
   return (
     <section className="featured-elections" id="featured-elections">
       <h2>Featured Elections</h2>
-      <div className="featured-elections-container">
-        {/* Previous Arrow */}
-        <button
-          className="nav-arrow prev-arrow"
-          onClick={handlePrev}
-          disabled={isFirstSlide}
-          aria-label="Previous Featured Elections"
-        >
-          &#8592; {/* Unicode Left Arrow */}
-        </button>
-
-        {/* Featured Slide */}
-        <div className="featured-slide">
-          {getCurrentSlideItems().map((election) => (
-            <div key={election.id} className="election-card">
-              <img src={election.image} alt={election.title} />
-              <h3>{election.title}</h3>
-              <p>{election.description}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Next Arrow */}
-        <button
-          className="nav-arrow next-arrow"
-          onClick={handleNext}
-          disabled={isLastSlide}
-          aria-label="Next Featured Elections"
-        >
-          &#8594; {/* Unicode Right Arrow */}
-        </button>
-      </div>
-
-      {/* Slide Indicators */}
-      <div className="slide-indicators">
-        {Array.from({ length: totalSlides }).map((_, index) => (
-          <span
-            key={index}
-            className={`indicator-dot ${currentIndex === index ? 'active' : ''}`}
-            onClick={() => setCurrentIndex(index)}
-            aria-label={`Go to slide ${index + 1}`}
-            role="button"
-            tabIndex="0"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setCurrentIndex(index);
-              }
-            }}
-          ></span>
-        ))}
+      <div className="slider-container">
+        <React.Suspense fallback={<div>Loading slider...</div>}>
+          <Slider {...settings}>
+            {renderElections()}
+          </Slider>
+        </React.Suspense>
       </div>
     </section>
   );
-};
+});
 
 export default FeaturedElections;

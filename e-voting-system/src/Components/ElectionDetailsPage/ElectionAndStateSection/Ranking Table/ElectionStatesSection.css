@@ -1,0 +1,17 @@
+/* src/components/ElectionStatesSection/ElectionStatesSection.css */
+
+.election-states-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 20px;
+    background-color: #f0f4f8;
+  }
+  
+  @media (min-width: 768px) {
+    .election-states-section {
+      flex-direction: row;
+      gap: 40px;
+    }
+  }
+  

@@ -1,0 +1,9 @@
+/* src/pages/ElectionDetailsPage/ElectionDetailsPage.css */
+
+  
+  /* Example: Adding top padding to prevent content from hiding behind the fixed Header */
+  .election-details-page {
+    padding-top: 80px; /* Adjust based on Header height */
+    padding-bottom: 60px; /* Adjust based on Footer height */
+  }
+  

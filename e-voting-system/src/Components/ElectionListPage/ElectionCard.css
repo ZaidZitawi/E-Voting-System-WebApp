@@ -1,91 +1,150 @@
 /* src/components/ElectionListPage/ElectionCard.css */
 
 .election-card {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%; /* Ensures all cards have equal height */
-  }
-  
-  .election-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  .election-card:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px #347928;
-  }
-  
-  .election-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #347928;
-  }
-  
-  .election-card p {
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: #555;
-  }
-  
-  .view-details-btn {
-    padding: 10px 16px;
-    font-size: 14px;
-    background-color: #347928;
-    color: #ffffff;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .view-details-btn:hover {
-    background-color: #285e1a;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .election-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #ccc; /* Increased border thickness */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensures all cards have equal height */
+}
+
+.election-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.election-card:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #347928;
+}
+
+.election-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.election-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.election-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #347928;
+  line-height: 1.2;
+}
+
+.election-type,
+.election-dates {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.election-description {
+  font-size: 14px;
+  margin-bottom: 15px;
+  color: #333;
+  flex-grow: 1;
+}
+
+.election-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view-details-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  background-color: #347928;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.view-details-btn:hover {
+  background-color: #285e1a;
+}
+
+.status-indicator {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.status-indicator.active {
+  background-color: #28a745;
+}
+
+.status-indicator.inactive {
+  background-color: #dc3545;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .election-card {
       padding: 15px;
-    }
-  
-    .election-card h3 {
-      font-size: 18px;
-    }
-  
-    .election-card p {
+  }
+
+  .election-title {
+      font-size: 20px;
+  }
+
+  .election-type,
+  .election-dates,
+  .election-description {
       font-size: 13px;
-    }
-  
-    .view-details-btn {
+  }
+
+  .view-details-btn {
       padding: 8px 14px;
       font-size: 13px;
-    }
   }
-  
-  @media (max-width: 480px) {
-    .election-card {
-      padding: 12px;
-    }
-  
-    .election-card h3 {
-      font-size: 16px;
-    }
-  
-    .election-card p {
+
+  .status-indicator {
       font-size: 12px;
-    }
-  
-    .view-details-btn {
+      padding: 5px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .election-card {
+      padding: 12px;
+  }
+
+  .election-title {
+      font-size: 18px;
+  }
+
+  .election-type,
+  .election-dates,
+  .election-description {
+      font-size: 12px;
+  }
+
+  .view-details-btn {
       padding: 6px 12px;
       font-size: 12px;
-    }
   }
-  
+
+  .status-indicator {
+      font-size: 11px;
+      padding: 4px 8px;
+  }
+}

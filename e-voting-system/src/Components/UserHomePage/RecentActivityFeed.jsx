@@ -35,9 +35,6 @@ const RecentActivityFeed = () => {
   // Simulate live updates (e.g., using WebSockets or polling in real implementation)
   useEffect(() => {
     const interval = setInterval(() => {
-      // Fetch new posts and update state
-      // For demonstration, we'll just log a message
-      console.log('Fetching new posts...');
       // Implement actual data fetching here
     }, 60000); // Fetch new posts every 60 seconds
 

@@ -1,0 +1,74 @@
+/* src/components/ElectionStatesSection/CandidateRankingCard.css */
+
+.candidate-ranking-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .candidate-ranking-card:hover {
+    background-color: #eef2f7;
+  }
+  
+  .rank-badge {
+    background-color: #2f8a4c;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  
+  .candidate-ranking-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .candidate-ranking-info {
+    flex: 1;
+  }
+  
+  .candidate-ranking-name {
+    font-size: 18px;
+    color: #333333;
+    margin: 0 0 5px 0;
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  .vote-percentage {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .vote-percentage span {
+    font-size: 14px;
+    color: #555555;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  .progress-bar {
+    flex: 1;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    height: 8px;
+    overflow: hidden;
+  }
+  
+  .progress {
+    height: 100%;
+    background-color: #2f8a4c;
+    transition: width 0.3s ease;
+  }
+  

@@ -1,0 +1,67 @@
+/* src/components/PostsSection/Post.css */
+
+.post-card {
+  width: 100%;
+  max-width: 600px; /* Ensures the post doesn't exceed the container's max-width */
+  margin: 0 auto; /* Centers the post within the container */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.post-content {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333333;
+  font-family: "Roboto", sans-serif;
+}
+
+.post-media {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center; /* Centers the media content */
+}
+
+.post-media img {
+  width: 100%;
+  max-width: 550px; /* Adjust based on container width */
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .post-card {
+    padding: 12px;
+  }
+
+  .post-content {
+    font-size: 13px;
+  }
+
+  .post-media img {
+    max-width: 100%; /* Allow images to take full width on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .post-card {
+    padding: 10px;
+  }
+
+  .post-content {
+    font-size: 12px;
+  }
+
+  .post-media img {
+    max-width: 100%;
+  }
+}

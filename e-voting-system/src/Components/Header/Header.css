@@ -33,19 +33,6 @@
   flex-grow: 1;
 }
 
-.header-search {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.header-search input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 /* Right Section */
 .header-right {
   display: flex;
@@ -353,10 +340,6 @@
 
   .nav-bar {
     display: none; /* Hide navigation bar on mobile */
-  }
-
-  .header-search {
-    margin: 0;
   }
 
   /* Header Actions Adjustments on Mobile */

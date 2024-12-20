@@ -1,7 +1,10 @@
 // src/components/SignUpPage/SignUpForm.jsx
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { decodeJWT, isTokenExpired } from '../utils/jwt';
+import { toast } from 'react-toastify';
 import './SignUpForm.css';
 
 const SignUpForm = () => {
@@ -9,7 +12,7 @@ const SignUpForm = () => {
 
   // Form data state
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -22,13 +25,8 @@ const SignUpForm = () => {
   const [errors, setErrors] = useState({});
 
   // Faculties and Departments data
-  const faculties = ['Engineering', 'Arts', 'Science', 'Business'];
-  const departments = {
-    Engineering: ['Computer Engineering', 'Electrical Engineering', 'Mechanical Engineering'],
-    Arts: ['English Literature', 'History', 'Philosophy'],
-    Science: ['Biology', 'Chemistry', 'Physics'],
-    Business: ['Accounting', 'Marketing', 'Finance'],
-  };
+  const [faculties, setFaculties] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   // Password strength indicator
   const [passwordStrength, setPasswordStrength] = useState('');
@@ -39,6 +37,20 @@ const SignUpForm = () => {
   // Sign up success state
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
+  const navigate = useNavigate();
+
+  // Loading and error states for faculties and departments
+  const [loadingFaculties, setLoadingFaculties] = useState(false);
+  const [loadingDepartments, setLoadingDepartments] = useState(false);
+  const [facultiesError, setFacultiesError] = useState('');
+  const [departmentsError, setDepartmentsError] = useState('');
+
+  // Helper function to parse string to Long
+  const parseLong = (value) => {
+    const parsed = Number(value);
+    return isNaN(parsed) ? null : parsed;
+  };
+
   useEffect(() => {
     let timer;
     if (step === 2 && resendTimer > 0) {
@@ -46,6 +58,14 @@ const SignUpForm = () => {
     }
     return () => clearTimeout(timer);
   }, [resendTimer, step]);
+
+  // Fetch all faculties when step changes to 3
+  useEffect(() => {
+    if (step === 3 && faculties.length === 0) {
+      fetchFaculties();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -57,6 +77,16 @@ const SignUpForm = () => {
     }
 
     setFormData({ ...formData, [name]: value });
+
+    // If faculty changes, fetch corresponding departments
+    if (name === 'faculty') {
+      if (value) {
+        fetchDepartments(value);
+      } else {
+        setDepartments([]);
+        setFormData({ ...formData, department: '' });
+      }
+    }
   };
 
   // Password strength function
@@ -95,8 +125,8 @@ const SignUpForm = () => {
     const newErrors = {};
 
     if (step === 1) {
-      if (!formData.username || formData.username.length < 3) {
-        newErrors.username = 'Username must be at least 3 characters long.';
+      if (!formData.name || formData.name.length < 3) {
+        newErrors.name = 'Name must be at least 3 characters long.';
       }
       const emailRegex = /^[0-9]+@student\.birzeit\.edu$/;
       if (!emailRegex.test(formData.email)) {
@@ -131,31 +161,149 @@ const SignUpForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Fetch all faculties
+  const fetchFaculties = async () => {
+    setLoadingFaculties(true);
+    setFacultiesError('');
+    try {
+      const response = await axios.get('http://localhost:8080/faculty-and-department/faculties',{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`, 
+        },
+      });
+      setFaculties(response.data);
+      console.log('Faculties fetched:', response.data);
+    } catch (error) {
+      console.error('Error fetching faculties:', error);
+      setFacultiesError('Failed to load faculties. Please try again.');
+    } finally {
+      setLoadingFaculties(false);
+    }
+  };
+
+  // Fetch departments based on faculty ID
+  const fetchDepartments = async (facultyId) => {
+    setLoadingDepartments(true);
+    setDepartmentsError('');
+    try {
+      const response = await axios.get(`http://localhost:8080/faculty-and-department/faculties/${facultyId}/departments`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`, 
+        },
+      });
+      setDepartments(response.data);
+      console.log('Departments fetched:', response.data);
+    } catch (error) {
+      console.error('Error fetching departments:', error);
+      setDepartmentsError('Failed to load departments. Please try again.');
+    } finally {
+      setLoadingDepartments(false);
+    }
+  };
+
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validate()) {
-      if (step < 3) {
-        setStep(step + 1);
-      } else {
-        // Final form submission logic
-        console.log('Form submitted:', formData);
-        // Implement loading indicator and API call here
-        setSignUpSuccess(true); // Set sign-up success to true
+      try {
+        if (step === 1) {
+          // Step 1: User Registration
+          const registerResponse = await axios.post('http://localhost:8080/auth/register', {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+          });
+
+          alert(registerResponse.data); // "Registration successful. Please check your email for the verification code."
+          setStep(2);
+        } else if (step === 2) {
+          // Step 2: Email Verification
+          const verifyResponse = await axios.post('http://localhost:8080/auth/verify', {
+            email: formData.email,
+            verificationCode: formData.verificationCode,
+          });
+
+          // Extract token from response
+          const token = verifyResponse.data; // Adjust based on backend response structure
+
+          if (token) {
+            // Store token in localStorage
+            localStorage.setItem('authToken', token);
+
+            // Decode token to get user info (optional)
+            const decoded = decodeJWT(token);
+
+            // Set auto-logout based on token expiration (handled in App.js)
+            toast.success('Verification successful. Please complete your registration.');
+            setStep(3);
+          } else {
+            throw new Error('Invalid verification response.');
+          }
+        } else if (step === 3) {
+          // Step 3: Complete Registration
+          const token = localStorage.getItem('authToken');
+          if (!token || isTokenExpired(token)) {
+            toast.error('Session expired. Please sign up again.');
+            navigate('/signup');
+            return;
+          }
+
+          const registrationCompletionDTO = {
+            facultyId: parseLong(formData.faculty),
+            departmentId: parseLong(formData.department),
+          };
+
+          if (!registrationCompletionDTO.facultyId || !registrationCompletionDTO.departmentId) {
+            throw new Error('Invalid faculty or department selection.');
+          }
+
+          const completeResponse = await axios.post(
+            `http://localhost:8080/auth/complete-registration?email=${encodeURIComponent(formData.email)}`,
+            registrationCompletionDTO,
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+
+          console.log("Completion dto:", completeResponse.data);
+
+          alert(completeResponse.data); // "Registration completed successfully."
+          toast.success('Registration completed successfully!');
+          setSignUpSuccess(true);
+          navigate('/home');
+        }
+      } catch (error) {
+        // Handle errors from backend
+        if (error.response && error.response.data) {
+          alert(`Error: ${error.response.data.message || error.response.data}`);
+        } else {
+          alert(`Error: ${error.message}`);
+        }
       }
     }
   };
 
   // Handle Resend Code
-  const handleResendCode = () => {
-    // Implement resend code logic here
-    setResendTimer(60);
-  };
+  const handleResendCode = async () => {
+    try {
+      // Assuming you have a dedicated endpoint for resending verification codes
+      const resendResponse = await axios.post('http://localhost:8080/auth/resend-verification', {
+        email: formData.email,
+      });
 
-  // Handle Faculty Change
-  const handleFacultyChange = (e) => {
-    setFormData({ ...formData, faculty: e.target.value, department: '' });
+      alert(resendResponse.data); // "Verification code resent. Please check your email."
+      setResendTimer(60);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        alert(`Error: ${error.response.data.message || error.response.data}`);
+      } else {
+        alert(`Error: ${error.message}`);
+      }
+    }
   };
 
   return signUpSuccess ? (
@@ -163,8 +311,8 @@ const SignUpForm = () => {
     <div className="signup-success">
       <h2>Sign Up Successful!</h2>
       <p>Your account has been created successfully.</p>
-      <Link to="/login" className="btn btn-primary">
-        Go to Sign In
+      <Link to="/dashboard" className="btn btn-primary">
+        Go to Dashboard
       </Link>
     </div>
   ) : (
@@ -181,16 +329,16 @@ const SignUpForm = () => {
         <div className="form-step">
           {/* Step 1 Fields */}
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
             />
-            {errors.username && <p className="error-message">{errors.username}</p>}
+            {errors.name && <p className="error-message">{errors.name}</p>}
           </div>
 
           <div className="form-group">
@@ -277,40 +425,52 @@ const SignUpForm = () => {
           {/* Step 3 Fields */}
           <div className="form-group">
             <label htmlFor="faculty">Faculty</label>
-            <select
-              id="faculty"
-              name="faculty"
-              value={formData.faculty}
-              onChange={handleFacultyChange}
-              required
-            >
-              <option value="">Select Faculty</option>
-              {faculties.map((faculty) => (
-                <option key={faculty} value={faculty}>
-                  {faculty}
-                </option>
-              ))}
-            </select>
+            {loadingFaculties ? (
+              <p>Loading faculties...</p>
+            ) : facultiesError ? (
+              <p className="error-message">{facultiesError}</p>
+            ) : (
+              <select
+                id="faculty"
+                name="faculty"
+                value={formData.faculty}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Faculty</option>
+                {faculties.map((faculty) => (
+                  <option key={faculty.facultyId} value={faculty.facultyId}>
+                    {faculty.facultyName}
+                  </option>
+                ))}
+              </select>
+            )}
             {errors.faculty && <p className="error-message">{errors.faculty}</p>}
           </div>
 
           {formData.faculty && (
             <div className="form-group">
               <label htmlFor="department">Department</label>
-              <select
-                id="department"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Department</option>
-                {departments[formData.faculty].map((department) => (
-                  <option key={department} value={department}>
-                    {department}
-                  </option>
-                ))}
-              </select>
+              {loadingDepartments ? (
+                <p>Loading departments...</p>
+              ) : departmentsError ? (
+                <p className="error-message">{departmentsError}</p>
+              ) : (
+                <select
+                  id="department"
+                  name="department"
+                  value={formData.department}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Department</option>
+                  {departments.map((department) => (
+                    <option key={department.departmentId} value={department.departmentId}>
+                      {department.departmentName}
+                    </option>
+                  ))}
+                </select>
+              )}
               {errors.department && <p className="error-message">{errors.department}</p>}
             </div>
           )}

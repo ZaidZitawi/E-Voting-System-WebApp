@@ -1,7 +1,7 @@
 // src/components/Header/Header.jsx
 
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './Header.css';
 import logo from '../../assets/file.ico';
 
@@ -12,22 +12,34 @@ import logoutIcon from '../../assets/logout.png';
 import arrowDownIcon from '../../assets/arrow-down.png';
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dashboardDropdownOpen, setDashboardDropdownOpen] = useState(false);
   const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
   const dashboardDropdownRef = useRef(null);
   const notificationDropdownRef = useRef(null);
+  const navigate = useNavigate(); // For programmatic navigation
 
-  // Simulate user authentication status
-  const isLoggedIn = true; // Change this to false to simulate a logged-out user
+  // Check authentication status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    setIsLoggedIn(!!token);
+  }, []);
 
-  const handleDashboardDropdownToggle = () => {
-    setDashboardDropdownOpen((prev) => !prev);
-  };
+  // Optional: Listen for storage changes (e.g., authToken changes in other tabs)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem('authToken');
+      setIsLoggedIn(!!token);
+    };
 
-  const handleNotificationDropdownToggle = () => {
-    setNotificationDropdownOpen((prev) => !prev);
-  };
+    window.addEventListener('storage', handleStorageChange);
 
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  // Close dropdowns when clicking outside
   const handleClickOutside = (event) => {
     if (
       dashboardDropdownOpen &&
@@ -53,12 +65,31 @@ const Header = () => {
     };
   }, [dashboardDropdownOpen, notificationDropdownOpen]);
 
+  // Toggle functions for dropdowns
+  const handleDashboardDropdownToggle = () => {
+    setDashboardDropdownOpen((prev) => !prev);
+  };
+
+  const handleNotificationDropdownToggle = () => {
+    setNotificationDropdownOpen((prev) => !prev);
+  };
+
+  // Logout function
+  const handleLogout = () => {
+    // Remove the auth token from localStorage
+    localStorage.removeItem('authToken');
+    setIsLoggedIn(false);
+    setDashboardDropdownOpen(false);
+    // Optionally, navigate to the landing or login page
+    navigate('/login');
+  };
+
   return (
     <header className="header">
       <div className="header-container">
         {/* Logo */}
         <div className="logo">
-          <NavLink to="/">
+          <NavLink to="/Home">
             <img src={logo} alt="Logo" className="logo-image" />
             VoteChain
           </NavLink>
@@ -70,22 +101,22 @@ const Header = () => {
             {/* Navigation Bar */}
             <nav className="nav-bar">
               <NavLink
-                to="/"
+                to="/home"
                 className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
                 Home
               </NavLink>
               <NavLink
-                to="/elections"
+                to="/electionlist" 
                 className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
                 Elections
               </NavLink>
               <NavLink
-                to="/dashbored"
+                to="/dashboard" // Corrected from 'dashbored' to 'dashboard'
                 className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
-                Dashbored
+                Dashboard
               </NavLink>
             </nav>
 
@@ -136,7 +167,7 @@ const Header = () => {
                   aria-haspopup="true"
                   aria-expanded={dashboardDropdownOpen}
                 >
-                  <span>JS</span>
+                  <span className="user-initials">JD</span> {/* Replace 'JD' with dynamic initials if available */}
                   <img
                     src={arrowDownIcon}
                     alt="Toggle Dropdown"
@@ -144,11 +175,11 @@ const Header = () => {
                   />
                 </button>
                 <div className={`dropdown-menu ${dashboardDropdownOpen ? 'show' : ''}`}>
-                  <NavLink to="/profile">
+                  <NavLink to="/profile" className="dropdown-item" onClick={() => setDashboardDropdownOpen(false)}>
                     <img src={dashboardIcon} alt="Profile" className="dropdown-icon" />
                     Profile
                   </NavLink>
-                  <NavLink to="/logout">
+                  <NavLink className="dropdown-item logout-button" onClick={handleLogout}>
                     <img src={logoutIcon} alt="Logout" className="dropdown-icon" />
                     Logout
                   </NavLink>
