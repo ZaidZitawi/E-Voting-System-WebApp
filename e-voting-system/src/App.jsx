@@ -11,6 +11,7 @@ import ElectionListPage from "./Components/ElectionListPage/ElectionListPage.jsx
 import Dashboard from "./Components/Dashboard/Dashboard.jsx";
 import ElectionDetailsPage from "./Components/ElectionDetailsPage/ElectionDetailsPage.jsx";
 import Profile from "./Components/Profile/ProfilePage.jsx";
+import AdminLoginPage from "./Components/Admin/SignIn/AdminLoginPage.jsx";
 import { decodeJWT, isTokenExpired } from "./Components/utils/jwt.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -74,6 +75,7 @@ const AppContent = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/details" element={<ElectionDetailsPage />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/AdminIn" element={<AdminLoginPage/>}/>
       </Routes>
       <ToastContainer
         position="top-right"
