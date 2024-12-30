@@ -13,6 +13,10 @@ import ElectionDetailsPage from "./Components/ElectionDetailsPage/ElectionDetail
 import Profile from "./Components/Profile/ProfilePage.jsx";
 import AdminLoginPage from "./Components/Admin/SignIn/AdminLoginPage.jsx";
 import CreateElectionStepper from "./Components/Admin/CreateElection/CreateElectionStepper.jsx";
+import ElectionCandidates from "./Components/Admin/CreateElection/ElectionCandidates.jsx";
+import ManagePartiesPage from "./Components/Admin/CreateElection/ManagePartiesPage.jsx";
+import AssignCandidatesPage from "./Components/Admin/CreateElection/AssignCandidatesPage.jsx";
+import PublishBlockchainPage from "./Components/Admin/CreateElection/PublishBlockchainPage.jsx";
 import { decodeJWT, isTokenExpired } from "./Components/utils/jwt.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -78,6 +82,10 @@ const AppContent = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/AdminIn" element={<AdminLoginPage/>}/>
         <Route path="/CreateElection" element={<CreateElectionStepper/>}/>
+        <Route path="/election-candidates" element={<ElectionCandidates/>}/>
+        <Route path="/manage-parties" element={<ManagePartiesPage/>}/>
+        <Route path="/assign-candidates" element={<AssignCandidatesPage/>}/>
+        <Route path="/publish-blockchain" element={<PublishBlockchainPage/>}/>
       </Routes>
       <ToastContainer
         position="top-right"

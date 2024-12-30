@@ -1,0 +1,52 @@
+/* src/components/CreateElectionPage/PublishBlockchainPage.css */
+
+.publish-blockchain-page {
+    padding: 20px;
+  }
+  
+  .publish-blockchain-page h2 {
+    text-align: center;
+    color: #347928;
+    margin-bottom: 20px;
+  }
+  
+  .summary {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .summary p {
+    margin: 10px 0;
+  }
+  
+  .summary h3 {
+    margin: 20px 0 10px;
+  }
+  
+  .summary ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .summary li {
+    margin: 5px 0;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #347928;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  button:hover {
+    background-color: #2c6a21;
+  }
+  
