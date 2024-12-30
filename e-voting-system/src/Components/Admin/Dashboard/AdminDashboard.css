@@ -1,0 +1,104 @@
+.dashboard {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 100vh; /* Ensure full height */
+    margin-top: 80px; /* Height of the Header */
+    margin-left: 18%; /* Width of the SideNavBar */
+    box-sizing: border-box;
+    transition: margin-left 0.3s ease; /* Smooth transition when SideNavBar toggles */
+  }
+  
+  .dashboard.side-nav-open {
+    margin-left: 250px; /* Adjust if SideNavBar width changes when open */
+  }
+  
+  .dashboard h2 {
+    margin-top: 0;
+    color: #2f8a4c;
+    font-family: "Roboto", sans-serif;
+    font-size: 28px;
+  }
+  
+  .dashboard p {
+    color: #555555;
+    font-family: "Merriweather", serif;
+    margin-bottom: 30px;
+  }
+  
+  /* Main Content Area Layout */
+  .main-content-area {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+  }
+  
+  /* Container for ElectionAnalytics and ElectionStates */
+  .analytics-states-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  /* Election Slider should take full width */
+  .election-slider {
+    width: 100%;
+  }
+  
+  /* Election Analytics and Election States */
+  .election-analytics,
+  .election-states {
+    flex: 1 1 45%;
+    min-width: 300px;
+  }
+  
+  @media (max-width: 1024px) {
+    .analytics-states-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .election-analytics,
+    .election-states {
+      flex: 1 1 100%;
+      max-width: 800px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard {
+      padding: 15px;
+      margin-left: 0; /* Remove left margin on small screens */
+      margin-top: 60px; /* Maintain top margin for Header */
+    }
+  
+    .dashboard h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+  
+    .analytics-states-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .election-analytics,
+    .election-states {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+  }
+  
+  /* Overlay Styles */
+  .overlay {
+    position: fixed;
+    top: 60px; /* Below the Header */
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+  }
+  

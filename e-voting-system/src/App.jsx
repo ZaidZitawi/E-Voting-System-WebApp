@@ -17,6 +17,7 @@ import ElectionCandidates from "./Components/Admin/CreateElection/ElectionCandid
 import ManagePartiesPage from "./Components/Admin/CreateElection/ManagePartiesPage.jsx";
 import AssignCandidatesPage from "./Components/Admin/CreateElection/AssignCandidatesPage.jsx";
 import PublishBlockchainPage from "./Components/Admin/CreateElection/PublishBlockchainPage.jsx";
+import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx"
 import { decodeJWT, isTokenExpired } from "./Components/utils/jwt.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -86,6 +87,7 @@ const AppContent = () => {
         <Route path="/manage-parties" element={<ManagePartiesPage/>}/>
         <Route path="/assign-candidates" element={<AssignCandidatesPage/>}/>
         <Route path="/publish-blockchain" element={<PublishBlockchainPage/>}/>
+        <Route path="/AdminDashboard" element={<AdminDashboard/>}/>
       </Routes>
       <ToastContainer
         position="top-right"
