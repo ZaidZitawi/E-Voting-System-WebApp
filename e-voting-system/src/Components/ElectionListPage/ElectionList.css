@@ -9,9 +9,11 @@
 
 .election-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, 300px); /* Fixed width for each column */
   gap: 16px; /* Uniform spacing between cards */
+  justify-content: center; /* Center the grid horizontally */
   width: 100%;
+  max-width: 1200px; /* Optional: Limit the maximum width of the grid */
 }
 
 .no-results {
@@ -69,4 +71,16 @@
   height: 200px;
   font-size: 18px;
   color: #347928;
+}
+
+/* Screen Reader Only Text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
