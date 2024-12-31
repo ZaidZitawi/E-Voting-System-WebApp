@@ -16,7 +16,7 @@
     font-size: 28px;
   }
   
-  .election-card {
+  .election-card2 {
     background-color: #f9f9f9;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
@@ -31,17 +31,17 @@
   }
 
 
-  .election-card.active {
+  .election-card2.active {
     border: 2px solid #2f8a4c;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
   }
   
-  .election-card:hover {
+  .election-card2:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
-  .election-card img {
+  .election-card2 img {
     width: 100%;
     height: 150px;
     object-fit: cover;
@@ -97,7 +97,7 @@
       margin-bottom: 25px;
     }
   
-    .election-card img {
+    .election-card2 img {
       height: 130px;
     }
   
@@ -125,7 +125,7 @@
       margin-bottom: 20px;
     }
   
-    .election-card img {
+    .election-card2 img {
       height: 120px;
     }
   

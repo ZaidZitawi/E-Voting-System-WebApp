@@ -40,7 +40,7 @@ const ElectionSlider = ({ elections }) => {
       <h2>Your Elections</h2>
       <Slider {...settings}>
         {elections.map((election, index) => (
-          <div key={election.id} className={`election-card ${activeSlide === index ? "active" : ""}`}>
+          <div key={election.id} className={`election-card2 ${activeSlide === index ? "active" : ""}`}>
             <img src={election.image || featuredElectionImage} alt={election.title} loading="lazy" />
             <div className="election-content">
               <h3>{election.title}</h3>

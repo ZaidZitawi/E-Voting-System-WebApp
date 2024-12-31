@@ -43,6 +43,7 @@ const ElectionList = ({ filters, currentPage, setCurrentPage }) => {
 
         setElections(response.data.content);
         setTotalPages(response.data.totalPages);
+        console.log('Fetched elections:', response.data.content);
       } catch (err) {
         console.error('Error fetching elections:', err);
         setError(err.response?.data?.message || err.message || 'Failed to fetch elections.');
