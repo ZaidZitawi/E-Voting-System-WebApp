@@ -16,13 +16,32 @@ const CreateElectionPage = () => {
     status: "Active",
   });
 
+  const facultyOptions = ["Arts", "Science", "Engineering"];
+  const departmentOptions = ["Computer Science", "Physics", "Mathematics"];
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setElectionDetails({ ...electionDetails, [name]: value });
   };
 
   const handleImageUpload = (e) => {
-    setElectionDetails({ ...electionDetails, image: e.target.files[0] });
+    const file = e.target.files[0];
+    setElectionDetails({ ...electionDetails, image: URL.createObjectURL(file) });
+  };
+
+  const toggleSelection = (type, value) => {
+    const selectedItems = electionDetails[type];
+    if (selectedItems.includes(value)) {
+      setElectionDetails({
+        ...electionDetails,
+        [type]: selectedItems.filter((item) => item !== value),
+      });
+    } else {
+      setElectionDetails({
+        ...electionDetails,
+        [type]: [...selectedItems, value],
+      });
+    }
   };
 
   const handleSubmit = () => {
@@ -92,41 +111,42 @@ const CreateElectionPage = () => {
           <label>Election Image</label>
           <input type="file" onChange={handleImageUpload} />
         </div>
+        {electionDetails.image && (
+          <div className="form-group">
+            <img src={electionDetails.image} alt="Election" className="election-image" />
+          </div>
+        )}
 
         <div className="form-group">
           <label>Faculties</label>
-          <select
-            name="faculties"
-            multiple
-            onChange={(e) =>
-              setElectionDetails({
-                ...electionDetails,
-                faculties: Array.from(e.target.selectedOptions, (opt) => opt.value),
-              })
-            }
-          >
-            <option value="Arts">Arts</option>
-            <option value="Science">Science</option>
-            <option value="Engineering">Engineering</option>
-          </select>
+          <div className="checkbox-group">
+            {facultyOptions.map((faculty) => (
+              <div key={faculty} className="checkbox-option">
+                <label>{faculty}</label>
+                <input
+                  type="checkbox"
+                  checked={electionDetails.faculties.includes(faculty)}
+                  onChange={() => toggleSelection("faculties", faculty)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="form-group">
           <label>Departments</label>
-          <select
-            name="departments"
-            multiple
-            onChange={(e) =>
-              setElectionDetails({
-                ...electionDetails,
-                departments: Array.from(e.target.selectedOptions, (opt) => opt.value),
-              })
-            }
-          >
-            <option value="Computer Science">Computer Science</option>
-            <option value="Physics">Physics</option>
-            <option value="Mathematics">Mathematics</option>
-          </select>
+          <div className="checkbox-group">
+            {departmentOptions.map((department) => (
+              <div key={department} className="checkbox-option">
+                <label>{department}</label>
+                <input
+                  type="checkbox"
+                  checked={electionDetails.departments.includes(department)}
+                  onChange={() => toggleSelection("departments", department)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="form-group">
