@@ -16,7 +16,7 @@ const Dashboard = () => {
         <Header />
   
         {/* Side Navigation Bar */}
-        <SideNavBar userRole="user" />
+        <SideNavBar userRole="admin" />
   
         {/* Main Content Area */}
         <div className="dashboard">
