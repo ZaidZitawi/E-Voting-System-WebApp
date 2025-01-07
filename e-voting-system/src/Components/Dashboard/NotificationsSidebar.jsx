@@ -1,3 +1,4 @@
+// this is notifications side bar
 import React from "react";
 import "./NotificationsSidebar.css";
 
