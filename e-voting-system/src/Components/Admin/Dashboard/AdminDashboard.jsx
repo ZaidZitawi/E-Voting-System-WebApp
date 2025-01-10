@@ -3,38 +3,44 @@ import "./AdminDashboard.css";
 import ElectionSlider from "../../Dashboard/ElectionSlider";
 import elections from "../../Dashboard/elections"; // Import the mock data
 import candidates from "../../Dashboard/candidate";
-import ElectionAnalytics from "../../Dashboard/ElectionAnalytics";
+import SystemAnalytics from "./SystemAnalytics";
 import ElectionStates from "../../Dashboard/ElectionStates";
-import Header from "../../Header/Header";
+import AdminHeader from "../AdminHeader/AdminHeader";
 import SideNavBar from "../../SideNavBar/SideNavBar";
 import CreatePostPage from "./CreatePostPage";
+import heroImage from '../../../assets/biroil.png'; 
 
 const Dashboard = () => {
     return (
       <>
         {/* Header */}
-        <Header />
+        <AdminHeader />
   
         {/* Side Navigation Bar */}
         <SideNavBar userRole="admin" />
   
         {/* Main Content Area */}
         <div className="dashboard">
-          <h2>Welcome Back Admin</h2>
-          <CreatePostPage/>
-          <p>Select an election from the slider to view details.</p>
+          {/* <h2>Welcome Back Admin</h2> */}
+          
+          {/* System Analytics */}
+          <SystemAnalytics />
+          
+          {/* <p>Do you want to create new post?</p>
+          <CreatePostPage/> */}
+          
           
           {/* Main Content Container */}
           <div className="main-content-area">
+            
             {/* Election Slider */}
-            <ElectionSlider elections={elections} />
+            {/* <ElectionSlider elections={elections} /> */}
 
             
   
             {/* Container for Analytics and States */}
             <div className="analytics-states-container">
-              {/* Election Analytics */}
-              <ElectionAnalytics />
+             
   
               {/* Election States */}
               <ElectionStates candidates={candidates} />

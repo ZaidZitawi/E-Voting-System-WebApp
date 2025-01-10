@@ -14,6 +14,8 @@ import Profile from "./Components/Profile/ProfilePage.jsx";
 import AdminLoginPage from "./Components/Admin/SignIn/AdminLoginPage.jsx";
 import CreateElectionPage from "./Components/Admin/Election/CreateElectionPage.jsx";
 import AssignPartiesPage from "./Components/Admin/Election/AssignPartiesPage.jsx";
+import SendNotifications from "./Components/Admin/Dashboard/SendNotifications.jsx";
+import ManageUsers from "./Components/Admin/Dashboard/ManageUsers.jsx";
 
 import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx";
 
@@ -84,7 +86,8 @@ const AppContent = () => {
         <Route path="/AdminDashboard" element={<AdminDashboard/>}/>
         <Route path="/CreateElection" element={<CreateElectionPage/>}/>
         <Route path="/assign-parties" element={<AssignPartiesPage/>} />
-    
+        <Route path="/sendNot" element={<SendNotifications/>}/>
+        <Route path="/manageUsers" element={<ManageUsers/>}/>
       </Routes>
       <ToastContainer
         position="top-right"
