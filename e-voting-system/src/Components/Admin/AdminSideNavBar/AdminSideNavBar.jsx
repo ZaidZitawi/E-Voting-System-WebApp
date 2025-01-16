@@ -21,7 +21,7 @@ const AdminSideNavBar = () => {
 
   const fetchAdminData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/admin/profile", {
+      const response = await axios.get("http://localhost:8080/profile", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },

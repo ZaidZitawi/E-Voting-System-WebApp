@@ -1,7 +1,7 @@
 // src/components/LoginPage/LoginPage.jsx
 
 import React from 'react';
-import Header from '../../Header/Header';
+import AdminHeader from '../AdminHeader/AdminHeader';
 import Footer from '../../Footer/Footer';
 import LoginForm from './AdminLoginForm';
 import './AdminLoginPage.css';
@@ -10,7 +10,10 @@ import leftImage from '../../../assets/file.ico'; // Update the image path as ne
 const LoginPage = () => {
   return (
     <div className="login-page">
-      <Header />
+      <header>
+        <AdminHeader />
+      </header>
+      
       <div className="login-container">
         {/* Left Section */}
         <div className="left-section">

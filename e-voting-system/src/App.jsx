@@ -18,8 +18,10 @@ import SendNotifications from "./Components/Admin/Dashboard/SendNotifications.js
 import ManageUsers from "./Components/Admin/Dashboard/ManageUsers.jsx";
 import CreatePostPage from "./Components/Admin/Dashboard/CreatePostPage.jsx";
 import ManageElections from "./Components/Admin/Election/ManageElections.jsx";
-
+import AssignCandidateToElection from "./Components/Admin/Dashboard/AssignCandidateToElection.jsx";
 import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx";
+import CandidateDashboard from "./Components/Admin/Candidate/CandidateDashboard.jsx";
+
 
 import { decodeJWT, isTokenExpired } from "./Components/utils/jwt.js";
 import { toast, ToastContainer } from "react-toastify";
@@ -92,6 +94,9 @@ const AppContent = () => {
         <Route path="/manageUsers" element={<ManageUsers/>}/>
         <Route path="/createPost" element={<CreatePostPage/>}/>
         <Route path="/manageElection" element={<ManageElections />}/>
+        <Route path="assign-candidate-election" element={<AssignCandidateToElection/>}/>
+        <Route path="/CandidateDash" element={<CandidateDashboard />}/>
+        
       </Routes>
       <ToastContainer
         position="top-right"

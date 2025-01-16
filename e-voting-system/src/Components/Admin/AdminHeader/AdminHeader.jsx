@@ -41,7 +41,7 @@ const AdminHeader = () => {
         <div className="admin-header-container">
           {/* Logo */}
           <div className="logo">
-            <NavLink to="/Home">
+            <NavLink to="/">
               <img src={logo} alt="Logo" className="logo-image" />
               Vote Chain
             </NavLink>
@@ -92,7 +92,7 @@ const AdminHeader = () => {
             </>
           ) : (
             <div className="auth-buttons">
-              <NavLink to="/login" className="btn btn-secondary">
+              <NavLink to="/AdminIn" className="btn btn-secondary">
                 Sign In
               </NavLink>
             </div>
