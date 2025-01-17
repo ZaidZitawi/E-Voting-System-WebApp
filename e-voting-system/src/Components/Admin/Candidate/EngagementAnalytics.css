@@ -1,39 +1,14 @@
-/* src/pages/CandidateDashboard/EngagementAnalytics.css */
+/* Tooltip Styling */
+.custom-tooltip {
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  font-family: "Roboto", sans-serif;
+}
 
-.engagement-analytics {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
-  }
-  
-  .engagement-analytics h2 {
-    text-align: center;
-    color: #2f8a4c;
-    font-family: "Roboto", sans-serif;
-    margin-bottom: 30px;
-  }
-  
-  .chart-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-  }
-  
-  .chart-card {
-    flex: 1 1 45%;
-    min-width: 300px;
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .chart-card h3 {
-    text-align: center;
-    color: #2f8a4c;
-    margin-bottom: 15px;
-  }
-  
+.custom-tooltip p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}

@@ -21,6 +21,7 @@ import ManageElections from "./Components/Admin/Election/ManageElections.jsx";
 import AssignCandidateToElection from "./Components/Admin/Dashboard/AssignCandidateToElection.jsx";
 import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx";
 import CandidateDashboard from "./Components/Admin/Candidate/CandidateDashboard.jsx";
+import MyElectionDetails from "./Components/Admin/Candidate/MyElectionDetails.jsx";
 
 
 import { decodeJWT, isTokenExpired } from "./Components/utils/jwt.js";
@@ -96,7 +97,7 @@ const AppContent = () => {
         <Route path="/manageElection" element={<ManageElections />}/>
         <Route path="assign-candidate-election" element={<AssignCandidateToElection/>}/>
         <Route path="/CandidateDash" element={<CandidateDashboard />}/>
-        
+        <Route path="/candidate/election/:id" element={<MyElectionDetails />} />
       </Routes>
       <ToastContainer
         position="top-right"
