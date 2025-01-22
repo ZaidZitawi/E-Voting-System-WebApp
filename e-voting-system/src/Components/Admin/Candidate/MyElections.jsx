@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CandidateDashboard.css";
 
+
 // Mock Data - Replace this with real API data
 const mockElections = [
   { id: 1, title: "Student Council Election", date: "2025-03-15", status: "Ongoing" },

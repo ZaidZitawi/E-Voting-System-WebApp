@@ -1,9 +1,7 @@
 // src/App.jsx
-
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./Components/SignInPage/LoginPage.jsx";
-import Header from "./Components/Header/Header.jsx";
 import LandingPage from "./Components/LandingPage.jsx";
 import SignUpPage from "./Components/SignUpPage/SignUpPage.jsx";
 import UserHomePage from "./Components/UserHomePage/UserHomePage.jsx";
