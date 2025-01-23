@@ -1,0 +1,121 @@
+.assign-candidate-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .page-header,
+  .page-footer {
+    background-color: #2c6a21;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .content-wrapper {
+    flex-grow: 1;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    color: #2c6a21;
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
+    margin-bottom: 30px;
+  }
+  
+  .search-label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .search-input:focus {
+    border-color: #2c6a21;
+    outline: none;
+  }
+  
+  .search-button {
+    background-color: #2c6a21;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .search-button:hover {
+    background-color: #24631a;
+    transform: translateY(-2px);
+  }
+  
+  .election-list {
+    margin-top: 20px;
+  }
+  
+  .election-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+  }
+  
+  .election-item:hover {
+    background-color: #e0ffe0;
+  }
+  
+  .election-item.selected {
+    background-color: #c6f7c6;
+    border-color: #2c6a21;
+  }
+  
+  .party-list {
+    margin-top: 20px;
+  }
+  
+  .party-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .assign-button {
+    background-color: #2c6a21;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .assign-button:hover {
+    background-color: #24631a;
+    transform: translateY(-2px);
+  }
+  
