@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./CreatePostPage.css";
+import AdminHeader from "../AdminHeader/AdminHeader";
+import Footer from "../../Footer/Footer";
 
 const CreatePostPage = ({ userRole }) => {
   const [postContent, setPostContent] = useState("");
@@ -53,6 +55,9 @@ const CreatePostPage = ({ userRole }) => {
 
   return (
     <div className="create-post-page">
+      <header>
+        <AdminHeader />
+      </header>
       <h2>Create Post</h2>
       <div className="form-group">
         <textarea
@@ -71,6 +76,9 @@ const CreatePostPage = ({ userRole }) => {
       <button className="share-button" onClick={handleShare}>
         Share
       </button>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };

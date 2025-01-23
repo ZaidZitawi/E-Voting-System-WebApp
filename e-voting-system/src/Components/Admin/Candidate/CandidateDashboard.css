@@ -1,0 +1,61 @@
+
+
+.dashboard {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
+  margin-left: 18%;
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+}
+
+.dashboard h2 {
+  color: #2f8a4c;
+  font-family: "Roboto", sans-serif;
+  font-size: 28px;
+}
+
+.dashboard p {
+  color: #555555;
+  font-family: "Merriweather", serif;
+  margin-bottom: 30px;
+}
+
+.main-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.election-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.election-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  width: 250px;
+  transition: transform 0.3s ease;
+}
+
+.election-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.election-card h3 {
+  color: #2f8a4c;
+  font-size: 20px;
+}
+
+.election-card p {
+  color: #555;
+  font-size: 14px;
+}

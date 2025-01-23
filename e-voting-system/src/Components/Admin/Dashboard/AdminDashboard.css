@@ -37,7 +37,7 @@
   /* Container for ElectionAnalytics and ElectionStates */
   .analytics-states-container {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
     justify-content: space-between;
   }

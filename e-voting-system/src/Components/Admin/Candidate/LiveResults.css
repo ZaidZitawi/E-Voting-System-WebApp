@@ -1,0 +1,21 @@
+/* src/pages/CandidateDashboard/LiveResults.css */
+
+.live-results {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+  
+  .live-results h2 {
+    text-align: center;
+    color: #2f8a4c;
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 30px;
+  }
+  
+  .live-results .chart-container {
+    width: 100%;
+  }
+  

@@ -1,9 +1,7 @@
 // src/App.jsx
-
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./Components/SignInPage/LoginPage.jsx";
-import Header from "./Components/Header/Header.jsx";
 import LandingPage from "./Components/LandingPage.jsx";
 import SignUpPage from "./Components/SignUpPage/SignUpPage.jsx";
 import UserHomePage from "./Components/UserHomePage/UserHomePage.jsx";
@@ -12,12 +10,18 @@ import Dashboard from "./Components/Dashboard/Dashboard.jsx";
 import ElectionDetailsPage from "./Components/ElectionDetailsPage/ElectionDetailsPage.jsx";
 import Profile from "./Components/Profile/ProfilePage.jsx";
 import AdminLoginPage from "./Components/Admin/SignIn/AdminLoginPage.jsx";
-import CreateElectionStepper from "./Components/Admin/CreateElection/CreateElectionStepper.jsx";
-import ElectionCandidates from "./Components/Admin/CreateElection/ElectionCandidates.jsx";
-import ManagePartiesPage from "./Components/Admin/CreateElection/ManagePartiesPage.jsx";
-import AssignCandidatesPage from "./Components/Admin/CreateElection/AssignCandidatesPage.jsx";
-import PublishBlockchainPage from "./Components/Admin/CreateElection/PublishBlockchainPage.jsx";
-import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx"
+import CreateElectionPage from "./Components/Admin/Election/CreateElectionPage.jsx";
+import AssignPartiesPage from "./Components/Admin/Election/AssignPartiesPage.jsx";
+import SendNotifications from "./Components/Admin/Dashboard/SendNotifications.jsx";
+import ManageUsers from "./Components/Admin/Dashboard/ManageUsers.jsx";
+import CreatePostPage from "./Components/Admin/Dashboard/CreatePostPage.jsx";
+import ManageElections from "./Components/Admin/Election/ManageElections.jsx";
+import AssignCandidateToElection from "./Components/Admin/Dashboard/AssignCandidateToElection.jsx";
+import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx";
+import CandidateDashboard from "./Components/Admin/Candidate/CandidateDashboard.jsx";
+import MyElectionDetails from "./Components/Admin/Candidate/MyElectionDetails.jsx";
+
+
 import { decodeJWT, isTokenExpired } from "./Components/utils/jwt.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -71,7 +75,7 @@ const AppContent = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUpPage />} />
@@ -82,12 +86,16 @@ const AppContent = () => {
         <Route path="/details/:id" element={<ElectionDetailsPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/AdminIn" element={<AdminLoginPage/>}/>
-        <Route path="/CreateElection" element={<CreateElectionStepper/>}/>
-        <Route path="/election-candidates" element={<ElectionCandidates/>}/>
-        <Route path="/manage-parties" element={<ManagePartiesPage/>}/>
-        <Route path="/assign-candidates" element={<AssignCandidatesPage/>}/>
-        <Route path="/publish-blockchain" element={<PublishBlockchainPage/>}/>
         <Route path="/AdminDashboard" element={<AdminDashboard/>}/>
+        <Route path="/CreateElection" element={<CreateElectionPage/>}/>
+        <Route path="/assign-parties" element={<AssignPartiesPage/>} />
+        <Route path="/sendNot" element={<SendNotifications/>}/>
+        <Route path="/manageUsers" element={<ManageUsers/>}/>
+        <Route path="/createPost" element={<CreatePostPage/>}/>
+        <Route path="/manageElection" element={<ManageElections />}/>
+        <Route path="assign-candidate-election" element={<AssignCandidateToElection/>}/>
+        <Route path="/CandidateDash" element={<CandidateDashboard />}/>
+        <Route path="/candidate/election/:id" element={<MyElectionDetails />} />
       </Routes>
       <ToastContainer
         position="top-right"
