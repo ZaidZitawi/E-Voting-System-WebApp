@@ -47,38 +47,48 @@ const ElectionStates = ({ candidates }) => {
   return (
     <section className="election-states">
       <h2>Election States</h2>
-      
+
       <div className="table-controls">
         <GlobalFilter globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
       </div>
 
       <table {...getTableProps()}>
         <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' ▼'
-                        : ' ▲'
-                      : ''}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
+          {headerGroups.map(headerGroup => {
+            // Extract key from header group props
+            const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps();
+            return (
+              <tr key={headerGroupKey} {...restHeaderGroupProps}>
+                {headerGroup.headers.map(column => {
+                  // Extract key from column props
+                  const { key: columnKey, ...restColumnProps } = column.getHeaderProps(column.getSortByToggleProps());
+                  return (
+                    <th key={columnKey} {...restColumnProps}>
+                      {column.render('Header')}
+                      <span>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                            ? ' ▼'
+                            : ' ▲'
+                          : ''}
+                      </span>
+                    </th>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.length > 0 ? (
             rows.map(row => {
               prepareRow(row);
-              const { key, ...restRowProps } = row.getRowProps();
+              // Extract key for row
+              const { key: rowKey, ...restRowProps } = row.getRowProps();
               return (
-                <tr key={key} {...restRowProps}>
+                <tr key={rowKey} {...restRowProps}>
                   {row.cells.map(cell => {
+                    // Extract key for cell
                     const { key: cellKey, ...restCellProps } = cell.getCellProps();
                     return (
                       <td key={cellKey} {...restCellProps}>

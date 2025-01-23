@@ -66,7 +66,7 @@ const SideNavBar = ({ userRole, userElections }) => {
   const userName = userProfile ? userProfile.name : 'Loading...';
   const userPicture = userProfile && userProfile.profilePicture 
     ? `http://localhost:8080/uploads/${userProfile.profilePicture}`
-    : '/path/to/default.jpg';
+    : defaultImage;
 
   // Define navigation sections
   const navSections = [

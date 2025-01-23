@@ -79,7 +79,7 @@ const AppContent = () => {
         <Route path="/home" element={<UserHomePage />} />
         <Route path="/electionlist" element={<ElectionListPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/details" element={<ElectionDetailsPage />} />
+        <Route path="/details/:id" element={<ElectionDetailsPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/AdminIn" element={<AdminLoginPage/>}/>
         <Route path="/CreateElection" element={<CreateElectionStepper/>}/>

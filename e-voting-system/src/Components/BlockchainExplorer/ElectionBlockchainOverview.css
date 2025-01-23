@@ -1,0 +1,162 @@
+/* src/components/BlockchainExplorer/ElectionBlockchainOverview.css */
+
+.overview-container {
+  padding: 20px;
+  background: #f8f9fa; /* Light background akin to typical explorer. */
+  color: #333;
+  min-height: 600px;
+  font-family: "Roboto", sans-serif;
+}
+
+/* A generic card style */
+.card {
+  background: #ffffff;
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+  transition: box-shadow 0.2s ease;
+}
+.card:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Card Header: has an icon + a title */
+.card-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e2e5ea;
+  padding: 10px 15px;
+  background: #fafbfc;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.card-icon {
+  font-size: 1.2rem;
+  color: #7b7b7b;
+  margin-right: 8px;
+}
+.card-header h2, .card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #444;
+}
+
+/* Card Body: content container */
+.card-body {
+  padding: 15px;
+}
+
+/* For the loading or error card */
+.loading-card, .error-card {
+  padding: 30px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
+}
+
+/* Info Row styling: label + value on the same row */
+.info-row {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+.info-row .label {
+  width: 120px;
+  font-weight: 500;
+  color: #666;
+}
+.info-row .value {
+  flex: 1;
+  font-weight: 400;
+  color: #333;
+}
+
+/* Smaller variation for sub-rows */
+.small-row .label {
+  width: 100px;
+}
+
+/* Links for hashes etc. */
+.hash-link {
+  color: #7b3fe4;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  word-break: break-all; /* helps to break long hashes */
+}
+.hash-link:hover {
+  color: #9f65e9;
+}
+
+/* The top summary card for the election info */
+.summary-card {
+  margin-bottom: 30px;
+}
+
+/* Two columns layout for the parties and user vote sections */
+.columns-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.column {
+  flex: 1;
+  min-width: 300px;
+}
+.left-column {
+  /* optional custom styling */
+}
+.right-column {
+  /* optional custom styling */
+}
+
+/* Parties card */
+.parties-card .parties-list {
+  display: flex;
+  flex-direction: column;
+}
+.party-item {
+  padding: 10px;
+  border-bottom: 1px solid #e2e5ea;
+}
+.party-item:last-child {
+  border-bottom: none;
+}
+.party-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.placeholder-text {
+  font-size: 0.95rem;
+  color: #888;
+}
+
+/* User vote card */
+.user-vote-card {
+  min-height: 200px;
+}
+
+/* The "no vote" scenario */
+.no-vote {
+  text-align: center;
+}
+.vote-btn {
+  background: #655af3;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.vote-btn:hover {
+  background: #5146d8;
+}
+.vote-btn:active {
+  background: #463cb5;
+}

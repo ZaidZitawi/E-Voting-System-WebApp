@@ -63,7 +63,6 @@ const ElectionList = ({ filters, currentPage, setCurrentPage }) => {
 
   return (
     <div className="election-list-container">
-      {/* Election List */}
       {isLoading ? (
         <div className="loader">
           <TailSpin
@@ -89,8 +88,6 @@ const ElectionList = ({ filters, currentPage, setCurrentPage }) => {
               <ElectionCard key={election.electionId} election={election} />
             ))}
           </div>
-
-          {/* Pagination */}
           <div className="pagination">
             <button
               className="btn pagination-btn"
