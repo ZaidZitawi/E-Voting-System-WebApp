@@ -1,11 +1,10 @@
-/* src/components/ElectionCoverageSection/ElectionCoverageSection.css */
-
 .election-coverage-hero {
   position: relative;
   width: 100%;
   height: 80vh; /* Adjust height as needed */
-  background-size: cover;
-  background-position: center;
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,15 +35,15 @@
   padding: 20px;
   background: rgba(255, 255, 255, 0.3); /* Subtle background for better contrast */
   border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px); /* Adds a blur effect to the background */
 }
 
 .election-title {
   font-size: 48px;
   font-family: "Montserrat", sans-serif;
   margin-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .election-description {
@@ -103,7 +102,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .vote-button:hover {

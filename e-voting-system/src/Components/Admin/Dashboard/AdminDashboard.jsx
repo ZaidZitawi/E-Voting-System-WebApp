@@ -1,12 +1,7 @@
 import React from "react";
 import "./AdminDashboard.css";
-import ElectionSlider from "../../Dashboard/ElectionSlider";
-import elections from "../../Dashboard/elections"; // Import the mock data
-import candidates from "../../Dashboard/candidate";
 import SystemAnalytics from "./SystemAnalytics";
-// import ElectionStates from "../../Dashboard/ElectionStates";
 import AdminHeader from "../AdminHeader/AdminHeader";
-import heroImage from '../../../assets/biroil.png'; 
 import Footer from "../../Footer/Footer";
 import AdminSideNavBar from "../AdminSideNavBar/AdminSideNavBar";
 import LiveElectionStates from "./LiveElectionStates";

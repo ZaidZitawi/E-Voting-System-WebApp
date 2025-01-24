@@ -1,50 +1,92 @@
-// src/pages/Dashboard/ElectionSlider.jsx
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import axios from "axios";
 import "./ElectionSlider.css";
-import featuredElectionImage from "../../assets/file.ico"; // or any placeholder
+import featuredElectionImage from "../../assets/file.ico";
 
 const ElectionSlider = ({ onSelectElection }) => {
   const [featuredElections, setFeaturedElections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef(null);
 
+  // FETCH FEATURED ELECTIONS
   useEffect(() => {
-    async function fetchFeaturedElections() {
+    let isMounted = true;
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      setError("No authentication token found. Please log in.");
+      return;
+    }
+
+    const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
-        const authToken = localStorage.getItem("authToken");
-        if (!authToken) {
-          throw new Error("No authentication token found. Please log in.");
+
+        const response = await axios.get("http://localhost:8080/elections", {
+          headers: { Authorization: `Bearer ${authToken}` },
+        });
+
+        if (isMounted) {
+          setFeaturedElections(Array.isArray(response.data) ? response.data : []);
         }
-
-        // Use axios to call /elections/featured
-        const response = await axios.get(
-          "http://localhost:8080/elections/featured",
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
-
-        setFeaturedElections(response.data);
       } catch (err) {
-        console.error(err);
-        setError(err.message || "Failed to load featured elections.");
+        if (isMounted) {
+          setError(err.message || "Failed to load featured elections.");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
-    }
+    };
 
-    fetchFeaturedElections();
+    fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const sliderSettings = useMemo(
-    () => ({
+  // AUTO-SELECT MIDDLE CARD ONCE ELECTIONS ARE LOADED
+  useEffect(() => {
+    if (featuredElections.length > 0 && onSelectElection) {
+      // Middle index
+      const initialIndex = Math.floor(featuredElections.length / 2);
+      const safeIndex = Math.min(initialIndex, featuredElections.length - 1);
+      setActiveSlide(safeIndex);
+      onSelectElection(featuredElections[safeIndex].electionId);
+    }
+  }, [featuredElections, onSelectElection]);
+
+  // HANDLER FOR SLIDER MOVEMENT
+  const handleAfterChange = (current) => {
+    if (!sliderRef.current || !featuredElections.length) return;
+
+    // slidesToShow from internal slider state
+    const slidesToShow = sliderRef.current.innerSlider.state.slidesToShow || 1;
+
+    // Middle index relative to 'current' when centerMode = true
+    const midpoint = current + Math.floor(slidesToShow / 2);
+
+    // If infinite: we can modulo, else clamp
+    const isInfinite = sliderRef.current.innerSlider.props.infinite;
+    let centerIndex;
+    if (isInfinite) {
+      centerIndex = midpoint % featuredElections.length;
+    } else {
+      // clamp within array bounds
+      centerIndex = Math.max(0, Math.min(midpoint, featuredElections.length - 1));
+    }
+
+    setActiveSlide(centerIndex);
+    if (onSelectElection) {
+      onSelectElection(featuredElections[centerIndex].electionId);
+    }
+  };
+
+  // SLIDER SETTINGS
+  const sliderSettings = useMemo(() => {
+    return {
       dots: true,
       infinite: true,
       speed: 500,
@@ -52,7 +94,7 @@ const ElectionSlider = ({ onSelectElection }) => {
       slidesToScroll: 1,
       centerMode: true,
       centerPadding: "0px",
-      afterChange: (current) => setActiveSlide(current),
+      afterChange: handleAfterChange,
       responsive: [
         {
           breakpoint: 1024,
@@ -69,47 +111,52 @@ const ElectionSlider = ({ onSelectElection }) => {
           },
         },
       ],
-    }),
-    []
-  );
+    };
+  }, [featuredElections]);
 
   if (loading) {
-    return <div>Loading featured elections...</div>;
+    return (
+      <div className="election-slider-loading">
+        <h3>Loading featured elections...</h3>
+        <div className="election-slider-loading-spinner"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div style={{ color: "red" }}>Error: {error}</div>;
+    return (
+      <div className="election-slider-error">
+        <h3 style={{ color: "red" }}>Error: {error}</h3>
+      </div>
+    );
   }
 
   if (featuredElections.length === 0) {
-    return <div>No featured elections available at the moment.</div>;
+    return (
+      <div className="election-slider-empty">
+        <h3>No featured elections available at the moment.</h3>
+      </div>
+    );
   }
 
-  const handleElectionClick = (electionId) => {
-    if (onSelectElection) {
-      onSelectElection(electionId);
-    }
-  };
-
+  // RENDER
   return (
     <section className="election-slider">
       <h2>Your Elections</h2>
-      <Slider {...sliderSettings}>
+      <Slider {...sliderSettings} ref={sliderRef}>
         {featuredElections.map((election, index) => (
           <div
             key={election.electionId}
             className={`election-card2 ${activeSlide === index ? "active" : ""}`}
-            onClick={() => handleElectionClick(election.electionId)}
-            style={{ cursor: "pointer" }}
           >
             <img
               src={election.imageUrl || featuredElectionImage}
-              alt={election.title}
+              alt={election.title || "Election"}
               loading="lazy"
             />
             <div className="election-content">
-              <h3>{election.title}</h3>
-              <p>{election.description}</p>
+              <h3>{election.title || "Untitled Election"}</h3>
+              <p>{election.description || "No description available."}</p>
             </div>
           </div>
         ))}

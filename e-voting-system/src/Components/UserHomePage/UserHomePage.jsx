@@ -6,8 +6,6 @@ import Footer from '../Footer/Footer';
 import SideNavBar from '../SideNavBar/SideNavBar';
 import HeroHome from './HeroHome';
 import FeaturedElections from './FeaturedElections';
-import RecentActivityFeed from './RecentActivityFeed';
-import CandidateDashboard from '../Admin/Candidate/CandidateDashboard';
 import './UserHomePage.css';
 
 const UserHomePage = ({ userRole }) => {
