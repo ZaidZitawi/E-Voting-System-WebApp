@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManageElections.css';
-import ElectionStatesSection from '../../ElectionDetailsPage/ElectionAndStateSection/Ranking Table/ElectionStatesSection';
+import ElectionStatesSection from '../../ElectionDetailsPage/RankingSection/ElectionStatesSection';
 const ManageElections = () => {
   const [elections, setElections] = useState([]);
   const [selectedElection, setSelectedElection] = useState(null);

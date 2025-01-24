@@ -1,20 +1,17 @@
-// src/components/ElectionStatesSection/ElectionStatesSection.jsx
-
-import React, { useMemo } from 'react';
-import './ElectionStatesSection.css';
-import OverallStatistics from './OverallStatistics';
-import CandidateRankingList from './CandidateRankingList';
-import PropTypes from 'prop-types';
+import React, { useMemo } from "react";
+import "./ElectionStatesSection.css";
+import OverallStatistics from "./OverallStatistics";
+import CandidateRankingList from "./CandidateRankingList";
+import PropTypes from "prop-types";
 
 const ElectionStatesSection = ({ totalVotes, candidates }) => {
-  // Calculate vote percentages and sort candidates descending by votes
   const candidatesWithPercentage = useMemo(() => {
     return candidates
-      .map(candidate => ({
+      .map((candidate) => ({
         ...candidate,
         percentage: ((candidate.votes / totalVotes) * 100).toFixed(2),
       }))
-      .sort((a, b) => b.votes - a.votes); // Sort descending by votes
+      .sort((a, b) => b.votes - a.votes);
   }, [candidates, totalVotes]);
 
   return (

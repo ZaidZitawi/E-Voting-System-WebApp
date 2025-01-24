@@ -28,9 +28,10 @@
     display: flex !important;
     flex-direction: column;
     justify-content: space-between;
+    margin: 0 10px; /* Add margin to prevent overlapping */
+    box-sizing: border-box; /* Ensure padding is included in the width */
   }
-
-
+  
   .election-card2.active {
     border: 2px solid #2f8a4c;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);

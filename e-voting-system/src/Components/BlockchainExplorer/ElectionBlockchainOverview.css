@@ -1,0 +1,218 @@
+/* General Styles */
+:root {
+  --primary: #347928;
+  --secondary: #C0EBA6;
+  --accent: #FCCD2A;
+  --background: #FFFBE6;
+  --text: #333;
+  --text-light: #666;
+  --border: #e2e5ea;
+}
+
+/* Blockchain Overview Container */
+.blockchain-overview-container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 20px;
+  padding: 20px;
+  min-height: 60vh;
+}
+
+/* Sidebar */
+.blockchain-overview-sidebar {
+  background-color: var(--primary);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.blockchain-overview-sidebar-section {
+  margin-bottom: 30px;
+}
+
+.blockchain-overview-sidebar-section h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.blockchain-overview-timeline-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.blockchain-overview-timeline-item svg {
+  margin-right: 10px;
+  color: var(--accent);
+}
+
+.blockchain-overview-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.blockchain-overview-sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.blockchain-overview-sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.blockchain-overview-sidebar ul li a:hover {
+  color: var(--accent);
+}
+
+/* Main Content */
+.blockchain-overview-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Cards */
+.blockchain-overview-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.blockchain-overview-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.blockchain-overview-card-icon {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-right: 10px;
+}
+
+.blockchain-overview-card-header h2,
+.blockchain-overview-card-header h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Info Rows */
+.blockchain-overview-info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.blockchain-overview-info-row .label {
+  width: 150px;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.blockchain-overview-info-row .value {
+  flex: 1;
+  color: var(--text);
+}
+
+.blockchain-overview-hash-link {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.blockchain-overview-hash-link:hover {
+  color: var(--accent);
+}
+
+/* Vote Button */
+.blockchain-overview-vote-btn {
+  background: var(--primary);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.blockchain-overview-vote-btn:hover {
+  background: var(--accent);
+}
+
+/* Loading Spinner */
+.blockchain-overview-loading-spinner {
+  border: 4px solid var(--primary);
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blockchain-overview-container {
+    grid-template-columns: 1fr;
+  }
+
+  .blockchain-overview-sidebar {
+    display: none; /* Hide sidebar on mobile */
+  }
+}
+
+/* Party Image */
+.blockchain-overview-party-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+/* Party Header */
+.blockchain-overview-party-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Party Details */
+.blockchain-overview-party-details {
+  padding-left: 75px; /* Align with the party image */
+}
+
+/* No Parties Message */
+.blockchain-overview-no-parties {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Loading Overlay */
+.blockchain-overview-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 12px;
+}
+
+.blockchain-overview-loading-overlay .blockchain-overview-loading-spinner {
+  width: 50px;
+  height: 50px;
+}

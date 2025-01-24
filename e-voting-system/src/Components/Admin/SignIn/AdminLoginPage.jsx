@@ -5,7 +5,7 @@ import AdminHeader from '../AdminHeader/AdminHeader';
 import Footer from '../../Footer/Footer';
 import LoginForm from './AdminLoginForm';
 import './AdminLoginPage.css';
-import leftImage from '../../../assets/file.ico'; // Update the image path as needed
+import leftImage from '../../../assets/file.ico';
 
 const LoginPage = () => {
   return (
@@ -24,8 +24,6 @@ const LoginPage = () => {
             Go On Admin
           </p>
         </div>
-
-        {/* Right Section - Login Form */}
         <div className="right-section">
           <LoginForm />
         </div>

@@ -2,33 +2,12 @@
 
 import React, { useState } from 'react';
 import './ElectionCard.css';
+import defaultElection from '../../assets/Default_Election.png';  
 
 // Importing icons from React Icons
 import { FaCalendarAlt, FaUniversity, FaBuilding } from 'react-icons/fa';
 
 const ElectionCard = ({ election }) => {
-  /*
-    Expected `election` object structure:
-    {
-      electionId: 27,
-      title: "This my world amoy",
-      description: "Hell No",
-      startDatetime: 1704099600, // Unix timestamp in seconds
-      endDatetime: 1704646800,   // Unix timestamp in seconds
-      imageUrl: "www.Zzzzzzzzzzzzzzzz.com",
-      isActive: true,
-      faculty: {
-        facultyId: 3,
-        facultyName: 'Business and Economics',
-      },
-      department: {
-        departmentId: 5,
-        departmentName: 'Languages and Translation',
-      },
-      typeId: 1
-    }
-  */
-
   // Helper function to format Unix timestamp (seconds) to readable date
   const formatDate = (unixTimestamp) => {
     if (!unixTimestamp) return '';
@@ -54,7 +33,6 @@ const ElectionCard = ({ election }) => {
 
   return (
     <div className="election-card">
-      {/* Image Section */}
       {election.imageUrl ? (
         <div className="card-image-wrapper">
           <img
@@ -63,10 +41,9 @@ const ElectionCard = ({ election }) => {
             onLoad={handleImageLoad}
             className={`card-image ${imgLoaded ? 'loaded' : ''}`}
           />
-          {!imgLoaded && <div className="card-image-placeholder">Loading Image...</div>}
         </div>
       ) : (
-        <div className="card-image-placeholder no-image">No Image Available</div>
+        <img src= {defaultElection} />
       )}
 
       {/* Main Content */}

@@ -8,12 +8,12 @@
 }
 
 .main-content2 {
-  margin-top: 80px; /* Replaced var(--header-height) */
+  margin-top: 55px; 
   flex: 1;
-  display: block; /* Removed flex as SideNavBar is removed */
-  padding: 16px; /* Replaced var(--spacing-medium) */
+  display: block; 
+  padding: 16px; 
   box-sizing: border-box;
-  background-color: #ffffff; /* Replaced var(--color-light) */
+  background-color: #ffffff;
 }
 
 .content-area2 {
