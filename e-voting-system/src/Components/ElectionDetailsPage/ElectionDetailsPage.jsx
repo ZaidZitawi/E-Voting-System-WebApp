@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import ElectionCoverageSection from "./ElectionCoverageSection/ElectionCoverageSection";
 import ElectionStatesSection from "./RankingSection/ElectionStatesSection.jsx";
 import PostsSection from "../PostComponent/Post.jsx";
+import ElectionPartiesShowcase from "./Party and Candidates/ElectionPartiesShowcase.jsx";
 import "./ElectionDetailsPage.css";
 import axios from "axios";
 import User from "../../assets/User.png";
@@ -14,18 +15,18 @@ import User from "../../assets/User.png";
 const ElectionDetailsPage = () => {
   const { id } = useParams(); 
   const [election, setElection] = useState(null);
+  const [parties, setParties] = useState([]); // <-- We'll store the fetched parties here
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // 1) Fetch the election details itself
     const fetchElection = async () => {
       setLoading(true);
       setError(null);
       try {
         const token = localStorage.getItem("authToken");
-        if (!token) {
-          throw new Error("No authentication token found. Please log in.");
-        }
+        if (!token) throw new Error("No authentication token found. Please log in.");
 
         const response = await axios.get(`http://localhost:8080/elections/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -39,6 +40,29 @@ const ElectionDetailsPage = () => {
     };
 
     fetchElection();
+  }, [id]);
+
+  useEffect(() => {
+    // 2) Fetch the list of parties for this election from "/election/{electionId}"
+    const fetchPartiesForElection = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) throw new Error("No authentication token found. Please log in.");
+
+        const res = await axios.get(`http://localhost:8080/parties/election/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // The endpoint returns an array of PartyDTO objects
+        setParties(res.data || []);
+      } catch (err) {
+        console.error("Error fetching parties:", err);
+        // Just set error if you want:
+        // setError("Failed to load parties");
+      }
+    };
+
+    fetchPartiesForElection();
   }, [id]);
 
   if (loading) {
@@ -77,6 +101,7 @@ const ElectionDetailsPage = () => {
     );
   }
 
+  // The next code is just your existing example of states & posts
   const candidates = [
     {
       id: 1,
@@ -107,7 +132,6 @@ const ElectionDetailsPage = () => {
       votes: 2000,
     },
   ];
-
   const totalVotes = candidates.reduce((acc, candidate) => acc + candidate.votes, 0);
 
   const samplePosts = [
@@ -142,13 +166,16 @@ const ElectionDetailsPage = () => {
     <>
       <Header />
       <main className="election-details-page">
-        {/* Election Coverage Section */}
+        {/* 1) Coverage Section */}
         <ElectionCoverageSection election={election} />
 
-        {/* Election States Section */}
+        {/* 2) Our new Parties Showcase (live data from /party/election/{id}) */}
+        <ElectionPartiesShowcase parties={parties} />
+
+        {/* 3) States Section */}
         <ElectionStatesSection totalVotes={totalVotes} candidates={candidates} />
 
-        {/* Posts Section */}
+        {/* 4) Posts Section */}
         <PostsSection posts={samplePosts} />
       </main>
       <Footer />
