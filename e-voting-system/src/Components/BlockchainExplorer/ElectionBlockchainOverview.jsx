@@ -3,16 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { FaCube, FaUserShield, FaVoteYea, FaClock, FaUsers } from 'react-icons/fa';
 import './ElectionBlockchainOverview.css';
 
-// Helper function to validate dates
-const isValidDate = (dateString) => {
-  return !isNaN(Date.parse(dateString));
-};
+// Helper: Validate date
+const isValidDate = (dateString) => !isNaN(Date.parse(dateString));
 
-// Helper function to safely format dates
+// Helper: Safely format date/time
 const formatDate = (dateString) => {
   try {
     return new Date(dateString).toLocaleString();
-  } catch (e) {
+  } catch {
     return 'Invalid Date';
   }
 };
@@ -26,6 +24,7 @@ function BlockchainOverview({ electionId }) {
 
   const navigate = useNavigate();
 
+  // Fetch data in parallel from the backend
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -34,43 +33,42 @@ function BlockchainOverview({ electionId }) {
         setIsLoading(true);
         setError(null);
 
-        const baseUrl = "http://localhost:8080";
+        const baseUrl = 'http://localhost:8080';
         const authToken = localStorage.getItem('authToken');
 
-        // Fetch all data in parallel
         const [electionRes, partiesRes, voteRes] = await Promise.all([
           fetch(`${baseUrl}/elections/${electionId}`, {
-            headers: { 'Authorization': `Bearer ${authToken}` },
-            signal: abortController.signal
+            headers: { Authorization: `Bearer ${authToken}` },
+            signal: abortController.signal,
           }),
           fetch(`${baseUrl}/parties/election/${electionId}`, {
-            headers: { 'Authorization': `Bearer ${authToken}` },
-            signal: abortController.signal
+            headers: { Authorization: `Bearer ${authToken}` },
+            signal: abortController.signal,
           }),
           fetch(`${baseUrl}/votes/election/${electionId}/myVote`, {
-            headers: { 'Authorization': `Bearer ${authToken}` },
-            signal: abortController.signal
-          })
+            headers: { Authorization: `Bearer ${authToken}` },
+            signal: abortController.signal,
+          }),
         ]);
 
-        // Validate election data
-        if (!electionRes.ok) throw new Error("Failed to fetch election");
+        // Validate election
+        if (!electionRes.ok) throw new Error('Failed to fetch election');
         const electionData = await electionRes.json();
 
-        // Data validation checks
-        const validationErrors = [];
+        // Check date fields
+        const invalidFields = [];
         if (!electionData.startDatetime || !isValidDate(electionData.startDatetime)) {
-          validationErrors.push('Invalid start date format');
+          invalidFields.push('Invalid start date');
         }
         if (!electionData.endDatetime || !isValidDate(electionData.endDatetime)) {
-          validationErrors.push('Invalid end date format');
+          invalidFields.push('Invalid end date');
         }
-        if (validationErrors.length > 0) {
-          throw new Error(`Data validation failed: ${validationErrors.join(', ')}`);
+        if (invalidFields.length > 0) {
+          throw new Error(`Data validation failed: ${invalidFields.join(', ')}`);
         }
 
-        // Validate parties data
-        if (!partiesRes.ok) throw new Error("Failed to fetch parties");
+        // Validate parties
+        if (!partiesRes.ok) throw new Error('Failed to fetch parties');
         const partiesData = await partiesRes.json();
         if (!Array.isArray(partiesData)) {
           throw new Error('Invalid parties data format');
@@ -82,15 +80,13 @@ function BlockchainOverview({ electionId }) {
           throw new Error('Invalid vote data format');
         }
 
-        // Set validated data
+        // Set final states
         setElection(electionData);
         setParties(partiesData);
         setUserVote(userVoteData);
-
       } catch (err) {
         if (err.name !== 'AbortError') {
-          console.error(err);
-          setError(err.message || 'Failed to load election data. Please check data formats.');
+          setError(err.message || 'Failed to load election data.');
         }
       } finally {
         setIsLoading(false);
@@ -101,18 +97,19 @@ function BlockchainOverview({ electionId }) {
     return () => abortController.abort();
   }, [electionId]);
 
-  const handleVoteButtonClick = () => {
-    navigate(`/elections/${electionId}/vote`);
+  // Navigate to /elections/:id
+  const handleDetailsClick = () => {
+    navigate(`/details/${electionId}`);
   };
 
-  // Render methods
+  const handleVoteButtonClick = () => {
+    navigate(`/details/${electionId}`);
+  };
+
+  // Renders the timeline (start & end date)
   const renderTimeline = () => {
     if (!election?.startDatetime || !election?.endDatetime) {
-      return (
-        <div className="blockchain-overview-error-message">
-          Invalid election timeline data
-        </div>
-      );
+      return <div className="blockchain-overview-error-message">Invalid timeline data</div>;
     }
 
     return (
@@ -129,6 +126,7 @@ function BlockchainOverview({ electionId }) {
     );
   };
 
+  // Loading state
   if (isLoading) {
     return (
       <div className="blockchain-overview-container">
@@ -140,6 +138,7 @@ function BlockchainOverview({ electionId }) {
     );
   }
 
+  // Error state
   if (error) {
     return (
       <div className="blockchain-overview-container">
@@ -150,6 +149,7 @@ function BlockchainOverview({ electionId }) {
     );
   }
 
+  // No election data
   if (!election) {
     return (
       <div className="blockchain-overview-container">
@@ -162,18 +162,41 @@ function BlockchainOverview({ electionId }) {
 
   return (
     <div className="blockchain-overview-container">
+      {/* Title and 'View Details' Button */}
+      <div className="blockchain-overview-header">
+        <h2>Blockchain Overview</h2>
+        <button className="view-details-button" onClick={handleDetailsClick}>
+          View Election Details
+        </button>
+      </div>
+
       {/* Sidebar */}
       <div className="blockchain-overview-sidebar">
         <div className="blockchain-overview-sidebar-section">
           <h3>Election Timeline</h3>
           {renderTimeline()}
         </div>
+
         <div className="blockchain-overview-sidebar-section">
           <h3>Quick Links</h3>
           <ul>
-            <li><a href={`https://mumbai.polygonscan.com/tx/${election.transactionHash}`} target="_blank" rel="noopener noreferrer">View Election on Polygonscan</a></li>
-            <li><a href="#parties">View Parties</a></li>
-            <li><a href="#vote">View Your Vote</a></li>
+            {election.transactionHash && (
+              <li>
+                <a
+                  href={`https://mumbai.polygonscan.com/tx/${election.transactionHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on Polygonscan
+                </a>
+              </li>
+            )}
+            <li>
+              <a href="#parties">View Parties</a>
+            </li>
+            <li>
+              <a href="#vote">View Your Vote</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -197,15 +220,19 @@ function BlockchainOverview({ electionId }) {
             </div>
             <div className="blockchain-overview-info-row">
               <span className="label">Department:</span>
-              <span className="value">Department {election.departmentId || 'N/A'}</span>
+              <span className="value">
+                Department {election.departmentId || 'N/A'}
+              </span>
             </div>
             <div className="blockchain-overview-info-row">
               <span className="label">Faculty:</span>
-              <span className="value">Faculty {election.facultyId || 'N/A'}</span>
+              <span className="value">
+                Faculty {election.facultyId || 'N/A'}
+              </span>
             </div>
             {election.transactionHash && (
               <div className="blockchain-overview-info-row">
-                <span className="label">Transaction Hash:</span>
+                <span className="label">Tx Hash:</span>
                 <a
                   className="blockchain-overview-hash-link"
                   href={`https://mumbai.polygonscan.com/tx/${election.transactionHash}`}
@@ -220,7 +247,10 @@ function BlockchainOverview({ electionId }) {
         </div>
 
         {/* Parties Section */}
-        <div className="blockchain-overview-card blockchain-overview-parties-card" id="parties">
+        <div
+          className="blockchain-overview-card blockchain-overview-parties-card"
+          id="parties"
+        >
           <div className="blockchain-overview-card-header">
             <FaUsers className="blockchain-overview-card-icon" />
             <h3>Participating Parties</h3>
@@ -237,7 +267,9 @@ function BlockchainOverview({ electionId }) {
                         className="blockchain-overview-party-image"
                       />
                     )}
-                    <h4 className="blockchain-overview-party-name">{party.name || 'N/A'}</h4>
+                    <h4 className="blockchain-overview-party-name">
+                      {party.name || 'N/A'}
+                    </h4>
                   </div>
                   <div className="blockchain-overview-party-details">
                     <div className="blockchain-overview-info-row">
@@ -261,13 +293,18 @@ function BlockchainOverview({ electionId }) {
                 </div>
               ))
             ) : (
-              <p className="blockchain-overview-no-parties">No parties found for this election.</p>
+              <p className="blockchain-overview-no-parties">
+                No parties found for this election.
+              </p>
             )}
           </div>
         </div>
 
         {/* User Vote Section */}
-        <div className="blockchain-overview-card blockchain-overview-user-vote-card" id="vote">
+        <div
+          className="blockchain-overview-card blockchain-overview-user-vote-card"
+          id="vote"
+        >
           <div className="blockchain-overview-card-header">
             <FaVoteYea className="blockchain-overview-card-icon" />
             <h3>Your Vote</h3>
@@ -296,7 +333,10 @@ function BlockchainOverview({ electionId }) {
             ) : (
               <div className="blockchain-overview-no-vote">
                 <p>You haven't voted in this election yet.</p>
-                <button className="blockchain-overview-vote-btn" onClick={handleVoteButtonClick}>
+                <button
+                  className="blockchain-overview-vote-btn"
+                  onClick={handleVoteButtonClick}
+                >
                   Vote Now
                 </button>
               </div>
