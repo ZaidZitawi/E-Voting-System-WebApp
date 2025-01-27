@@ -1,0 +1,73 @@
+.social-section-container {
+    display: flex;
+    gap: 3rem; /* Space between the text and the post */
+    padding: 4rem 2rem;
+    background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
+    align-items: center;
+    justify-content: space-around; /* Horizontally distribute text and post */
+    min-height: 80vh;
+    box-sizing: border-box;
+  }
+  
+  .text-container {
+    flex: 1; /* Equal width for the text and post sections */
+    max-width: 500px;
+    padding-right: 1rem;
+  }
+  
+  .fixed-text {
+    text-align: left;
+  }
+  
+  .fixed-text h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #347928;
+    margin-bottom: 1rem;
+  }
+  
+  .fixed-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #495057;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: #347928;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cta-button:hover {
+    background: #265c1d;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .post-container {
+    flex: 1; /* Equal width for the text and post sections */
+    max-width: 600px;
+  }
+  
+  .glassmorphism-post {
+    backdrop-filter: blur(10px); /* Only keep blur for a floating look */
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for floating effect */
+  }
+  
+  .post {
+    background: transparent;
+    border-radius: 12px;
+    box-shadow: none; /* Remove the white background effect */
+  }
+  
