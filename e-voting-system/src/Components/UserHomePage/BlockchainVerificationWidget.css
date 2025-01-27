@@ -1,0 +1,92 @@
+/* Main container for the vertical layout */
+.verification-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+    background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+
+
+.verification-widget {
+    flex: 1;
+    max-width: 500px;
+    text-align:left;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid rgba(200, 200, 200, 0.5);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.input-error {
+    border-color: red;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.result-container {
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+.transaction-preview {
+    text-align: left;
+    padding: 15px;
+}
+
+.status-animation {
+    max-width: 150px;
+    margin: 0 auto 10px;
+}
+
+/* Right section: Blockchain Animation */
+.blockchain-animation {
+    flex: 1;
+    text-align: center;
+    max-width: 400px;
+}
+
+.blockchain-lottie {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.animation-text {
+    font-size: 1.2rem;
+    color: #45a049;
+    margin-top: 20px;
+    font-weight: bold;
+}
+

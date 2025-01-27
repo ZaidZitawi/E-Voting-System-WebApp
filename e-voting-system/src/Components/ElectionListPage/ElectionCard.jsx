@@ -1,13 +1,14 @@
-// src/components/ElectionListPage/ElectionCard.jsx
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './ElectionCard.css';
-import defaultElection from '../../assets/Default_Election.png';  
+import defaultElection from '../../assets/Default_Election.png';
 
 // Importing icons from React Icons
 import { FaCalendarAlt, FaUniversity, FaBuilding } from 'react-icons/fa';
 
 const ElectionCard = ({ election }) => {
+  const navigate = useNavigate(); // Initialize navigate function
+
   // Helper function to format Unix timestamp (seconds) to readable date
   const formatDate = (unixTimestamp) => {
     if (!unixTimestamp) return '';
@@ -31,6 +32,11 @@ const ElectionCard = ({ election }) => {
     return desc.length > maxLength ? `${desc.substring(0, maxLength - 3)}...` : desc;
   };
 
+  // Handler for Learn More button
+  const handleLearnMore = () => {
+    navigate(`/details/${election.electionId}`); // Navigate to ElectionDetailsPage with the election ID
+  };
+
   return (
     <div className="election-card">
       {election.imageUrl ? (
@@ -43,7 +49,7 @@ const ElectionCard = ({ election }) => {
           />
         </div>
       ) : (
-        <img src= {defaultElection} />
+        <img src={defaultElection} alt="Default Election" className="card-image" />
       )}
 
       {/* Main Content */}
@@ -72,7 +78,7 @@ const ElectionCard = ({ election }) => {
 
       {/* Footer: CTA and Status */}
       <div className="card-footer">
-        <button className="learn-more-btn">Learn More</button>
+        <button className="learn-more-btn" onClick={handleLearnMore}>Learn More</button>
         <span className={`status-badge ${election.isActive ? 'active' : 'inactive'}`}>
           {election.isActive ? 'Active' : 'Inactive'}
         </span>
