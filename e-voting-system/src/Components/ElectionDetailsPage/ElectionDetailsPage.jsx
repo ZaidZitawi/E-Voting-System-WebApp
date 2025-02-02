@@ -1,5 +1,3 @@
-// src/pages/ElectionDetailsPage/ElectionDetailsPage.jsx
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../Header/Header";
@@ -15,12 +13,12 @@ import User from "../../assets/User.png";
 const ElectionDetailsPage = () => {
   const { id } = useParams(); 
   const [election, setElection] = useState(null);
-  const [parties, setParties] = useState([]); // <-- We'll store the fetched parties here
+  const [parties, setParties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 1) Fetch the election details itself
+    // 1) Fetch the election details
     const fetchElection = async () => {
       setLoading(true);
       setError(null);
@@ -43,7 +41,7 @@ const ElectionDetailsPage = () => {
   }, [id]);
 
   useEffect(() => {
-    // 2) Fetch the list of parties for this election from "/election/{electionId}"
+    // 2) Fetch the list of parties for this election
     const fetchPartiesForElection = async () => {
       try {
         const token = localStorage.getItem("authToken");
@@ -52,13 +50,9 @@ const ElectionDetailsPage = () => {
         const res = await axios.get(`http://localhost:8080/parties/election/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        // The endpoint returns an array of PartyDTO objects
         setParties(res.data || []);
       } catch (err) {
         console.error("Error fetching parties:", err);
-        // Just set error if you want:
-        // setError("Failed to load parties");
       }
     };
 
@@ -77,12 +71,12 @@ const ElectionDetailsPage = () => {
     );
   }
 
-  if (error) {
+  if (error && !election) {
     return (
       <>
         <Header />
         <main className="election-details-page">
-          <div>Error: {error}</div>
+          <div>Error loading election: {error}</div>
         </main>
         <Footer />
       </>
@@ -101,7 +95,7 @@ const ElectionDetailsPage = () => {
     );
   }
 
-  // The next code is just your existing example of states & posts
+  // The rest of your page logic (states, posts, etc.)
   const candidates = [
     {
       id: 1,
@@ -167,9 +161,9 @@ const ElectionDetailsPage = () => {
       <Header />
       <main className="election-details-page">
         {/* 1) Coverage Section */}
-        <ElectionCoverageSection election={election} />
+        <ElectionCoverageSection election={election} parties={parties} />
 
-        {/* 2) Our new Parties Showcase (live data from /party/election/{id}) */}
+        {/* 2) Parties Showcase */}
         <ElectionPartiesShowcase parties={parties} />
 
         {/* 3) States Section */}

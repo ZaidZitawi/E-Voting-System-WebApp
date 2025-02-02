@@ -1,0 +1,121 @@
+/* PartyCard.css */
+
+/* Ensure that CSS variables are defined in the global stylesheet */
+/* Example: Add these to your main CSS file if not already present */
+:root {
+  --primary: #347928;
+  --secondary: #C0EBA6;
+  --accent: #FCCD2A;
+  --background: #FFFBE6;
+  --text: #333;
+  --text-light: #666;
+  --border: #e2e5ea;
+}
+
+.party-card {
+  width: 100%;
+  max-width: 300px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.party-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.party-card-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  background-color: white;
+  padding: 10px;
+}
+
+.party-card-body {
+  flex-grow: 1;
+}
+
+.party-card-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.party-card-description {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.party-card-readmore {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin-left: 5px;
+  text-decoration: underline;
+}
+
+.party-card-readmore:hover {
+  color: var(--accent);
+}
+
+.party-card-footer {
+  width: 100%;
+  padding-top: 15px;
+}
+
+.party-card-select-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+.party-card-select-button:hover {
+  background: #2e6725; /* Darker shade of primary */
+}
+
+@media (max-width: 600px) {
+  .party-card {
+    max-width: 100%;
+  }
+
+  .party-card-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .party-card-title {
+    font-size: 20px;
+  }
+
+  .party-card-select-button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
