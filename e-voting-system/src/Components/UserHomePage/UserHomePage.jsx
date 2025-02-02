@@ -23,7 +23,10 @@ const UserHomePage = ({ userRole }) => {
     <div className="user-home-page">
       <Header />
       <div className="main-content">
+        {/* SideNavBar now handles fetching elections itself */}
         <SideNavBar userRole={userRole} />
+
+        {/* Content Area */}
         <div className="content-area">
           <HeroHome />
           <section className="animated-counter-section">

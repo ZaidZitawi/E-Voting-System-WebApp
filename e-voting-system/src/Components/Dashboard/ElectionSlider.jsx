@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import axios from "axios";
 import "./ElectionSlider.css";
 import featuredElectionImage from "../../assets/file.ico";
+import defaultImage from "../../assets/Default_Election.png";
 
 const ElectionSlider = ({ onSelectElection }) => {
   const [featuredElections, setFeaturedElections] = useState([]);
@@ -10,6 +11,7 @@ const ElectionSlider = ({ onSelectElection }) => {
   const [error, setError] = useState(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef(null);
+
 
   // FETCH FEATURED ELECTIONS
   useEffect(() => {
@@ -150,7 +152,7 @@ const ElectionSlider = ({ onSelectElection }) => {
             className={`election-card2 ${activeSlide === index ? "active" : ""}`}
           >
             <img
-              src={election.imageUrl || featuredElectionImage}
+              src={ `http://localhost:8080/uploads/${election.imageUrl}` || defaultImage}
               alt={election.title || "Election"}
               loading="lazy"
             />

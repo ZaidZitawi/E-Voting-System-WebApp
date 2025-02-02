@@ -1,6 +1,9 @@
+// BlockchainOverview.js
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCube, FaUserShield, FaVoteYea, FaClock, FaUsers } from 'react-icons/fa';
+import PartyCard from '../Cards/PartyCard.jsx'; 
 import './ElectionBlockchainOverview.css';
 
 // Helper: Validate date
@@ -102,8 +105,14 @@ function BlockchainOverview({ electionId }) {
     navigate(`/details/${electionId}`);
   };
 
+  // Navigate to vote page
   const handleVoteButtonClick = () => {
-    navigate(`/details/${electionId}`);
+    navigate(`/vote/${electionId}`);
+  };
+
+  // Navigate to party details
+  const handlePartySelect = (partyId) => {
+    navigate(`/parties/${partyId}`);
   };
 
   // Renders the timeline (start & end date)
@@ -183,7 +192,7 @@ function BlockchainOverview({ electionId }) {
             {election.transactionHash && (
               <li>
                 <a
-                  href={`https://mumbai.polygonscan.com/tx/${election.transactionHash}`}
+                  href={`https://amoy.polygonscan.com/tx/${election.transactionHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -235,7 +244,7 @@ function BlockchainOverview({ electionId }) {
                 <span className="label">Tx Hash:</span>
                 <a
                   className="blockchain-overview-hash-link"
-                  href={`https://mumbai.polygonscan.com/tx/${election.transactionHash}`}
+                  href={`https://amoy.polygonscan.com/tx/${election.transactionHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -257,41 +266,15 @@ function BlockchainOverview({ electionId }) {
           </div>
           <div className="blockchain-overview-card-body blockchain-overview-parties-list">
             {parties.length > 0 ? (
-              parties.map((party) => (
-                <div key={party.partyId} className="blockchain-overview-party-item">
-                  <div className="blockchain-overview-party-header">
-                    {party.imageUrl && (
-                      <img
-                        src={party.imageUrl}
-                        alt={party.name}
-                        className="blockchain-overview-party-image"
-                      />
-                    )}
-                    <h4 className="blockchain-overview-party-name">
-                      {party.name || 'N/A'}
-                    </h4>
-                  </div>
-                  <div className="blockchain-overview-party-details">
-                    <div className="blockchain-overview-info-row">
-                      <span className="label">Bio:</span>
-                      <span className="value">{party.bio || 'N/A'}</span>
-                    </div>
-                    {party.transactionHash && (
-                      <div className="blockchain-overview-info-row">
-                        <span className="label">Tx Hash:</span>
-                        <a
-                          className="blockchain-overview-hash-link"
-                          href={`https://mumbai.polygonscan.com/tx/${party.transactionHash}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View on Polygonscan
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))
+              <div className="parties-grid">
+                {parties.map((party) => (
+                  <PartyCard
+                    key={party.partyId}
+                    party={party}
+                    onSelect={handlePartySelect}
+                  />
+                ))}
+              </div>
             ) : (
               <p className="blockchain-overview-no-parties">
                 No parties found for this election.
@@ -321,7 +304,7 @@ function BlockchainOverview({ electionId }) {
                     <span className="label">Tx Hash:</span>
                     <a
                       className="blockchain-overview-hash-link"
-                      href={`https://mumbai.polygonscan.com/tx/${userVote.transactionHash}`}
+                      href={`https://amoy.polygonscan.com/tx/${userVote.transactionHash}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

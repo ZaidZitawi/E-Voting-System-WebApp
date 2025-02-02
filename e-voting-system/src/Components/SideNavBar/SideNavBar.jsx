@@ -1,158 +1,243 @@
 // src/components/UserHomePage/SideNavBar.jsx
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import "./SideNavBar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTachometerAlt,
+  faUser,
+  faUsers,
+  faClipboardList,
+  faChevronDown,
+  faChevronUp,
+  faComments,
+} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import defaultImage from "../../assets/User.png";
 
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import './SideNavBar.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faTachometerAlt, 
-  faUser, 
-  faUsers, 
-  faClipboardList, 
-  faChevronDown, 
-  faChevronUp 
-} from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import defaultImage from '../../assets/User.png';
-
-const SideNavBar = ({ userRole, userElections }) => {
+const SideNavBar = ({ userRole }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
+  const [userElections, setUserElections] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  console.log("Rendering userElections:", userElections);
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen((prevState) => !prevState);
   };
 
   useEffect(() => {
-    // Check if we have user data in localStorage first
-    const storedUserId = localStorage.getItem('userId');
-    const storedEmail = localStorage.getItem('email');
-    const storedFacultyId = localStorage.getItem('facultyId');
-    const storedDepartmentId = localStorage.getItem('departmentId');
+    console.log("Updated userElections:", userElections);
+  }, [userElections]);
 
-    if (storedUserId && storedEmail && storedFacultyId && storedDepartmentId) {
-      // If we already have these details, we may just want to fetch once for the name and profilePicture
-      // Alternatively, if you trust local storage for all data, you could skip fetching again.
-      fetchUserData();
-    } else {
-      fetchUserData();
-    }
+  // Fetch Participated Elections inside SideNavBar
+  useEffect(() => {
+    const fetchParticipatedElections = async () => {
+      try {
+        const authToken = localStorage.getItem("authToken");
+        if (!authToken) {
+          throw new Error("User is not authenticated.");
+        }
+
+        const response = await axios.get(
+          "http://localhost:8080/elections/participated",
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+
+        console.log("Fetched Participated Elections:", response.data);
+        setUserElections(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching participated elections:", err);
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to fetch participated elections."
+        );
+        setLoading(false);
+      }
+    };
+
+    fetchParticipatedElections();
   }, []);
 
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/users/profile', {
-        
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
-      
-      const data = response.data;
+  // Fetch User Profile
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/users/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
 
-      setUserProfile(data);
+        const data = response.data;
+        setUserProfile(data);
 
-      // Store the required fields in localStorage
-      localStorage.setItem('userId', data.userId);
-      localStorage.setItem('email', data.email);
-      localStorage.setItem('facultyId', data.facultyId);
-      localStorage.setItem('departmentId', data.departmentId);
+        // Store required fields in localStorage
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("facultyId", data.facultyId);
+        localStorage.setItem("departmentId", data.departmentId);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
 
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
+    fetchUserData();
+  }, []);
+
+  const userName = userProfile ? userProfile.name : "Loading...";
+  const userPicture =
+    userProfile && userProfile.profilePicture
+      ? `http://localhost:8080/uploads/${userProfile.profilePicture}`
+      : defaultImage;
+
+  const handleElectionSelect = (electionId) => {
+    navigate(`/details/${electionId}`);
+    setIsDropdownOpen(false);
   };
-
-  const userName = userProfile ? userProfile.name : 'Loading...';
-  const userPicture = userProfile && userProfile.profilePicture 
-    ? `http://localhost:8080/uploads/${userProfile.profilePicture}`
-    : defaultImage;
-
-  // Define navigation sections
-  const navSections = [
-    {
-      section: 'Main',
-      items: [
-        { to: '/dashboard', label: 'Dashboard', icon: faTachometerAlt },
-      ],
-    },
-    {
-      section: 'User',
-      items: [
-        { to: '/profile', label: 'Profile', icon: faUser },
-        { to: '/about-us', label: 'Who We Are', icon: faUsers },
-      ],
-    },
-    {
-      section: 'Elections',
-      items: [
-        {
-          label: 'My Elections',
-          icon: faClipboardList,
-          isDropdown: true,
-          dropdownItems: userElections, // Array of elections the user is involved in
-        },
-      ],
-    },
-  ];
 
   return (
     <aside className="side-nav-bar">
-      {/* Profile Section */}
       <div className="profile-section">
-        <img src={userPicture} alt={userName} />
-        <h3>{userName}</h3>
-        <NavLink to="/profile" className="btn btn-secondary">
+        <img src={userPicture} alt={userName} className="profile-picture" />
+        <h3 className="profile-name">{userName}</h3>
+        <NavLink
+          to="/profile"
+          className="btn btn-secondary profile-settings-btn"
+        >
           Profile Settings
         </NavLink>
       </div>
 
-      {/* Navigation Links */}
       <nav className="nav-links">
-        {navSections.map((section, index) => (
-          <div key={index} className="nav-section">
-            <h4 className="nav-section-title">{section.section}</h4>
-            <ul>
-              {section.items.map((item, idx) => (
-                item.isDropdown ? (
-                  <li key={idx}>
-                    <button className="dropdown-btn" onClick={toggleDropdown}>
-                      <FontAwesomeIcon icon={item.icon} className="nav-icon" />
-                      <span>{item.label}</span>
-                      <FontAwesomeIcon icon={isDropdownOpen ? faChevronUp : faChevronDown} className="dropdown-icon" />
-                    </button>
-                    {isDropdownOpen && (
-                      <ul className="dropdown-menu">
-                        {item.dropdownItems && item.dropdownItems.length > 0 ? (
-                          item.dropdownItems.map((election) => (
-                            <li key={election.electionId}>
-                              <NavLink 
-                                to={`/elections/${election.electionId}`} 
-                                className={({ isActive }) => (isActive ? 'active-link' : '')}
-                              >
-                                <FontAwesomeIcon icon={faClipboardList} className="nav-icon" />
-                                <span>{election.title}</span>
-                              </NavLink>
-                            </li>
-                          ))
-                        ) : (
-                          <li className="no-elections">No Elections Involved</li>
-                        )}
-                      </ul>
-                    )}
-                  </li>
-                ) : (
-                  <li key={idx}>
-                    <NavLink to={item.to} className={({ isActive }) => (isActive ? 'active-link' : '')}>
-                      <FontAwesomeIcon icon={item.icon} className="nav-icon" />
-                      <span>{item.label}</span>
-                    </NavLink>
-                  </li>
-                )
-              ))}
-            </ul>
-          </div>
-        ))}
+        <div className="nav-section">
+          <h4 className="nav-section-title">Main</h4>
+          <ul>
+            <li>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "nav-link"
+                }
+              >
+                <FontAwesomeIcon icon={faTachometerAlt} className="nav-icon" />
+                <span className="nav-label">Dashboard</span>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+
+        <div className="nav-section">
+          <h4 className="nav-section-title">User</h4>
+          <ul>
+            <li>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "nav-link"
+                }
+              >
+                <FontAwesomeIcon icon={faUser} className="nav-icon" />
+                <span className="nav-label">Profile</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/about-us"
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "nav-link"
+                }
+              >
+                <FontAwesomeIcon icon={faUsers} className="nav-icon" />
+                <span className="nav-label">Who We Are</span>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+
+        <div className="nav-section">
+          <h4 className="nav-section-title">Elections</h4>
+          <ul>
+            <li className="sideNav-dropdown-container">
+              <button
+                className="sideNav-dropdown-btn"
+                onClick={toggleDropdown}
+                aria-expanded={isDropdownOpen}
+              >
+                <FontAwesomeIcon icon={faClipboardList} className="nav-icon" />
+                <span className="nav-label">My Elections</span>
+                <FontAwesomeIcon
+                  icon={isDropdownOpen ? faChevronUp : faChevronDown}
+                  className="sideNav-dropdown-icon"
+                />
+              </button>
+
+              {isDropdownOpen && (
+                <ul className="sideNav-dropdown-menu">
+                  {loading ? (
+                    <li className="sideNav-loading-container">Loading...</li>
+                  ) : error ? (
+                    <li className="sideNav-error-container">{error}</li>
+                  ) : userElections.length > 0 ? (
+                    userElections.map((election) => (
+                      <li
+                        key={election.electionId}
+                        className="sideNav-dropdown-item"
+                      >
+                        <button
+                          className="sideNav-dropdown-link"
+                          onClick={() =>
+                            handleElectionSelect(election.electionId)
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faClipboardList}
+                            className="nav-icon sideNav-dropdown-item-icon"
+                          />
+                          <span className="sideNav-dropdown-item-label">
+                            {election.title}
+                          </span>
+                        </button>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="sideNav-no-elections">
+                      No Elections Involved
+                    </li>
+                  )}
+                </ul>
+              )}
+            </li>
+          </ul>
+        </div>
+
+        <div className="nav-section">
+          <h4 className="nav-section-title">Social</h4>
+          <ul>
+            <li>
+              <NavLink
+                to="/social"
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "nav-link"
+                }
+              >
+                <FontAwesomeIcon icon={faComments} className="nav-icon" />
+                <span className="nav-label">Social</span>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
       </nav>
     </aside>
   );

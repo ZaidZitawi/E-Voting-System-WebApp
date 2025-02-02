@@ -1,20 +1,27 @@
-/* src/components/UserHomePage/SideNavBar.css */
-
+/* ----------------------------------
+   Base Side Nav Container
+---------------------------------- */
 .side-nav-bar {
   position: fixed;
-  top: 85px; 
+  top: 8vh;          /* Set the top margin relative to the viewport height */
   left: 0;
-  width: 17%;
-  height: calc(100% - 80px); 
+  width: 17vw;       /* Make width dynamic based on viewport width */
+  height: calc(100vh - 8vh); /* Adjust height dynamically */
   background-color: #fff;
-  padding: 20px;
+  padding: 1.5rem;   /* Use rem for padding to scale better */
   overflow-y: auto;
   border-right: 1px solid #e0e0e0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.06);
+  z-index: 100;
+  font-family: 'Open Sans', sans-serif;
 }
 
+/* ----------------------------------
+   Profile Section
+---------------------------------- */
 .profile-section {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .profile-section img {
@@ -22,6 +29,7 @@
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #e0e0e0;
 }
 
 .profile-section h3 {
@@ -32,33 +40,32 @@
 
 .profile-section .btn {
   display: block;
-  margin: 5px auto;
+  margin: 0 auto;
   width: 90%;
   padding: 8px 0;
   font-size: 14px;
-  background-color: #347928;
+  background-color: #347928; 
   color: #fff;
-  text-align: center;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: center;
 }
 
 .profile-section .btn:hover {
-  background-color: #285e1a;
+  background-color: #285e1a; 
 }
 
-.nav-links {
-  font-family: 'Open Sans', sans-serif;
-}
-
+/* ----------------------------------
+   Navigation Links / Sections
+---------------------------------- */
 .nav-section {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .nav-section-title {
-  font-size: 14px;
+  font-size: 13px;
   color: #888;
   text-transform: uppercase;
   margin-bottom: 10px;
@@ -72,120 +79,194 @@
 }
 
 .nav-links ul li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-.nav-links ul li a,
-.dropdown-btn {
+.nav-links ul li a {
   display: flex;
   align-items: center;
   color: #333;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 15px;
   padding: 10px;
   border-radius: 4px;
   transition: background-color 0.3s ease, color 0.3s ease;
-  width: 100%;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
 }
 
-.nav-links ul li a .nav-icon,
-.dropdown-btn .nav-icon {
+.nav-links ul li a .nav-icon {
   width: 20px;
   height: 20px;
   margin-right: 12px;
 }
 
-.nav-links ul li a:hover,
-.dropdown-btn:hover {
+.nav-links ul li a:hover {
   background-color: #347928;
   color: #fff;
 }
 
-.nav-links ul li a.active-link,
-.dropdown-btn.active {
+.nav-links ul li a.active-link {
   background-color: #347928;
   color: #fff;
 }
 
-.nav-links ul li a.active-link .nav-icon,
-.dropdown-btn.active .nav-icon {
+.nav-links ul li a.active-link .nav-icon {
   filter: brightness(0) invert(1);
 }
 
-.dropdown-icon {
-  margin-left: auto;
+/* ----------------------------------
+   Dropdown Menu (Integrated)
+---------------------------------- */
+
+/* 
+ * The dropdown container remains in the flow, 
+ * letting the list expand the sidebar's height. 
+ */
+.sideNav-dropdown-container {
+  position: relative; /* Not strictly needed if we remove absolute for the menu */
 }
 
-.dropdown-menu {
-  list-style: none;
-  padding: 0 0 0 32px; /* Indent the dropdown items */
-  margin-top: 8px;
+/* The toggle button for My Elections */
+.sideNav-dropdown-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: left;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dropdown-menu li {
-  margin-bottom: 8px;
-}
-
-.dropdown-menu li a {
-  font-size: 14px;
-  padding: 8px 0;
-  color: #555;
-}
-
-.dropdown-menu li a:hover,
-.dropdown-menu li a.active-link {
-  background-color: #285e1a;
+.sideNav-dropdown-btn:hover {
+  background-color: #347928;
   color: #fff;
 }
 
-.no-elections {
+.sideNav-dropdown-icon {
+  margin-left: auto;
+}
+
+.sideNav-dropdown-menu {
+  position: static; 
+  margin-top: 6px;
+  background: #fff;
+  border-left: 3px solid #347928; /* Slight accent to show nesting */
+  border-radius: 4px;
+  list-style: none;
+  padding: 6px 0;
+  max-height: none; /* So it can grow naturally */
+  box-shadow: none; /* Remove overlay-like shadow */
+}
+
+/* Each item in the dropdown menu */
+.sideNav-dropdown-item .sideNav-dropdown-link {
+  display: flex !important;
+  align-items: center;
+  padding: 8px 15px !important;
+  font-size: 14px;
+  color: #333 !important;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+/* On hover, highlight with a subtle background */
+.sideNav-dropdown-item .sideNav-dropdown-link:hover {
+  background: #f0f4f7;
+  color: #347928 !important;
+}
+
+.sideNav-dropdown-item .sideNav-dropdown-item-icon {
+  margin-right: 12px;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.sideNav-no-elections {
   font-size: 14px;
   color: #999;
-  padding: 8px 0;
+  padding: 8px 15px;
+  display: block;
 }
 
-.nav-links ul li a .nav-icon {
-  transition: filter 0.3s ease;
+/* ----------------------------------
+   Loading & Error States
+---------------------------------- */
+.sideNav-loading-container,
+.sideNav-error-container {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #666;
 }
 
-/* Responsive Adjustments */
+.sideNav-loading-container {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* ----------------------------------
+   Responsive (<= 768px)
+---------------------------------- */
 @media screen and (max-width: 768px) {
   .side-nav-bar {
-    position: relative;
+    position: fixed; /* Keep it fixed on small screens */
     top: 0;
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 15px;
+    left: 0;
+    width: 75vw; /* Slightly wider for mobile nav */
+    height: 100vh; /* Full height */
+    background-color: #fff;
+    z-index: 1000; /* Ensure it's above other content */
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%); /* Hide initially */
+    padding: 1rem;
+    border-right: 2px solid #e0e0e0;
+  }
+
+  /* When menu is open */
+  .side-nav-bar.active {
+    transform: translateX(0);
   }
 
   .nav-section-title {
-    font-size: 13px;
+    font-size: 1rem; /* Slightly larger for better readability */
   }
 
   .nav-links ul li a,
-  .dropdown-btn {
-    font-size: 14px;
-    padding: 8px;
+  .sideNav-dropdown-btn {
+    font-size: 1rem;
+    padding: 0.75rem;
   }
 
   .nav-links ul li a .nav-icon,
-  .dropdown-btn .nav-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
+  .sideNav-dropdown-btn .nav-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
   }
 
-  .dropdown-icon {
-    margin-left: 10px;
+  .sideNav-dropdown-icon {
+    margin-left: auto;
   }
 
-  .dropdown-menu {
-    padding-left: 24px;
+  /* Improve dropdown to flow inside sidebar */
+  .sideNav-dropdown-menu {
+    position: static; /* Let it expand inside the sidebar */
+    width: 100%; /* Full width inside the nav */
+    background: none; /* Remove box-shadow */
+    border-left: 3px solid #347928;
+    padding-left: 1rem;
+  }
+
+  .sideNav-dropdown-item .sideNav-dropdown-link {
+    padding: 0.75rem 1rem !important;
   }
 }
+
