@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './ManageElections.css';
-import ElectionStatesSection from '../../ElectionDetailsPage/RankingSection/ElectionStatesSection';
 const ManageElections = () => {
   const [elections, setElections] = useState([]);
   const [selectedElection, setSelectedElection] = useState(null);
@@ -75,8 +74,6 @@ const ManageElections = () => {
           <p><strong>End Date:</strong> {selectedElection.endDate}</p>
           <p><strong>Eligibility:</strong> {selectedElection.eligibility}</p>
           
-          {/* Real-Time Statistics */}
-          <ElectionStatesSection totalVotes={totalVotes} candidates={candidates} />
         </div>
       )}
     </div>

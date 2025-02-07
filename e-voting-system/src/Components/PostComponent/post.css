@@ -2,18 +2,22 @@
   --primary: #347928; /* Deep green */
   --secondary: #C0EBA6; /* Light green */
   --background: #F9F9F9; /* Neutral background */
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --border-radius: 12px;
 }
 
+/* ============== Post Container ============== */
 .post {
   background-color: var(--background);
   border: 1px solid var(--secondary);
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   padding: 20px;
   margin: 20px auto;
   max-width: 600px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* ============== User Post Data ============== */
 .user-post-data {
   display: flex;
   align-items: center;
@@ -49,6 +53,7 @@
   margin: 4px 0 0;
 }
 
+/* ============== Media Display ============== */
 .media-display {
   display: flex;
   flex-direction: column;
@@ -61,7 +66,7 @@
 .media-item {
   position: relative;
   width: 100%;
-  height: 300px; /* Set a fixed height for consistency */
+  height: 300px; /* Fixed height for consistency */
   border-radius: 8px;
   overflow: hidden;
 }
@@ -72,11 +77,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the container without stretching */
-  object-position: center; /* Centers the image */
+  object-fit: cover;
+  object-position: center;
 }
 
-
+/* ============== Action Buttons ============== */
+.action-buttons-container{
+  margin-bottom: 5px;
+}
 .action-buttons {
   display: flex;
   gap: 12px;
@@ -110,6 +118,7 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .likes-count:hover {
@@ -117,45 +126,65 @@
   color: white;
 }
 
+/* ============== Comment Card ============== */
 .comment {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 16px;
   background-color: var(--background);
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 12px;
+  border: 1px solid var(--secondary);
+  border-radius: var(--border-radius);
+  margin-bottom: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comment:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .comment-user-image {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid var(--secondary);
 }
 
 .comment-details {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
 }
 
 .comment-user-name {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: bold;
   color: var(--primary);
 }
 
 .comment-time {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--primary);
+  opacity: 0.8;
 }
 
 .comment-text {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--primary);
-  margin-top: 4px;
+  line-height: 1.4;
+  margin: 0;
 }
 
+/* ============== Add Comment Area ============== */
 .add-comment {
   display: flex;
   align-items: center;
@@ -165,10 +194,11 @@
 
 .add-comment-input {
   flex: 1;
-  padding: 8px;
+  padding: 8px 12px;
   border: 1px solid var(--secondary);
   border-radius: 20px;
   background-color: var(--background);
+  font-size: 0.9rem;
 }
 
 .add-comment-btn {

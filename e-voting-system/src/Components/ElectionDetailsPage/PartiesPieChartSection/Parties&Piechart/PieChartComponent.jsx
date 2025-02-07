@@ -1,28 +1,33 @@
-// src/components/ElectionStatesSection/OverallStatistics.jsx
-
 import React from 'react';
-import './OverallStatistics.css';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import './PieChartComponent.css';
+import {
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 import PropTypes from 'prop-types';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA336A', '#33AAFF'];
 
-const OverallStatistics = ({ totalVotes, candidates }) => {
-  // Prepare data for donut chart
+const PieChartComponent = ({ totalVotes, candidates }) => {
+  // Prepare data for the donut chart
   const chartData = candidates.map(candidate => ({
     name: candidate.name,
     value: candidate.votes,
   }));
 
   return (
-    <div className="overall-statistics">
+    <div className="pie-chart">
       <div className="total-votes">
         <h3>Total Votes</h3>
         <p>{totalVotes.toLocaleString()}</p>
       </div>
       <div className="donut-chart-container">
         <ResponsiveContainer width="100%" height={250}>
-          <PieChart>
+          <RechartsPieChart>
             <Pie
               data={chartData}
               dataKey="value"
@@ -40,14 +45,14 @@ const OverallStatistics = ({ totalVotes, candidates }) => {
             </Pie>
             <Tooltip formatter={(value) => value.toLocaleString()} />
             <Legend />
-          </PieChart>
+          </RechartsPieChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
 };
 
-OverallStatistics.propTypes = {
+PieChartComponent.propTypes = {
   totalVotes: PropTypes.number.isRequired,
   candidates: PropTypes.arrayOf(
     PropTypes.shape({
@@ -57,4 +62,4 @@ OverallStatistics.propTypes = {
   ).isRequired,
 };
 
-export default OverallStatistics;
+export default PieChartComponent;

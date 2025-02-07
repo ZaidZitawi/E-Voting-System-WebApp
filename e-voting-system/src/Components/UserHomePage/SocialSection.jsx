@@ -1,29 +1,26 @@
-// SocialSection.jsx
-import React from 'react';
-import Post from '../PostComponent/Post.jsx';
-import './SocialSection.css';
-import logo from '../../assets/file.ico'
-import Media from '../../assets/Poster.jpg'
+// src/Components/SocialSection.jsx
+import React from "react";
+import Post from "../PostComponent/Post.jsx";
+import "./SocialSection.css";
+import logo from "../../assets/file.ico";
+import Media from "../../assets/Poster.jpg";
 
 const SocialSection = () => {
   const samplePost = {
-    userEntity: {
+    postId: 123,
+    content:
+      "🚀 Cast your vote now and join the discussion! See what candidates are sharing...",
+    mediaUrl: Media, // Pass local image directly
+    createdAt: new Date().toISOString(), // Using ISO date format for consistency
+    commentCount: 2,
+    likeCount: 142,
+    likedByCurrentUser: false,
+
+    // Simulating a post published by VoteChain Official (as a party)
+    party: {
       name: "VoteChain Official",
-      profile: {
-        profilePictureUrl: logo
-      }
+      imageUrl: logo, // Pass local logo directly
     },
-    date: "2h ago",
-    text: "🚀 Cast your vote now and join the discussion! See what candidates are sharing...",
-    media: [
-        { mediaUrl: Media, type: ".png" }
-    ],
-    likes: Array(142).fill({}), // 142 likes
-    comments: [
-      { user: "Sarah", text: "Love the transparency!" },
-      { user: "Mike", text: "When's the debate?" }
-    ],
-    postId: 123
   };
 
   return (
@@ -33,9 +30,9 @@ const SocialSection = () => {
         <div className="fixed-text">
           <h2>Engage. Discuss. Decide.</h2>
           <p>
-            Our platform empowers real-time discussions during elections. 
-            Interact with candidates, view campaign updates, and join 
-            the democratic conversation.
+            Our platform empowers real-time discussions during elections.
+            Interact with candidates, view campaign updates, and join the
+            democratic conversation.
           </p>
           <a href="/social" className="cta-button">
             Explore Social Hub →
@@ -52,4 +49,5 @@ const SocialSection = () => {
     </div>
   );
 };
+
 export default SocialSection;

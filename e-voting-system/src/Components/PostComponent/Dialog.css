@@ -2,30 +2,45 @@
   --primary: #347928;
   --secondary: #C0EBA6;
   --background: #F9F9F9;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --border-radius: 12px;
 }
 
+/* ============== Dialog Enhancements ============== */
 .dialog-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .dialog-content {
   background-color: var(--background);
   width: 90%;
   max-width: 600px;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: 0 8px 16px var(--shadow-color);
   max-height: 80vh;
   overflow-y: auto;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .close-dialog-btn {
@@ -34,34 +49,41 @@
   color: var(--primary);
   font-size: 1rem;
   cursor: pointer;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+}
+
+.close-dialog-btn:hover {
+  color: var(--secondary);
 }
 
 .dialog-list {
+  margin-top: 16px;
   max-height: 60vh;
   overflow-y: auto;
 }
 
-.friend-card,
-.like-card {
+/* ============== Dialog Cards (Used by Like Dialog) ============== */
+.like-card,
+.friend-card {
   display: flex;
   align-items: center;
   padding: 12px;
   background-color: var(--background);
   border: 1px solid var(--secondary);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   margin-bottom: 12px;
   transition: transform 0.2s ease;
 }
 
-.friend-card:hover,
-.like-card:hover {
-  transform: scale(1.05);
-  background-color: var(--secondary);
-}
+.like-card:hover,
+.friend-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+  }
 
-.friend-profile-pic,
-.like-profile-pic {
+.like-profile-pic,
+.friend-profile-pic {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -69,8 +91,8 @@
   margin-right: 12px;
 }
 
-.friend-name,
-.like-name {
+.like-name,
+.friend-name {
   font-size: 1rem;
   font-weight: bold;
   color: var(--primary);

@@ -27,7 +27,7 @@ const MyElections = () => {
 
   return (
     <div className="election-analytics">
-      <h2>My Elections</h2>
+      <h2> My Elections</h2>
       <div className="election-list">
         {elections.length === 0 ? (
           <p>Loading elections...</p>
