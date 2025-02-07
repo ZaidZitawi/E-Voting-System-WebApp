@@ -1,0 +1,35 @@
+/* src/components/ElectionStatesSection/PartiesRankingTable.css */
+
+/* Root color variables */
+:root {
+  --primary: #347928;
+  --accent: #FCCD2A;
+  --background: #f9f9f9;
+  --panel-bg: #ffffff;
+  --border-color: #e2e5ea;
+  --text-primary: #333;
+  --text-secondary: #666;
+}
+
+/* Parties Ranking Table Container */
+.parties-ranking-table {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  flex: 1; /* Ensures proper sizing within a flex container */
+}
+
+/* Title styling */
+.parties-ranking-table h3 {
+  font-size: 24px;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Spacing between ranking cards */
+.parties-ranking-table .party-ranking-card + .party-ranking-card {
+  margin-top: 15px;
+}

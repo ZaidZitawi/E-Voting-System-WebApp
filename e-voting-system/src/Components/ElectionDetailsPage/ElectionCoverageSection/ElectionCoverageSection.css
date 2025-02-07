@@ -1,7 +1,7 @@
 .election-coverage-hero {
   position: relative;
   width: 100%;
-  height: 80vh; /* Adjust height as needed */
+  height: 85vh; /* Adjust height as needed */
   background-size: cover; /* Ensures the image covers the entire container */
   background-position: center center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
@@ -157,4 +157,43 @@
     font-size: 16px;
     padding: 10px 25px;
   }
+}
+/* Ensure the transaction hash container has proper spacing */
+.transaction-hash-container {
+  margin-top: 1.5rem;
+}
+
+/* Wrapper for the input and copy button */
+.copyable-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Style for the input field */
+.copyable-input {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0.5rem; /* extra right padding for the button */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #fff; /* non-transparent background */
+}
+
+/* Style for the copy button placed inside the input field (right side) */
+.copy-btn {
+  position: absolute;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--primary);
+}
+
+/* Styling for the silly name (character name) in the message */
+.silly-name {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--primary);
 }

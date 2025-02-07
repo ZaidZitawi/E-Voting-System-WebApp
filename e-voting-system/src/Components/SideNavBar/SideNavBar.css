@@ -3,7 +3,7 @@
 ---------------------------------- */
 .side-nav-bar {
   position: fixed;
-  top: 8vh;          /* Set the top margin relative to the viewport height */
+  top: 10vh;          /* Set the top margin relative to the viewport height */
   left: 0;
   width: 17vw;       /* Make width dynamic based on viewport width */
   height: calc(100vh - 8vh); /* Adjust height dynamically */

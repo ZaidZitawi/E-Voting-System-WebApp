@@ -1,0 +1,150 @@
+/*src/Components/ElectionDetailsPage/PartiesPieChartSection/Parties&Piechart/ElectionParties.css*/
+
+/* Generic container for panels (if needed) */
+.eps-container {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: var(--panel-bg);
+}
+
+/* Title style */
+.eps-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+
+/* Basic panel/card style */
+.eps-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Parties List (for navigator) */
+.eps-parties-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.eps-party-button {
+  background: #fff;
+  border-left: 8px solid var(--primary);
+  border-radius: 6px;
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.eps-party-button:hover {
+  background: #f3f3f3;
+  transform: translateX(2px);
+}
+
+.eps-party-selected {
+  background: #ecffec;
+  border-left-color: var(--accent);
+}
+
+.eps-party-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.eps-party-name {
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Candidate Grid & Cards */
+.eps-candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+}
+
+.eps-candidate-card {
+  background: #fafafa;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.eps-candidate-card:hover {
+  transform: translateY(-2px);
+}
+
+.eps-candidate-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+.eps-candidate-name {
+  font-size: 1rem;
+  color: var(--primary);
+  margin: 0;
+}
+
+.eps-candidate-role {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0;
+}
+
+.eps-no-candidates-text {
+  font-style: italic;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* --- Horizontal Alignment for Parties Navigator and Ranking Table --- */
+
+/* Container for the two horizontally-aligned panels */
+.eps-center-container {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  align-items: flex-start;
+  padding: 0 1rem;
+}
+
+/* Left: Navigator (smaller) */
+.eps-center-left {
+  flex: 1; /* Smaller area */
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+/* Right: Ranking table (larger) */
+.eps-center-panel {
+  flex: 2; /* Larger area */
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+}

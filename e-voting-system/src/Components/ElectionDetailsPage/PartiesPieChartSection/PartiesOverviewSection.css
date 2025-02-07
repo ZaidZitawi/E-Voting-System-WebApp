@@ -1,0 +1,54 @@
+/* src/Components/ElectionDetailsPage/PartiesOverviewSection.css */
+
+/* Main container for the entire Parties Overview block
+   We let the parent .parties-overview-section hold the background,
+   so here we can keep a transparent background, focusing on layout. */
+   .parties-overview {
+    width: 100%;
+    margin: 0 auto; /* We'll rely on the parent's margins */
+    padding: 0 1rem; /* Minimal horizontal padding, parent's top/btm spacing is used */
+    background: transparent; /* so parent's background shows in the outer gaps */
+  }
+  
+  /* Title for the Parties Overview section */
+  .parties-overview-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+    /* You could add text-shadow or other effects for "crazy" style */
+  }
+  
+  /* Container for the row that holds the navigator + pie chart */
+  .overview-top {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Left: Parties Navigator – 70% width */
+  .overview-parties {
+    flex: 7;
+    background: var(--panel-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  /* Right: Pie Chart – 30% width */
+  .overview-piechart {
+    flex: 3;
+    background: var(--panel-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  /* Responsive stacking on smaller screens */
+  @media (max-width: 768px) {
+    .overview-top {
+      flex-direction: column;
+    }
+  }
+  

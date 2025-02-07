@@ -29,6 +29,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import SocialPage from "./Components/SocialPage/SocialPage.jsx";
 
 const AppContent = () => {
   const navigate = useNavigate();
@@ -96,10 +97,11 @@ const AppContent = () => {
         <Route path="assign-candidate-election" element={<AssignCandidateToElection/>}/>
         <Route path="/CandidateDash" element={<CandidateDashboard />}/>
         <Route path="/candidate/election/:id" element={<MyElectionDetails />} />
+        <Route path="/social" element={<SocialPage />} />
       </Routes>
       <ToastContainer
         position="top-right"
-        autoClose={5000} // 5 seconds
+        autoClose={5000} 
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

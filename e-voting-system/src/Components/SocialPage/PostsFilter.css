@@ -1,0 +1,84 @@
+:root {
+    --primary: #347928;
+    /* Deep green */
+    --secondary: #C0EBA6;
+    /* Light green */
+    --background: #F9F9F9;
+    /* Neutral background */
+    --border-radius: 12px;
+}
+
+/* Container for the PostsFilter component */
+.posts-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+    background-color: var(--background);
+    border: 1px solid var(--secondary);
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+/* Each filter group within the PostsFilter */
+.posts-filter__group {
+    display: flex;
+    flex-direction: column;
+}
+
+.posts-filter__label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+/* Style for select inputs and text fields */
+.posts-filter__select,
+.posts-filter__input {
+    padding: 8px;
+    border: 1px solid var(--secondary);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+/* Specific style for the search group to be flexible */
+.posts-filter__group--search {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Actions container for the Apply/Clear buttons */
+.posts-filter__actions {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+/* Button styles */
+.posts-filter__button {
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.posts-filter__button:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.posts-filter__button--clear {
+    background-color: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.posts-filter__button--clear:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
