@@ -2,7 +2,6 @@ import React, { useMemo, useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import axios from "axios";
 import "./ElectionSlider.css";
-import featuredElectionImage from "../../assets/file.ico";
 import defaultImage from "../../assets/Default_Election.png";
 
 const ElectionSlider = ({ onSelectElection }) => {
@@ -27,9 +26,10 @@ const ElectionSlider = ({ onSelectElection }) => {
         setLoading(true);
         setError(null);
 
-        const response = await axios.get("http://localhost:8080/elections", {
+        const response = await axios.get("http://localhost:8080/elections/featured", {
           headers: { Authorization: `Bearer ${authToken}` },
         });
+        console.log("Featured Elections: ", response.data);
 
         if (isMounted) {
           setFeaturedElections(Array.isArray(response.data) ? response.data : []);

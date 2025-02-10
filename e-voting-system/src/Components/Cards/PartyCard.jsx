@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import "./PartyCard.css";
+import user from "../../assets/user.png";
 
 const PartyCard = ({ party, onSelect }) => {
   const [expanded, setExpanded] = useState(false);
@@ -13,7 +14,7 @@ const PartyCard = ({ party, onSelect }) => {
     <div className="party-card">
       <div className="party-card-header">
         <img
-          src={party.logoUrl || "default-logo.png"}
+          src={party.logoUrl || user}
           alt={`${party.name} Logo`}
           className="party-card-logo"
         />

@@ -1,16 +1,41 @@
 // src/Components/PostsFilter.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./PostsFilter.css";
 
 const PostsFilter = ({ onApplyFilters, onClearFilters, initialFilters = {} }) => {
+  // Selected filter values
   const [faculty, setFaculty] = useState(initialFilters.faculty || "");
   const [dateRange, setDateRange] = useState(initialFilters.dateRange || "");
   const [sortBy, setSortBy] = useState(initialFilters.sortBy || "recent");
   const [keyword, setKeyword] = useState(initialFilters.keyword || "");
+  // List of faculties fetched from backend
+  const [faculties, setFaculties] = useState([]);
+
+  // Fetch faculties from the backend on component mount
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          console.error("Missing authentication token.");
+          return;
+        }
+        const response = await axios.get("http://localhost:8080/faculty-and-department/faculties", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setFaculties(response.data || []);
+      } catch (error) {
+        console.error("Error fetching faculties:", error);
+      }
+    };
+
+    fetchFaculties();
+  }, []);
 
   const applyFilters = () => {
     onApplyFilters({
-      faculty,
+      faculty,   // faculty will be the facultyId (as a string or number)
       dateRange,
       sortBy,
       keyword,
@@ -35,10 +60,11 @@ const PostsFilter = ({ onApplyFilters, onClearFilters, initialFilters = {} }) =>
           onChange={(e) => setFaculty(e.target.value)}
         >
           <option value="">All Faculties</option>
-          <option value="science">Science</option>
-          <option value="arts">Arts</option>
-          <option value="engineering">Engineering</option>
-          {/* Add more options based on your data */}
+          {faculties.map((fac) => (
+            <option key={fac.facultyId} value={fac.facultyId}>
+              {fac.facultyName}
+            </option>
+          ))}
         </select>
       </div>
 

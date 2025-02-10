@@ -23,14 +23,18 @@ const SocialPage = () => {
       if (!token || !userId) {
         throw new Error("Missing authentication token or user ID. Please log in.");
       }
+      // Combine page, userId, and filters into query parameters
       const params = { page: pageNumber, userId, ...filters };
-      const response = await axios.get("http://localhost:8080/posts/all", {
+      
+      // Use the filterPosts endpoint
+      const response = await axios.get("http://localhost:8080/posts/filterPosts", {
         params,
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("Fetched posts:", response.data);
       const newPosts = response.data.content || [];
       setPosts((prevPosts) => {
+        // Remove duplicates based on postId
         const existingIds = new Set(prevPosts.map((post) => post.postId));
         const uniquePosts = newPosts.filter((post) => !existingIds.has(post.postId));
         return [...prevPosts, ...uniquePosts];

@@ -1,6 +1,6 @@
 /* ProfilePage.css */
 
-/* Root Variables for Consistent Styling */
+/* Root Variables */
 :root {
   --primary-color: #4CAF50;
   --secondary-color: #388E3C;
@@ -15,8 +15,8 @@
   --success-color: #4CAF50;
 }
 
-/* Reset box-sizing and remove default margins/paddings */
-.profile-page, .profile-page * {
+/* Global Reset for this file */
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -30,7 +30,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 100px; 
+  padding-top: 100px;
 }
 
 /* Loading State */
@@ -43,11 +43,11 @@
   color: var(--light-text);
 }
 
-/* Main Container */
+/* Main Profile Container */
 .profile-container {
   flex: 1;
   max-width: 900px;
-  margin: 20px auto 40px; /* Reduced top margin to prevent overlap */
+  margin: 20px auto 40px;
   padding: 20px;
   background: var(--card-bg);
   border-radius: var(--border-radius);
@@ -57,7 +57,6 @@
 /* Top Section */
 .profile-top {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
@@ -98,6 +97,7 @@
   color: #fff;
 }
 
+/* Role badge variations */
 .role-badge.voter {
   background-color: #2196F3;
 }
@@ -110,6 +110,7 @@
   background-color: #9C27B0;
 }
 
+/* Right Section */
 .profile-right {
   text-align: right;
 }
@@ -182,6 +183,7 @@
   }
 }
 
+/* Profile Posts */
 .profile-posts {
   background: var(--card-bg);
   padding: 15px;
@@ -407,14 +409,9 @@
     grid-template-columns: 1fr;
   }
 
-  .profile-posts {
-    grid-column: 1 / -1;
-  }
-
-  /* Adjusting profile-container padding/margin */
   .profile-container {
-    margin: 20px 10px 40px; /* Reduced side margins */
-    padding: 15px; /* Reduced padding */
+    margin: 20px 10px 40px;
+    padding: 15px;
   }
 
   .profile-picture {
@@ -448,7 +445,6 @@
     font-size: 0.9rem;
   }
 
-  /* Modal Content Adjustments */
   .modal-content {
     padding: 20px;
   }

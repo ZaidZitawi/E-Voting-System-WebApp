@@ -53,6 +53,7 @@
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 10px;
+  justify-content: center;
 }
 
 .party-card-description {

@@ -1,9 +1,7 @@
-// src/Components/SignInPage/LoginPage.jsx
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { decodeJWT, isTokenExpired } from "../../Components/utils/jwt.js";
+import { decodeJWT } from "../../Components/utils/jwt.js";
 import { toast } from "react-toastify";
 import "./LoginForm.css";
 
@@ -22,8 +20,10 @@ const LoginPage = () => {
   // Form validation
   const validate = () => {
     const newErrors = {};
-    if (!formData.username.trim()) newErrors.username = "Please enter your Email.";
-    if (!formData.password.trim()) newErrors.password = "Please enter your password.";
+    if (!formData.username.trim())
+      newErrors.username = "Please enter your Email.";
+    if (!formData.password.trim())
+      newErrors.password = "Please enter your password.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -40,33 +40,56 @@ const LoginPage = () => {
         password: formData.password,
       });
       const token = response.data; // Adjust based on your backend response structure
+
       if (token) {
         // Store token in localStorage
         localStorage.setItem("authToken", token);
 
-        // Optional: Decode token to get user info
+        // Decode token to get user info (including roles)
         const decoded = decodeJWT(token);
         console.log("Logged in user:", decoded);
+        const roles = decoded.roles || [];
 
-        // Display success toast
+        // Store roles in localStorage for later use
+        localStorage.setItem("userRoles", JSON.stringify(roles));
+
+        // If user is a candidate or party manager, set a flag for extra UI (post creation)
+        if (
+          roles.includes("ROLE_CANDIDATE") ||
+          roles.includes("ROLE_PARTY_MANAGER")
+        ) {
+          localStorage.setItem("canCreatePost", "true");
+        } else {
+          localStorage.setItem("canCreatePost", "false");
+        }
+
+        // Navigate based on role:
+        // ROLE_ADMIN gets a separate admin panel; the others share the same UI.
+        if (roles.includes("ROLE_ADMIN")) {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/home");
+        }
+
         toast.success("Logged in successfully!");
-
-        // Redirect to dashboard
-        navigate("/home");
       } else {
         throw new Error("Invalid login response. Token not found.");
       }
     } catch (error) {
       console.error("Login error:", error);
       if (error.response && error.response.data) {
-        // Backend returned an error response
-        setErrors({ form: error.response.data.message || "Login failed. Please try again." });
+        setErrors({
+          form:
+            error.response.data.message || "Login failed. Please try again.",
+        });
       } else if (error.request) {
-        // Request was made but no response received
-        setErrors({ form: "No response from server. Please try again later." });
+        setErrors({
+          form: "No response from server. Please try again later.",
+        });
       } else {
-        // Something else happened
-        setErrors({ form: error.message || "An unexpected error occurred." });
+        setErrors({
+          form: error.message || "An unexpected error occurred.",
+        });
       }
     } finally {
       setIsLoading(false);
