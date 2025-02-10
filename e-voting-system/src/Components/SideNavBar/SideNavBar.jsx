@@ -22,15 +22,10 @@ const SideNavBar = ({ userRole }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  console.log("Rendering userElections:", userElections);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
   };
-
-  useEffect(() => {
-    console.log("Updated userElections:", userElections);
-  }, [userElections]);
 
   // Fetch Participated Elections inside SideNavBar
   useEffect(() => {
@@ -50,7 +45,6 @@ const SideNavBar = ({ userRole }) => {
           }
         );
 
-        console.log("Fetched Participated Elections:", response.data);
         setUserElections(response.data);
         setLoading(false);
       } catch (err) {

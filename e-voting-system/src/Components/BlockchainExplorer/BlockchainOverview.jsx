@@ -1,20 +1,19 @@
-// BlockchainOverview.js
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { FaCube, FaVoteYea, FaClock, FaUsers } from "react-icons/fa";
+import PartyCard from "../Cards/PartyCard.jsx";
+import "./BlockchainOverview.css";
 
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaCube, FaUserShield, FaVoteYea, FaClock, FaUsers } from 'react-icons/fa';
-import PartyCard from '../Cards/PartyCard.jsx'; 
-import './ElectionBlockchainOverview.css';
-
-// Helper: Validate date
+//
+// Helper functions
+//
 const isValidDate = (dateString) => !isNaN(Date.parse(dateString));
-
-// Helper: Safely format date/time
 const formatDate = (dateString) => {
   try {
     return new Date(dateString).toLocaleString();
   } catch {
-    return 'Invalid Date';
+    return "Invalid Date";
   }
 };
 
@@ -24,21 +23,30 @@ function BlockchainOverview({ electionId }) {
   const [election, setElection] = useState(null);
   const [parties, setParties] = useState([]);
   const [userVote, setUserVote] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   const navigate = useNavigate();
 
-  // Fetch data in parallel from the backend
+  // Update currentTime every second for live updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Fetch election, parties, vote, and faculty/department info
   useEffect(() => {
     const abortController = new AbortController();
-
     async function fetchData() {
       try {
         setIsLoading(true);
         setError(null);
-
-        const baseUrl = 'http://localhost:8080';
-        const authToken = localStorage.getItem('authToken');
-
+        const baseUrl = "http://localhost:8080";
+        const authToken = localStorage.getItem("authToken");
+        if (!authToken) {
+          throw new Error("No auth token provided.");
+        }
         const [electionRes, partiesRes, voteRes] = await Promise.all([
           fetch(`${baseUrl}/elections/${electionId}`, {
             headers: { Authorization: `Bearer ${authToken}` },
@@ -54,88 +62,151 @@ function BlockchainOverview({ electionId }) {
           }),
         ]);
 
-        // Validate election
-        if (!electionRes.ok) throw new Error('Failed to fetch election');
+        if (!electionRes.ok) throw new Error("Failed to fetch election");
         const electionData = await electionRes.json();
 
-        // Check date fields
+        // Validate date fields
         const invalidFields = [];
-        if (!electionData.startDatetime || !isValidDate(electionData.startDatetime)) {
-          invalidFields.push('Invalid start date');
-        }
-        if (!electionData.endDatetime || !isValidDate(electionData.endDatetime)) {
-          invalidFields.push('Invalid end date');
-        }
+        if (
+          !electionData.startDatetime ||
+          !isValidDate(electionData.startDatetime)
+        )
+          invalidFields.push("Invalid start date");
+        if (!electionData.endDatetime || !isValidDate(electionData.endDatetime))
+          invalidFields.push("Invalid end date");
         if (invalidFields.length > 0) {
-          throw new Error(`Data validation failed: ${invalidFields.join(', ')}`);
+          throw new Error(
+            `Data validation failed: ${invalidFields.join(", ")}`
+          );
         }
 
-        // Validate parties
-        if (!partiesRes.ok) throw new Error('Failed to fetch parties');
+        // Fetch faculty info
+        if (electionData.facultyId && electionData.facultyId !== "null") {
+          try {
+            const facultyResponse = await axios.get(
+              `${baseUrl}/faculty-and-department/faculties/${electionData.facultyId}`,
+              { headers: { Authorization: `Bearer ${authToken}` } }
+            );
+            electionData.facultyName = facultyResponse.data.facultyName;
+          } catch (err) {
+            electionData.facultyName = "N/A";
+          }
+        } else {
+          electionData.facultyName = "N/A";
+        }
+
+        // Fetch department info
+        if (electionData.departmentId && electionData.departmentId !== "null") {
+          try {
+            const departmentResponse = await axios.get(
+              `${baseUrl}/faculty-and-department/departments/${electionData.departmentId}`,
+              { headers: { Authorization: `Bearer ${authToken}` } }
+            );
+            electionData.departmentName =
+              departmentResponse.data.departmentName;
+          } catch (err) {
+            electionData.departmentName = "N/A";
+          }
+        } else {
+          electionData.departmentName = "N/A";
+        }
+
+        // Fetch parties
+        if (!partiesRes.ok) throw new Error("Failed to fetch parties");
         const partiesData = await partiesRes.json();
         if (!Array.isArray(partiesData)) {
-          throw new Error('Invalid parties data format');
+          throw new Error("Invalid parties data format");
         }
 
-        // Validate user vote
+        // Fetch user vote
         const userVoteData = voteRes.ok ? await voteRes.json() : null;
-        if (userVoteData && typeof userVoteData !== 'object') {
-          throw new Error('Invalid vote data format');
+        if (userVoteData && typeof userVoteData !== "object") {
+          throw new Error("Invalid vote data format");
         }
 
-        // Set final states
         setElection(electionData);
         setParties(partiesData);
         setUserVote(userVoteData);
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          setError(err.message || 'Failed to load election data.');
+        if (err.name !== "AbortError") {
+          setError(err.message || "Failed to load election data.");
         }
       } finally {
         setIsLoading(false);
       }
     }
-
     fetchData();
     return () => abortController.abort();
   }, [electionId]);
 
-  // Navigate to /elections/:id
-  const handleDetailsClick = () => {
-    navigate(`/details/${electionId}`);
+  // Sidebar helper functions
+  const getElectionStatus = () => {
+    const start = new Date(election.startDatetime);
+    const end = new Date(election.endDatetime);
+    if (currentTime < start) return "Upcoming";
+    else if (currentTime >= start && currentTime <= end) return "Ongoing";
+    else return "Closed";
   };
 
-  // Navigate to vote page
-  const handleVoteButtonClick = () => {
-    navigate(`/vote/${electionId}`);
-  };
-
-  // Navigate to party details
-  const handlePartySelect = (partyId) => {
-    navigate(`/parties/${partyId}`);
-  };
-
-  // Renders the timeline (start & end date)
-  const renderTimeline = () => {
-    if (!election?.startDatetime || !election?.endDatetime) {
-      return <div className="blockchain-overview-error-message">Invalid timeline data</div>;
+  const renderCountdown = () => {
+    const start = new Date(election.startDatetime);
+    const end = new Date(election.endDatetime);
+    let targetTime;
+    if (currentTime < start) {
+      targetTime = start;
+    } else if (currentTime >= start && currentTime <= end) {
+      targetTime = end;
+    } else {
+      return <p className="countdown">Election ended.</p>;
     }
-
+    const diff = targetTime - currentTime;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
     return (
-      <div className="blockchain-overview-timeline">
-        <div className="blockchain-overview-timeline-item">
-          <FaClock />
-          <span>Start: {formatDate(election.startDatetime)}</span>
-        </div>
-        <div className="blockchain-overview-timeline-item">
-          <FaClock />
-          <span>End: {formatDate(election.endDatetime)}</span>
+      <p className="countdown">
+        {currentTime < start ? "Starts in:" : "Ends in:"} {days}d {hours}h{" "}
+        {minutes}m {seconds}s
+      </p>
+    );
+  };
+
+  const renderProgressBar = () => {
+    const start = new Date(election.startDatetime);
+    const end = new Date(election.endDatetime);
+    if (currentTime < start || currentTime > end) return null;
+    const total = end - start;
+    const elapsed = currentTime - start;
+    const percentage = Math.min((elapsed / total) * 100, 100);
+    return (
+      <div className="progress-wrapper">
+        <div className="progress-label">{Math.floor(percentage)}% completed</div>
+        <div className="progress-bar-timeline">
+          <div className="progress-bar-fill" style={{ width: `${percentage}%` }}></div>
+          <div className="progress-marker" style={{ left: `${percentage}%` }}></div>
         </div>
       </div>
     );
   };
+  
+  
 
-  // Loading state
+  // Base URL for election images
+  const imageBaseUrl = "http://localhost:8080/uploads";
+
+  // Navigation handlers
+  const handleDetailsClick = () => {
+    navigate(`/details/${electionId}`);
+  };
+  const handleVoteButtonClick = () => {
+    navigate(`/vote/${electionId}`);
+  };
+  const handlePartySelect = (partyId) => {
+    navigate(`/parties/${partyId}`);
+  };
+
+  // Loading / Error states
   if (isLoading) {
     return (
       <div className="blockchain-overview-container">
@@ -146,8 +217,6 @@ function BlockchainOverview({ electionId }) {
       </div>
     );
   }
-
-  // Error state
   if (error) {
     return (
       <div className="blockchain-overview-container">
@@ -157,8 +226,6 @@ function BlockchainOverview({ electionId }) {
       </div>
     );
   }
-
-  // No election data
   if (!election) {
     return (
       <div className="blockchain-overview-container">
@@ -171,7 +238,7 @@ function BlockchainOverview({ electionId }) {
 
   return (
     <div className="blockchain-overview-container">
-      {/* Title and 'View Details' Button */}
+      {/* Header */}
       <div className="blockchain-overview-header">
         <h2>Blockchain Overview</h2>
         <button className="view-details-button" onClick={handleDetailsClick}>
@@ -179,40 +246,44 @@ function BlockchainOverview({ electionId }) {
         </button>
       </div>
 
-      {/* Sidebar */}
+      {/* Left Sidebar - Election Dashboard */}
       <div className="blockchain-overview-sidebar">
         <div className="blockchain-overview-sidebar-section">
-          <h3>Election Timeline</h3>
-          {renderTimeline()}
-        </div>
-
-        <div className="blockchain-overview-sidebar-section">
-          <h3>Quick Links</h3>
-          <ul>
-            {election.transactionHash && (
-              <li>
-                <a
-                  href={`https://amoy.polygonscan.com/tx/${election.transactionHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on Polygonscan
-                </a>
-              </li>
+          <div className="election-banner">
+            {election.imageUrl && (
+              <img
+                src={`${imageBaseUrl}/${election.imageUrl}`}
+                alt="Election Banner"
+              />
             )}
-            <li>
-              <a href="#parties">View Parties</a>
-            </li>
-            <li>
-              <a href="#vote">View Your Vote</a>
-            </li>
-          </ul>
+          </div>
+          <div className="countdown-container">{renderCountdown()}</div>
+          <div className="election-status-info">
+            <div className="sidebar-info-row">
+              <FaCube className="sidebar-icon" />
+              <span>
+                <strong>Status:</strong> {getElectionStatus()}
+              </span>
+            </div>
+            {getElectionStatus() === "Ongoing" && renderProgressBar()}
+            <div className="sidebar-info-row">
+              <FaClock className="sidebar-icon" />
+              <span>
+                <strong>Start:</strong> {formatDate(election.startDatetime)}
+              </span>
+            </div>
+            <div className="sidebar-info-row">
+              <FaClock className="sidebar-icon" />
+              <span>
+                <strong>End:</strong> {formatDate(election.endDatetime)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="blockchain-overview-main-content">
-        {/* Election Summary */}
         <div className="blockchain-overview-card blockchain-overview-summary-card">
           <div className="blockchain-overview-card-header">
             <FaCube className="blockchain-overview-card-icon" />
@@ -221,22 +292,24 @@ function BlockchainOverview({ electionId }) {
           <div className="blockchain-overview-card-body">
             <div className="blockchain-overview-info-row">
               <span className="label">Title:</span>
-              <span className="value">{election.title || 'N/A'}</span>
+              <span className="value">{election.title || "N/A"}</span>
             </div>
             <div className="blockchain-overview-info-row">
               <span className="label">Description:</span>
-              <span className="value">{election.description || 'N/A'}</span>
+              <span className="value">{election.description || "N/A"}</span>
             </div>
             <div className="blockchain-overview-info-row">
               <span className="label">Department:</span>
               <span className="value">
-                Department {election.departmentId || 'N/A'}
+                {election.departmentName ||
+                  `Department ${election.departmentId || "N/A"}`}
               </span>
             </div>
             <div className="blockchain-overview-info-row">
               <span className="label">Faculty:</span>
               <span className="value">
-                Faculty {election.facultyId || 'N/A'}
+                {election.facultyName ||
+                  `Faculty ${election.facultyId || "N/A"}`}
               </span>
             </div>
             {election.transactionHash && (
@@ -255,7 +328,6 @@ function BlockchainOverview({ electionId }) {
           </div>
         </div>
 
-        {/* Parties Section */}
         <div
           className="blockchain-overview-card blockchain-overview-parties-card"
           id="parties"
@@ -283,7 +355,6 @@ function BlockchainOverview({ electionId }) {
           </div>
         </div>
 
-        {/* User Vote Section */}
         <div
           className="blockchain-overview-card blockchain-overview-user-vote-card"
           id="vote"
@@ -293,11 +364,13 @@ function BlockchainOverview({ electionId }) {
             <h3>Your Vote</h3>
           </div>
           <div className="blockchain-overview-card-body">
-            {userVote && userVote.status !== 'no_vote' ? (
+            {userVote && userVote.status !== "no_vote" ? (
               <>
                 <div className="blockchain-overview-info-row">
                   <span className="label">Character Name:</span>
-                  <span className="value">{userVote.characterName || 'N/A'}</span>
+                  <span className="value">
+                    {userVote.characterName || "N/A"}
+                  </span>
                 </div>
                 {userVote.transactionHash && (
                   <div className="blockchain-overview-info-row">

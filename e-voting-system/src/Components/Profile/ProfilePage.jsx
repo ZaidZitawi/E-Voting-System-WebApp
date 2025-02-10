@@ -23,11 +23,11 @@ const ProfilePage = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Role mapping
+  // Update the role mapping to match the new roles
   const roleMap = {
-    1: 'Voter',
-    2: 'Candidate',
-    3: 'Moderator',
+    1: 'User',           // ROLE_USER
+    2: 'Candidate',      // ROLE_CANDIDATE
+    4: 'Party Manager',  // ROLE_PARTY_MANAGER
   };
 
   useEffect(() => {
@@ -107,7 +107,6 @@ const ProfilePage = () => {
       setError('User data is not loaded.');
       return;
     }
-
     try {
       const formData = new FormData();
       formData.append('name', editName);
@@ -115,31 +114,22 @@ const ProfilePage = () => {
       if (editProfilePictureFile) {
         formData.append('profilePicture', editProfilePictureFile);
       }
-
-      // Determine the correct user ID field
-      // Check if 'id' or 'userId' exists
       const userId = user.id || user.userId;
       if (!userId) {
         setError('User ID not found.');
         return;
       }
-
       const token = localStorage.getItem('authToken');
       if (!token) {
         setError('Authentication token not found.');
         return;
       }
-
       const response = await axios.put(`http://localhost:8080/users/update/${userId}`, formData, {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          // 'Content-Type': 'multipart/form-data', 
+          Authorization: `Bearer ${token}`,
         },
       });
-
       console.log('Update response:', response.data);
-
-      // Update the user state with the response data
       setUser(response.data);
       setSuccessMessage('Profile updated successfully!');
       setEditModalOpen(false);
@@ -163,9 +153,10 @@ const ProfilePage = () => {
     );
   }
 
-  // Determine user role and candidate status
+  // Determine user role from roleMap
   const userRole = roleMap[user.roleId] || 'Unknown';
-  const isCandidate = user.roleId === 2; // Candidate check
+  // Show post creation UI if the user is either Candidate or Party Manager
+  const canCreatePost = user.roleId === 2 || user.roleId === 4;
 
   return (
     <>
@@ -180,15 +171,15 @@ const ProfilePage = () => {
                 src={user.profilePicture ? `http://localhost:8080/uploads/${user.profilePicture}` : '/default-profile.png'}
                 alt={user.name}
                 className="profile-picture"
-                loading="lazy" /* Optimizes image loading */
+                loading="lazy"
               />
               <h2 className="profile-name">
                 {user.name}
-                <span className={`role-badge ${userRole.toLowerCase()}`}>{userRole}</span>
+                <span className={`role-badge ${userRole.toLowerCase().replace(" ", "-")}`}>
+                  {userRole}
+                </span>
               </h2>
             </div>
-
-            {/* Right Side: Email */}
             <div className="profile-right">
               <p className="profile-email">
                 <FaEnvelope className="icon" /> {user.email}
@@ -216,7 +207,7 @@ const ProfilePage = () => {
                   <FaBuilding className="icon" /> {department}
                 </li>
               </ul>
-              {isCandidate && (
+              {canCreatePost && (
                 <ul>
                   <li>
                     <FaUserTie className="icon" /> Party: {user.party}
@@ -246,7 +237,7 @@ const ProfilePage = () => {
 
           {/* Bottom Section */}
           <div className="profile-bottom">
-            {isCandidate && (
+            {canCreatePost && (
               <div className="profile-posts">
                 <h3>Posts</h3>
                 {user.posts && user.posts.length > 0 ? (
@@ -309,7 +300,6 @@ const ProfilePage = () => {
                     onChange={handleProfilePictureChange}
                   />
                 </div>
-                {/* Image Preview */}
                 {previewProfilePicture && (
                   <div className="image-preview">
                     <p>Image Preview:</p>

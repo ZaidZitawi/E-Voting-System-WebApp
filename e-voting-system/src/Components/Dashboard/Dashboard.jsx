@@ -4,7 +4,7 @@ import ElectionSlider from "./ElectionSlider";
 import ElectionAnalytics from "./ElectionAnalytics";
 import Header from "../Header/Header";
 import SideNavBar from "../SideNavBar/SideNavBar";
-import BlockchainOverview from "../BlockchainExplorer/ElectionBlockchainOverview";
+import BlockchainOverview from "../BlockchainExplorer/BlockchainOverview";
 
 const Dashboard = () => {
   const [selectedElectionId, setSelectedElectionId] = useState(null);
