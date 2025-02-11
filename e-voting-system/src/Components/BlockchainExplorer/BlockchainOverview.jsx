@@ -5,9 +5,6 @@ import { FaCube, FaVoteYea, FaClock, FaUsers } from "react-icons/fa";
 import PartyCard from "../Cards/PartyCard.jsx";
 import "./BlockchainOverview.css";
 
-//
-// Helper functions
-//
 const isValidDate = (dateString) => !isNaN(Date.parse(dateString));
 const formatDate = (dateString) => {
   try {

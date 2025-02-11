@@ -14,7 +14,7 @@
 
 .party-card {
   width: 100%;
-  max-width: 300px;
+  max-width: 250px;
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: 8px;
