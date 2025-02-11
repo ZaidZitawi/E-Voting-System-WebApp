@@ -10,17 +10,34 @@ const PostsSection = ({ electionId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Function to fetch posts from the backend using axios
+  // This function updates the like state and count for a given post.
+  const updatePostLikes = (postId, liked, likeCount) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.postId === postId
+          ? { ...post, likedByCurrentUser: liked, likeCount }
+          : post
+      )
+    );
+  };
+
+  // Fetch posts from the backend using axios, passing userId as a query parameter
   const fetchPosts = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("authToken");
+      const userId = localStorage.getItem("userId");
       if (!token) {
         throw new Error("No authentication token found. Please log in.");
       }
-      const response = await axios.get(`http://localhost:8080/posts/election/${electionId}/posts`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.get(
+        `http://localhost:8080/posts/election/${electionId}/posts`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { userId },
+        }
+      );
+      console.log("Fetched posts:", response.data);
       setPosts(response.data || []);
       setLoading(false);
     } catch (err) {
@@ -36,11 +53,12 @@ const PostsSection = ({ electionId }) => {
 
   return (
     <div className="posts-section">
+      <h2 className="posts-feed-title">Post Feed</h2>
       {posts.map((post) => (
-        <Post key={post.postId} post={post} />
+        <Post key={post.postId} post={post} updatePostLikes={updatePostLikes} />
       ))}
-      {loading && <div>Loading posts...</div>}
-      {error && <div>Error loading posts: {error}</div>}
+      {loading && <div className="posts-loading">Loading posts...</div>}
+      {error && <div className="posts-error">Error loading posts: {error}</div>}
     </div>
   );
 };

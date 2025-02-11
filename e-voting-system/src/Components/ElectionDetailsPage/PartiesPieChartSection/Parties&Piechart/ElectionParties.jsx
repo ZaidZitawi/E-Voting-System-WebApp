@@ -1,15 +1,17 @@
 // src/components/ElectionStatesSection/ElectionParties.jsx
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import PartyCard from '../../../Cards/PartyCard';
-import './ElectionParties.css';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import PartyCard from "../../../Cards/PartyCard";
+import "./ElectionParties.css";
 
 function ElectionParties({ parties }) {
   // The ID of the currently selected party
   const [selectedPartyId, setSelectedPartyId] = useState(null);
   // The list of candidate objects for the selected party
   const [candidates, setCandidates] = useState([]);
+  const navigate = useNavigate();
 
   // Auto-select the first party once parties are loaded
   useEffect(() => {
@@ -24,8 +26,8 @@ function ElectionParties({ parties }) {
 
     const fetchCandidatesForParty = async () => {
       try {
-        const token = localStorage.getItem('authToken');
-        if (!token) throw new Error('No auth token provided.');
+        const token = localStorage.getItem("authToken");
+        if (!token) throw new Error("No auth token provided.");
 
         const res = await axios.get(
           `http://localhost:8080/candidates/party/${selectedPartyId}`,
@@ -33,12 +35,14 @@ function ElectionParties({ parties }) {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        console.log("Fetched candidates:", res.data);
         setCandidates(res.data || []);
       } catch (err) {
-        console.error('Error fetching candidates:', err);
+        console.error("Error fetching candidates:", err);
         setCandidates([]);
       }
     };
+
     fetchCandidatesForParty();
   }, [selectedPartyId]);
 
@@ -64,7 +68,7 @@ function ElectionParties({ parties }) {
     setSelectedPartyId(String(partyId));
   };
 
-  // Utility function to resolve image paths from local server
+  // Utility function to resolve image URLs from the local server
   const resolveImageUrl = (imageName) => {
     if (!imageName) return null;
     return `http://localhost:8080/uploads/${imageName}`;
@@ -74,40 +78,43 @@ function ElectionParties({ parties }) {
     <div className="eps-container">
       <h2 className="eps-title">Parties & Candidates</h2>
 
-      {/* Left (Party Navigator) & Right (Party Hub) */}
+      {/* New horizontal container wrapping the left and center panels */}
       <div className="eps-center-container">
-        {/* LEFT: Party Navigator */}
+        {/* LEFT SIDE: Party Navigator */}
         <div className="eps-center-left">
           <h3 className="eps-panel-heading">Party Navigator</h3>
           <div className="eps-parties-list">
             {displayParties.map((party) => {
-              const isSelected = String(party.partyId) === String(selectedPartyId);
+              const isSelected =
+                String(party.partyId) === String(selectedPartyId);
               const partyLogo = resolveImageUrl(party.imageUrl);
               return (
                 <button
                   key={party.partyId}
-                  className={`eps-party-button ${isSelected ? 'eps-party-selected' : ''}`}
+                  className={`eps-party-button ${isSelected ? "eps-party-selected" : ""}`}
                   onClick={() => handleSelectParty(party.partyId)}
                 >
                   {partyLogo && (
                     <img
                       src={partyLogo}
-                      alt={party.name || 'Party Logo'}
+                      alt={party.name || "Party Logo"}
                       className="eps-party-logo"
                     />
                   )}
-                  <span className="eps-party-name">{party.name || 'Unnamed Party'}</span>
+                  <span className="eps-party-name">
+                    {party.name || "Unnamed Party"}
+                  </span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* RIGHT: Party Hub */}
+        {/* RIGHT SIDE: Party Hub */}
         <div className="eps-center-panel">
           {selectedParty ? (
             <div className="eps-party-hub">
-              {/* Use PartyCard for the selected party */}
+              {/* Display the selected party details using PartyCard */}
               <PartyCard
                 party={{
                   ...selectedParty,
@@ -123,7 +130,10 @@ function ElectionParties({ parties }) {
                   candidates.map((cand) => {
                     const photoUrl = resolveImageUrl(cand.profilePicture);
                     return (
-                      <div key={cand.candidateId} className="eps-candidate-card">
+                      <div
+                        key={cand.candidateId}
+                        className="eps-candidate-card"
+                      >
                         {photoUrl && (
                           <img
                             src={photoUrl}
@@ -132,13 +142,11 @@ function ElectionParties({ parties }) {
                           />
                         )}
                         <h4 className="eps-candidate-name">
-                          {cand.candidateName || 'Unnamed Candidate'}
+                          {cand.candidateName || "Unnamed Candidate"}
                         </h4>
                         <button
                           className="eps-candidate-view-button"
-                          onClick={() => {
-                            window.location.href = `/candidate/${cand.candidateId}`;
-                          }}
+                          onClick={() => navigate(`/profile/${cand.userId}`)}
                         >
                           View Profile
                         </button>
@@ -146,7 +154,9 @@ function ElectionParties({ parties }) {
                     );
                   })
                 ) : (
-                  <p className="eps-no-candidates-text">No candidates listed for this party.</p>
+                  <p className="eps-no-candidates-text">
+                    No candidates listed for this party.
+                  </p>
                 )}
               </div>
             </div>

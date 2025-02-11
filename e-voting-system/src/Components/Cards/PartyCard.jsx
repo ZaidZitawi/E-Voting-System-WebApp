@@ -1,13 +1,15 @@
-// PartyCard.js
+// src/Components/PartyCard.jsx
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PartyCard.css";
 import user from "../../assets/user.png";
 
-const PartyCard = ({ party, onSelect }) => {
+const PartyCard = ({ party }) => {
   const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
 
-  // Handle bio safely in case it's missing or too short
+  // Use a fallback bio if none is provided.
   const bio = party.bio || "No biography available.";
 
   return (
@@ -40,7 +42,7 @@ const PartyCard = ({ party, onSelect }) => {
       <div className="party-card-footer">
         <button
           className="party-card-select-button"
-          onClick={() => onSelect(party.partyId)}
+          onClick={() => navigate(`/profile/${party.campaignManagerId}`)}
         >
           View Profile
         </button>
