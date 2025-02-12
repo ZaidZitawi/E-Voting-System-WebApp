@@ -12,39 +12,43 @@ import "./ElectionDetailsPage.css";
 import axios from "axios";
 import { ethers } from "ethers";
 import VotingSystemABI from "../../VotingSystem.json";
+import { useJwt } from "react-jwt";
 
-const wsProviderUrl = "wss://polygon-amoy.infura.io/ws/v3/957f1ca772d24c7fb7a9b8b97f42f77c";
+const wsProviderUrl =
+  "wss://polygon-amoy.infura.io/ws/v3/957f1ca772d24c7fb7a9b8b97f42f77c";
 const contractAddress = "0x4E0121aF93679B40690DEA62652f0232CB5ecE93";
 
 const ElectionDetailsPage = () => {
   const { id } = useParams();
   const electionId = parseInt(id, 10);
 
+  // STATE DECLARATIONS
   const [election, setElection] = useState(null);
   const [parties, setParties] = useState([]);
+  const [candidates, setCandidates] = useState([]); // Fetched from /candidates/election/{electionId}
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // -- CENTRALIZED BLOCKCHAIN + BACKEND STATE --
   const [blockchainTotalVotes, setBlockchainTotalVotes] = useState(0);
-  const [partiesWithVotes, setPartiesWithVotes] = useState([]);  
+  const [partiesWithVotes, setPartiesWithVotes] = useState([]);
 
-  /* 
-     1) Fetch the standard election details from your backend
-        (Same as before)
-  */
+  // Always call hooks in the same order.
+  // Retrieve the auth token (defaulting to an empty string) and decode it.
+  const authToken = localStorage.getItem("authToken") || "";
+  const { decodedToken } = useJwt(authToken);
+
+  // 1) Fetch election details.
   useEffect(() => {
     const fetchElection = async () => {
       setLoading(true);
       setError(null);
       try {
-        const token = localStorage.getItem("authToken");
-        if (!token) throw new Error("No authentication token found. Please log in.");
-
+        if (!authToken)
+          throw new Error("No authentication token found. Please log in.");
         const response = await axios.get(`http://localhost:8080/elections/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${authToken}` },
         });
         setElection(response.data);
+        console.log("Election data:", response.data);
       } catch (err) {
         setError(
           err.response?.data?.message ||
@@ -56,19 +60,16 @@ const ElectionDetailsPage = () => {
       }
     };
     fetchElection();
-  }, [id]);
+  }, [id, authToken]);
 
-  /*
-     2) Fetch the parties from your backend
-  */
+  // 2) Fetch parties for the election.
   useEffect(() => {
     const fetchPartiesForElection = async () => {
       try {
-        const token = localStorage.getItem("authToken");
-        if (!token) throw new Error("No authentication token found. Please log in.");
-
+        if (!authToken)
+          throw new Error("No authentication token found. Please log in.");
         const res = await axios.get(`http://localhost:8080/parties/election/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${authToken}` },
         });
         setParties(res.data || []);
       } catch (err) {
@@ -76,33 +77,51 @@ const ElectionDetailsPage = () => {
       }
     };
     fetchPartiesForElection();
-  }, [id]);
+  }, [id, authToken]);
 
-  /*
-     3) A single function that fetches total votes + each party's votes from Infura.
-        We'll store it in local states: (blockchainTotalVotes, partiesWithVotes).
-  */
+  // 2b) Fetch candidates for the election.
+  useEffect(() => {
+    const fetchCandidatesForElection = async () => {
+      try {
+        if (!authToken)
+          throw new Error("No authentication token found. Please log in.");
+        const res = await axios.get(`http://localhost:8080/candidates/election/${id}`, {
+          headers: { Authorization: `Bearer ${authToken}` },
+        });
+        setCandidates(res.data || []);
+        console.log("Fetched candidates:", res.data);
+      } catch (err) {
+        console.error("Error fetching candidates:", err);
+        setCandidates([]);
+      }
+    };
+    fetchCandidatesForElection();
+  }, [id, authToken]);
+
+  // 3) Fetch blockchain data from Infura.
   const fetchBlockchainData = async (ourParties) => {
     if (!electionId) return;
     try {
-      // Create a single WebSocket provider or HTTP provider
       const provider = new ethers.WebSocketProvider(wsProviderUrl);
-      const contract = new ethers.Contract(contractAddress, VotingSystemABI.abi, provider);
-      
-      // 3-A) Fetch total votes for the election
+      const contract = new ethers.Contract(
+        contractAddress,
+        VotingSystemABI.abi,
+        provider
+      );
+      // Total votes:
       const votesArray = await contract.getVotes(electionId);
-      const totalVotes = votesArray.length;
-      setBlockchainTotalVotes(totalVotes);
+      setBlockchainTotalVotes(votesArray.length);
 
-      // 3-B) For each party, get the number of votes
+      // Get votes per party.
       const updatedParties = await Promise.all(
         ourParties.map(async (party) => {
           const normalizedId = party.id || party.partyId;
           if (!normalizedId) return party;
-
-          // calls getVotesForParty(electionId, normalizedId)
           try {
-            const votesForParty = await contract.getVotesForParty(electionId, normalizedId);
+            const votesForParty = await contract.getVotesForParty(
+              electionId,
+              normalizedId
+            );
             return {
               ...party,
               id: normalizedId,
@@ -110,52 +129,28 @@ const ElectionDetailsPage = () => {
             };
           } catch (err) {
             console.error("Error fetching votes for party", normalizedId, err);
-            return {
-              ...party,
-              id: normalizedId,
-              votes: 0
-            };
+            return { ...party, id: normalizedId, votes: 0 };
           }
         })
       );
-
-      // sort by descending votes
       updatedParties.sort((a, b) => (b.votes || 0) - (a.votes || 0));
       setPartiesWithVotes(updatedParties);
-
-      // after calls, close the provider
       provider.destroy();
-
     } catch (error) {
       console.error("Error in fetchBlockchainData:", error);
     }
   };
 
-  /*
-     4) Whenever we have parties or an electionId, we fetch
-        the blockchain data. 
-        We'll poll only every 30 seconds (or 1 min, your choice).
-  */
+  // 4) Poll blockchain data every 30 seconds.
   useEffect(() => {
     if (!electionId || !parties.length) return;
-
-    // define a function that calls fetchBlockchainData
     const doFetch = () => fetchBlockchainData(parties);
-
-    // initial fetch
     doFetch();
-
-    // poll every 30 secs
     const interval = setInterval(doFetch, 30000);
-
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [electionId, parties]);
 
-  /*
-     5) Our error/ loading state checks
-  */
+  // 5) Early returns for loading/error states.
   if (loading) {
     return (
       <>
@@ -167,7 +162,6 @@ const ElectionDetailsPage = () => {
       </>
     );
   }
-
   if (error && !election) {
     return (
       <>
@@ -179,7 +173,6 @@ const ElectionDetailsPage = () => {
       </>
     );
   }
-
   if (!election) {
     return (
       <>
@@ -192,6 +185,25 @@ const ElectionDetailsPage = () => {
     );
   }
 
+  // 6) Determine if the logged-in user is allowed to post.
+  // For candidates, we now compare the candidate's userId from the candidate list
+  // with the logged-in user's id stored in localStorage.
+  let canPost = false;
+  if (decodedToken) {
+    const userRole = decodedToken.role; // e.g., "ROLE_CANDIDATE" or "ROLE_PARTY_MANAGER"
+    if (userRole === "ROLE_CANDIDATE" && candidates.length > 0) {
+      // Retrieve the logged-in candidate's userId from localStorage.
+      const loggedCandidateId = Number(localStorage.getItem("userId"));
+      canPost = candidates.some(
+        (candidate) => candidate.userId === loggedCandidateId
+      );
+    } else if (userRole === "ROLE_PARTY_MANAGER" && parties.length > 0) {
+      // Compare using the party's partyId from the fetched data.
+      const partyId = parseInt(localStorage.getItem("partyId"), 10);
+      canPost = parties.some((party) => party.partyId === partyId);
+    }
+  }
+
   return (
     <>
       <Header />
@@ -201,14 +213,7 @@ const ElectionDetailsPage = () => {
 
         {/* 2) Parties & Pie Chart Overview Section */}
         <section className="parties-overview-section">
-          {/* 
-            We pass the data we have to PartiesOverviewSection:
-            - electionId if needed
-            - original parties from backend
-            - totalVotes from chain
-            - partiesWithVotes from chain
-          */}
-          <PartiesOverviewSection 
+          <PartiesOverviewSection
             electionId={electionId}
             parties={parties}
             totalVotes={blockchainTotalVotes}
@@ -219,13 +224,9 @@ const ElectionDetailsPage = () => {
         {/* 3) Leadership Board Section */}
         <section className="leadership-board-section">
           <h1 className="leadership-board-title">🚀LeaderShip Board🚀</h1>
-          {/*
-            Same approach: pass totalVotes + partiesWithVotes 
-            so we do NOT fetch again from chain
-          */}
-          <LeadershipBoardSection 
+          <LeadershipBoardSection
             electionId={electionId}
-            fallbackParties={parties} 
+            fallbackParties={parties}
             totalVotes={blockchainTotalVotes}
             partiesWithVotes={partiesWithVotes}
           />
@@ -238,7 +239,7 @@ const ElectionDetailsPage = () => {
 
         {/* 5) Posts Feed Section */}
         <section className="posts-section">
-          <PostsSection electionId={electionId} />
+          <PostsSection electionId={electionId} canPost={canPost} />
         </section>
       </main>
       <Footer />

@@ -2,15 +2,16 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Post from "../../PostComponent/Post.jsx";
+import PostCreator from "../../PostComponent/postCreator.jsx";
 import "./PostSection.css";
 import axios from "axios";
 
-const PostsSection = ({ electionId }) => {
+const PostsSection = ({ electionId, canPost }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // This function updates the like state and count for a given post.
+  // Function to update like state and count
   const updatePostLikes = (postId, liked, likeCount) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -21,7 +22,7 @@ const PostsSection = ({ electionId }) => {
     );
   };
 
-  // Fetch posts from the backend using axios, passing userId as a query parameter
+  // Fetch posts for the given election
   const fetchPosts = async () => {
     setLoading(true);
     try {
@@ -37,7 +38,6 @@ const PostsSection = ({ electionId }) => {
           params: { userId },
         }
       );
-      console.log("Fetched posts:", response.data);
       setPosts(response.data || []);
       setLoading(false);
     } catch (err) {
@@ -46,7 +46,7 @@ const PostsSection = ({ electionId }) => {
     }
   };
 
-  // Fetch posts on component mount and when electionId changes
+  // Fetch posts on mount and when electionId changes
   useEffect(() => {
     fetchPosts();
   }, [electionId]);
@@ -54,6 +54,10 @@ const PostsSection = ({ electionId }) => {
   return (
     <div className="posts-section">
       <h2 className="posts-feed-title">Post Feed</h2>
+      {/* Render the PostCreator only if the user is allowed to post */}
+      {canPost && (
+        <PostCreator electionId={electionId} onPostCreated={fetchPosts} />
+      )}
       {posts.map((post) => (
         <Post key={post.postId} post={post} updatePostLikes={updatePostLikes} />
       ))}
@@ -65,6 +69,7 @@ const PostsSection = ({ electionId }) => {
 
 PostsSection.propTypes = {
   electionId: PropTypes.number.isRequired,
+  canPost: PropTypes.bool.isRequired,
 };
 
 export default PostsSection;

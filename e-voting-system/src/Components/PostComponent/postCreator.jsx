@@ -1,24 +1,60 @@
+// src/PostComponent/PostCreator.jsx
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { FaImage, FaVideo, FaTimes } from 'react-icons/fa';
 import './PostCreator.css';
 
-const PostCreator = ({ onPostCreated }) => {
+const PostCreator = ({ electionId, onPostCreated }) => {
   const [postContent, setPostContent] = useState('');
   const [media, setMedia] = useState(null);
   const [mediaPreview, setMediaPreview] = useState('');
   const [profileImage, setProfileImage] = useState('/images/default-profile.png');
   const [name, setName] = useState('');
+  // New state variables to store the specific candidate or party id
+  const [candidateId, setCandidateId] = useState(null);
+  const [partyId, setPartyId] = useState(null);
 
+  // On mount, load profile image and name from localStorage.
   useEffect(() => {
-    
-    
     const storedProfileImage = localStorage.getItem('profileImage');
     const storedName = localStorage.getItem('name');
-          
     setProfileImage(`/uploads/${storedProfileImage}`);
     setName(storedName);
+  }, []);
 
+  // On mount, fetch candidate data based on the logged-in user's id.
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const authToken = localStorage.getItem("authToken");
+    if (!userId || !authToken) return;
+
+    // First try to fetch candidate details.
+    axios.get(`http://localhost:8080/candidates/user/${userId}`, {
+      headers: { Authorization: `Bearer ${authToken}` }
+    })
+      .then((response) => {
+        if (response.data && response.data.candidateId) {
+          // If candidate data is found, store candidateId.
+          setCandidateId(response.data.candidateId);
+          // Ensure partyId remains null.
+          setPartyId(null);
+        }
+      })
+      .catch((error) => {
+        // If candidate fetch fails (or returns 404), try fetching party data.
+        axios.get(`http://localhost:8080/parties/user/${userId}`, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        })
+          .then((response) => {
+            if (response.data && response.data.partyId) {
+              setPartyId(response.data.partyId);
+              setCandidateId(null);
+            }
+          })
+          .catch((err) => {
+            console.error("Error fetching candidate/party data:", err);
+          });
+      });
   }, []);
 
   const handlePostSubmit = async (e) => {
@@ -26,24 +62,33 @@ const PostCreator = ({ onPostCreated }) => {
 
     const formData = new FormData();
     formData.append('content', postContent);
-
+    formData.append('electionId', electionId);
+    // Append the correct field based on whether the user is a candidate or party manager.
+    if (candidateId) {
+      formData.append('candidate', candidateId);
+      // Optionally, you can leave out the "party" field or set it to null.
+    } else if (partyId) {
+      formData.append('party', partyId);
+      // Optionally, you can leave out the "candidate" field or set it to null.
+    }
     if (media) {
-      formData.append('files', media);
+      formData.append('media', media);
     }
 
     try {
-      await axios.post('http://localhost:8080/v0/post/AddPost', formData, {
+      await axios.post('http://localhost:8080/posts/createPost', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          // Do not manually set Content-Type; let Axios do it.
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
         },
       });
 
-      // Call onPostCreated to refresh the posts list
+      // Refresh the posts list after a successful post.
       if (onPostCreated) {
         onPostCreated();
       }
       
+      // Clear the input fields.
       setPostContent('');
       setMedia(null);
       setMediaPreview('');
