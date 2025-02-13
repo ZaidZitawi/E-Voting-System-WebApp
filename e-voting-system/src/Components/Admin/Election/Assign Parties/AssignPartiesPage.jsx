@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./AssignPartiesPage.css";
-import AdminHeader from "../AdminHeader/AdminHeader";
-import Footer from "../../Footer/Footer";
+import AdminHeader from "../../AdminHeader/AdminHeader";
+import Footer from "../../../Footer/Footer";
 
 const mockUsers = [
   {

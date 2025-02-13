@@ -1,0 +1,60 @@
+/* src/components/admin/ElectionsManagement.css */
+:root {
+    --primary: #347928;
+    --accent: #FCCD2A;
+    --background: #f9f9f9;
+    --panel-bg: #ffffff;
+    --border-color: #e2e5ea;
+    --text-primary: #333;
+    --text-secondary: #666;
+  }
+  
+  .elections-management {
+    padding: 2rem;
+    background-color: var(--background);
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .elections-management h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Filters Section */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-field {
+    min-width: 150px;
+  }
+  
+  /* DataGrid Container */
+  .data-grid-container {
+    width: 100%;
+  }
+  
+  /* Actions cell styling */
+  .actions-cell {
+    display: flex;
+    gap: 4px;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .elections-management {
+      padding: 1rem;
+    }
+    .filters {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  

@@ -1,3 +1,4 @@
+/* src/components/Dialog.css */
 :root {
   --primary: #347928;
   --secondary: #C0EBA6;
@@ -63,9 +64,8 @@
   overflow-y: auto;
 }
 
-/* ============== Dialog Cards (Used by Like Dialog) ============== */
-.like-card,
-.friend-card {
+/* ============== Notification Card Styles ============== */
+.notification-card {
   display: flex;
   align-items: center;
   padding: 12px;
@@ -76,14 +76,12 @@
   transition: transform 0.2s ease;
 }
 
-.like-card:hover,
-.friend-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px var(--shadow-color);
-  }
+.notification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
 
-.like-profile-pic,
-.friend-profile-pic {
+.notification-profile-pic {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -91,9 +89,20 @@
   margin-right: 12px;
 }
 
-.like-name,
-.friend-name {
+.notification-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-message {
   font-size: 1rem;
   font-weight: bold;
   color: var(--primary);
+  margin: 0;
+}
+
+.notification-time {
+  font-size: 0.875rem;
+  color: var(--secondary);
+  margin: 0;
 }

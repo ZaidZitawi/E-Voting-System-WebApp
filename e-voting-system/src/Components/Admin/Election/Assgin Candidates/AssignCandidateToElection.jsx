@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./AssignCandidateToElection.css";
-import AdminHeader from "../AdminHeader/AdminHeader";
-import Footer from "../../Footer/Footer";
+import AdminHeader from "../../AdminHeader/AdminHeader";
+import Footer from "../../../Footer/Footer";
 
 const electionsData = [
   {

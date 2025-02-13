@@ -3,7 +3,6 @@ import Header from "../../Header/Header";
 import SideNavBar from "../../SideNavBar/SideNavBar";
 import EngagementAnalytics from "./EngagementAnalytics";
 import LiveResults from "./LiveResults";
-import CreatePostPage from "../Dashboard/CreatePostPage";
 import Footer from "../../Footer/Footer";
 import "./CandidateDashboard.css";
 import MyElections from "./MyElections";

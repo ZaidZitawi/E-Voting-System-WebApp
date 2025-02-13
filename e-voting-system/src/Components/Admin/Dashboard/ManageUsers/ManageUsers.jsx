@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ManageUsers.css";
-import AdminHeader from "../AdminHeader/AdminHeader";
-import Footer from "../../Footer/Footer";
+import AdminHeader from "../../AdminHeader/AdminHeader";
+import Footer from "../../../Footer/Footer";
 
 const usersData = [
   { id: 1, name: "Mohammad", role: "voter" },

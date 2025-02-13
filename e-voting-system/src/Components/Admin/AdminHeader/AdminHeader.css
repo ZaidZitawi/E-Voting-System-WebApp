@@ -1,0 +1,66 @@
+/* src/components/admin/AdminHeader.css */
+:root {
+  --primary: #347928;
+  --accent: #FCCD2A;
+  --background: #f9f9f9;
+  --panel-bg: #ffffff;
+  --border-color: #e2e5ea;
+  --text-primary: #333;
+  --text-secondary: #666;
+}
+
+.admin-header {
+  background-color: var(--primary); /* Using primary green */
+  padding: 1rem 2rem;
+  color: #fff;
+}
+
+.admin-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-logo {
+  display: flex;
+  align-items: center;
+}
+
+.admin-logo-image {
+  height: 40px;
+  margin-right: 0.5rem;
+}
+
+.admin-logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.admin-nav a {
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: 2rem;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.admin-nav a:hover,
+.admin-active-link {
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .admin-header {
+    padding: 0.5rem 1rem;
+  }
+  .admin-logo-text {
+    font-size: 1.25rem;
+  }
+  .admin-nav a {
+    margin-left: 1rem;
+    font-size: 0.9rem;
+  }
+}
