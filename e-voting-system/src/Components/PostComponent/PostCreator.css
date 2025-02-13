@@ -1,13 +1,21 @@
+/* Ensure these variables are defined in your global CSS (as in post.css) */
+:root {
+  --primary: #347928; /* Deep green */
+  --secondary: #C0EBA6; /* Light green */
+  --background: #F9F9F9; /* Neutral background */
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --border-radius: 12px;
+}
+
+/* ============== Post Creator Styles ============== */
 .post-creator {
-  border: 1px solid #ddd;
-  padding: 20px; /* Adjust padding for a tighter fit */
-  margin: 16px auto; /* Center the post */
-  border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--background);
+  border: 1px solid var(--secondary);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin: 20px auto;
   max-width: 600px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-  border: 1px solid #1E8EAB; 
-  
+  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .post-creator-header {
@@ -24,7 +32,7 @@
 .post-creator-username {
   font-weight: 600;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--primary);
 }
 
 .post-creator-profile-image {
@@ -40,13 +48,14 @@
 }
 
 .post-creator-textarea {
-  width: 90%;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  width: 100%;
+  border: 1px solid var(--secondary);
+  border-radius: var(--border-radius);
   padding: 10px;
   font-size: 16px;
   margin-bottom: 10px;
   resize: none;
+  background-color: var(--background);
 }
 
 .post-creator-media-preview {
@@ -57,20 +66,21 @@
 .post-creator-media-image,
 .post-creator-media-video {
   width: 100%;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .post-creator-media-remove-button {
   position: absolute;
-  top: 10px; /* Adjust as needed */
-  right: 10px; /* Adjust as needed */
+  top: 10px;
+  right: 10px;
   background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
   border: none;
   border-radius: 50%;
   padding: 5px;
   cursor: pointer;
-  font-size: 20px; /* Adjust size if needed */
+  font-size: 20px;
+  transition: background-color 0.2s ease;
 }
 
 .post-creator-media-remove-button:hover {
@@ -86,21 +96,33 @@
 .post-creator-upload-button {
   display: flex;
   align-items: center;
-  background-color: #1E8EAB; /* Secondary Blue */
-  color: #fff;
+  background-color: var(--secondary);
+  color: var(--primary);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   padding: 5px 10px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.post-creator-upload-button:hover {
+  background-color: var(--primary);
+  color: var(--background);
 }
 
 .post-creator-submit-button {
-  background-color: #004696; /* Primary Blue */
+  background-color: var(--primary);
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   padding: 5px 10px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.post-creator-submit-button:hover {
+  background-color: var(--secondary);
+  color: var(--primary);
 }

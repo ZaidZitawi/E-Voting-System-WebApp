@@ -1,5 +1,4 @@
 // src/Components/Admin/SignIn/LoginPage.jsx
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,8 +21,10 @@ const LoginPage = () => {
   // Form validation
   const validate = () => {
     const newErrors = {};
-    if (!formData.username.trim()) newErrors.username = "Please enter your Email.";
-    if (!formData.password.trim()) newErrors.password = "Please enter your password.";
+    if (!formData.username.trim())
+      newErrors.username = "Please enter your Email.";
+    if (!formData.password.trim())
+      newErrors.password = "Please enter your password.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -51,8 +52,8 @@ const LoginPage = () => {
         // Display success toast
         toast.success("Logged in successfully!");
 
-        // Redirect to dashboard
-        navigate("/home");
+        // Redirect to Admin Dashboard
+        navigate("/AdminDashboard");
       } else {
         throw new Error("Invalid login response. Token not found.");
       }
@@ -60,10 +61,14 @@ const LoginPage = () => {
       console.error("Login error:", error);
       if (error.response && error.response.data) {
         // Backend returned an error response
-        setErrors({ form: error.response.data.message || "Login failed. Please try again." });
+        setErrors({
+          form: error.response.data.message || "Login failed. Please try again.",
+        });
       } else if (error.request) {
         // Request was made but no response received
-        setErrors({ form: "No response from server. Please try again later." });
+        setErrors({
+          form: "No response from server. Please try again later.",
+        });
       } else {
         // Something else happened
         setErrors({ form: error.message || "An unexpected error occurred." });
@@ -88,7 +93,9 @@ const LoginPage = () => {
           required
           placeholder="Enter your Email"
         />
-        {errors.username && <p className="error-message">{errors.username}</p>}
+        {errors.username && (
+          <p className="error-message">{errors.username}</p>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
@@ -101,14 +108,15 @@ const LoginPage = () => {
           required
           placeholder="Enter your password"
         />
-        {errors.password && <p className="error-message">{errors.password}</p>}
+        {errors.password && (
+          <p className="error-message">{errors.password}</p>
+        )}
       </div>
       <div className="form-actions">
         <button type="submit" className="login-button" disabled={isLoading}>
           {isLoading ? "Logging In..." : "Log In"}
         </button>
       </div>
-      
     </form>
   );
 };

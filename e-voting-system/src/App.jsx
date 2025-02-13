@@ -9,19 +9,17 @@ import ElectionListPage from "./Components/ElectionListPage/ElectionListPage.jsx
 import Dashboard from "./Components/Dashboard/Dashboard.jsx";
 import ElectionDetailsPage from "./Components/ElectionDetailsPage/ElectionDetailsPage.jsx";
 import Profile from "./Components/Profile/ProfilePage.jsx";
-import AdminLoginPage from "./Components/Admin/SignIn/AdminLoginPage.jsx";
+
+// Admin imports
+import AdminLoginPage from "./Components/Admin/AdminSignIn/AdminLoginPage.jsx";
 import CreateElectionPage from "./Components/Admin/Election/CreateElectionPage.jsx";
-import AssignPartiesPage from "./Components/Admin/Election/AssignPartiesPage.jsx";
-import SendNotifications from "./Components/Admin/Dashboard/SendNotifications.jsx";
-import ManageUsers from "./Components/Admin/Dashboard/ManageUsers.jsx";
-import CreatePostPage from "./Components/Admin/Dashboard/CreatePostPage.jsx";
+import AssignPartiesPage from "./Components/Admin/Election/Assign Parties/AssignPartiesPage.jsx";
+import ManageUsers from "./Components/Admin/Dashboard/ManageUsers/ManageUsers.jsx";
 import ManageElections from "./Components/Admin/Election/ManageElections.jsx";
-import AssignCandidateToElection from "./Components/Admin/Dashboard/AssignCandidateToElection.jsx";
+import AssignCandidateToElection from "./Components/Admin/Election/Assgin Candidates/AssignCandidateToElection.jsx";
 import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx";
 import CandidateDashboard from "./Components/Admin/Candidate/CandidateDashboard.jsx";
 import MyElectionDetails from "./Components/Admin/Candidate/MyElectionDetails.jsx";
-
-
 import { decodeJWT, isTokenExpired } from "./Components/utils/jwt.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,6 +28,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import SocialPage from "./Components/SocialPage/SocialPage.jsx";
+
+
 
 const AppContent = () => {
   const navigate = useNavigate();
@@ -91,14 +91,13 @@ const AppContent = () => {
         <Route path="/AdminDashboard" element={<AdminDashboard/>}/>
         <Route path="/CreateElection" element={<CreateElectionPage/>}/>
         <Route path="/assign-parties" element={<AssignPartiesPage/>} />
-        <Route path="/sendNot" element={<SendNotifications/>}/>
         <Route path="/manageUsers" element={<ManageUsers/>}/>
-        <Route path="/createPost" element={<CreatePostPage/>}/>
         <Route path="/manageElection" element={<ManageElections />}/>
         <Route path="assign-candidate-election" element={<AssignCandidateToElection/>}/>
         <Route path="/CandidateDash" element={<CandidateDashboard />}/>
         <Route path="/candidate/election/:id" element={<MyElectionDetails />} />
         <Route path="/social" element={<SocialPage />} />
+        
       </Routes>
       <ToastContainer
         position="top-right"

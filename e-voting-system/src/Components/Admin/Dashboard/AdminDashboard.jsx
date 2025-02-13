@@ -1,68 +1,27 @@
+// src/Components/Admin/SignIn/AdminDashboard.jsx
 import React from "react";
 import "./AdminDashboard.css";
-import SystemAnalytics from "./SystemAnalytics";
+import AdminDashboardOverview from "./AdminDashboardOverview";
+import ElectionsManagement from "./ElectionsManagement";
 import AdminHeader from "../AdminHeader/AdminHeader";
-import Footer from "../../Footer/Footer";
 import AdminSideNavBar from "../AdminSideNavBar/AdminSideNavBar";
-import LiveElectionStates from "./LiveElectionStates";
+import Footer from "../../Footer/Footer";
 
-const localElections = [
-  {
-    name: "Presidential Election",
-    candidates: [
-      { name: "Candidate A", votes: 500 },
-      { name: "Candidate B", votes: 300 },
-    ],
-  },
-  {
-    name: "Local Council Election",
-    candidates: [
-      { name: "Candidate X", votes: 200 },
-      { name: "Candidate Y", votes: 100 },
-    ],
-  },
-];
-
-const Dashboard = () => {
-    return (
-      <>
-        {/* Header */}
-        <AdminHeader />
-  
-        {/* Side Navigation Bar */}
-        <AdminSideNavBar />
-        
-        {/* Main Content Area */}
-        <div className="dashboard">
-          {/* <h2>Welcome Back Admin</h2> */}
-          
-          {/* System Analytics */}
-          <SystemAnalytics />
-          
-          {/* <p>Do you want to create new post?</p>
-          <CreatePostPage/> */}
-          
-          
-          {/* Main Content Container */}
-          <div className="main-content-area">
-            
-            {/* Election Slider */}
-            {/* <ElectionSlider elections={elections} /> */}
-
-            
-  
-            {/* Container for Analytics and States */}
-            <div className="analytics-states-container">
-             
-  
-              {/* Election States */}
-              <LiveElectionStates elections={localElections}/>
-            </div>
-          </div>
-        </div>
+const AdminDashboard = () => {
+  return (
+    <>
+      <AdminHeader />
+      <AdminSideNavBar />
+      {/* Wrapper for main content and footer */}
+      <div className="admin-main-wrapper">
+        {/* Dashboard Overview Section */}
+        <AdminDashboardOverview />
+        {/* Elections Management Section */}
+        <ElectionsManagement />
         <Footer />
-      </>
-    );
-  };
-  
-  export default Dashboard;
+      </div>
+    </>
+  );
+};
+
+export default AdminDashboard;

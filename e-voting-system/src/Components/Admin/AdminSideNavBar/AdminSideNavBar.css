@@ -1,0 +1,81 @@
+/* src/Components/Admin/SignIn/AdminSideNavBar.css */
+
+
+.admin-side-nav-bar {
+    position: fixed;
+    top: 10vh;
+    /* Top margin relative to viewport height */
+    left: 0;
+    width: 17vw;
+    /* Dynamic width based on viewport */
+    height: calc(100vh - 8vh);
+    /* Adjust height dynamically */
+    background-color: var(--panel-bg);
+    padding: 1.5rem;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.06);
+    z-index: 100;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Navigation Links / Sections */
+.admin-nav-section {
+    margin-bottom: 25px;
+}
+
+.admin-nav-section-title {
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.admin-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-nav-list-item {
+    margin-bottom: 8px;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.admin-nav-link .admin-nav-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+}
+
+.admin-nav-link:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.admin-active-link {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.admin-active-link .admin-nav-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* Hide sidebar on mobile screens */
+@media screen and (max-width: 768px) {
+    .admin-side-nav-bar {
+        display: none;
+    }
+}

@@ -1,0 +1,31 @@
+/* src/Components/Admin/SignIn/AdminDashboard.css */
+:root {
+    --primary: #347928;
+    --accent: #FCCD2A;
+    --background: #f9f9f9;
+    --panel-bg: #ffffff;
+    --border-color: #e2e5ea;
+    --text-primary: #333;
+    --text-secondary: #666;
+  }
+  
+  /* Wrapper for main content and footer shifted right to avoid overlapping the fixed sidebar */
+  .admin-main-wrapper {
+    margin-left: 260px; /* Sidebar width */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* (Optional) If you still have other content containers within the main area,
+     you can reuse these styles. For the new overview component, its own CSS (in AdminDashboardOverview.css)
+     will handle the inner layout. */
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .admin-main-wrapper {
+      margin-left: 0; /* Remove left margin when sidebar is hidden */
+      padding: 1rem;
+    }
+  }
+  
