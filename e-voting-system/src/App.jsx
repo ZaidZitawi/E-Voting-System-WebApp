@@ -15,7 +15,7 @@ import AdminLoginPage from "./Components/Admin/AdminSignIn/AdminLoginPage.jsx";
 import CreateElectionPage from "./Components/Admin/Election/CreateElectionPage.jsx";
 import AssignPartiesPage from "./Components/Admin/Election/Assign Parties/AssignPartiesPage.jsx";
 import ManageUsers from "./Components/Admin/Dashboard/ManageUsers/ManageUsers.jsx";
-import ManageElections from "./Components/Admin/Election/ManageElections.jsx";
+import ManageElections from "./Components/Admin/Dashboard/ManageElections.jsx";
 import AssignCandidateToElection from "./Components/Admin/Election/Assgin Candidates/AssignCandidateToElection.jsx";
 import AdminDashboard from "./Components/Admin/Dashboard/AdminDashboard.jsx";
 import CandidateDashboard from "./Components/Admin/Candidate/CandidateDashboard.jsx";
@@ -28,6 +28,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import SocialPage from "./Components/SocialPage/SocialPage.jsx";
+import AdminElectionDetails from "./Components/Admin/Dashboard/AdminEleectionDetails/AdminElectionDetails.jsx";
+import ElectionsManagement from "./Components/Admin/Dashboard/ElectionsTable/ElectionsManagement.jsx";
 
 
 
@@ -97,7 +99,8 @@ const AppContent = () => {
         <Route path="/CandidateDash" element={<CandidateDashboard />}/>
         <Route path="/candidate/election/:id" element={<MyElectionDetails />} />
         <Route path="/social" element={<SocialPage />} />
-        
+        <Route path="/elections" element={<ElectionsManagement />} />
+        <Route path="/elections/:id" element={<AdminElectionDetails />} />
       </Routes>
       <ToastContainer
         position="top-right"

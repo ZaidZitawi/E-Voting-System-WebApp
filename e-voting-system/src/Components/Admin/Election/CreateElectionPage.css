@@ -1,111 +1,241 @@
+/* CreateElectionPage.css */
+
+/* Variables */
+:root {
+  --header-height: 64px;
+  --sidebar-width: 260px;
+  --content-padding: 2rem;
+  --surface-color: #ffffff;
+  --border-color: #e4e7ec;
+  --primary-color: #347928;
+  --text-primary: #101828;
+  --text-secondary: #667085;
+}
+
+/* Overall layout container */
 .create-election-page {
+  background: #f9fafb;
+  width: 100%;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: var(--header-height) 1fr;
+  min-height: 100vh;
+}
+
+/* Header fixed at top, spanning full width */
+.create-election-header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+}
+
+/* Sidebar fixed on left, below header */
+.create-election-sidebar {
+  grid-column: 1;
+  grid-row: 2;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--header-height));
+  background: var(--surface-color);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+}
+
+/* Main wrapper: shifted right to accommodate sidebar; uses flex to push footer to bottom */
+.create-election-main-wrapper {
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: var(--header-height);
+  padding: var(--content-padding);
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Main content area */
+.create-election-content {
+  flex: 1;
+  background: var(--surface-color);
+  margin-bottom: 1rem;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+/* Footer: pushed to the bottom and stretches full width of main wrapper */
+.create-election-footer {
+  margin-top: auto;
+  background: var(--surface-color);
+  border-top: 1px solid var(--border-color);
   width: 100%;
 }
 
-.page-header,
-.page-footer {
-  padding: 20px;
+/* Responsive adjustments for mobile */
+@media screen and (max-width: 768px) {
+  .create-election-page {
+    display: flex;
+    flex-direction: column;
+  }
+  .create-election-sidebar {
+    display: none;
+  }
+  .create-election-main-wrapper {
+    margin-top: var(--header-height);
+    padding: 1rem;
+  }
+  .create-election-header,
+  .create-election-footer {
+    width: 100%;
+  }
 }
 
-.content-wrapper {
-  flex-grow: 1;
-  width: 70%; 
-  margin: 30px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* CreateElectionForm specific styles */
+.create-election-form-container {
+  background: var(--surface-color);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-h2 {
+.create-election-title {
   text-align: center;
-  color: #2c6a21;
+  color: var(--primary-color);
   margin-bottom: 20px;
-  font-size: 24px;
+}
+
+.form-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
 
 .form-group {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-label {
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
   font-weight: bold;
   margin-bottom: 8px;
-  display: block;
-  color: #333;
+  color: var(--text-primary);
+  font-size: 0.875rem;
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.875rem;
   background-color: #f9f9f9;
+  transition: all 0.3s ease;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #2c6a21;
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(52, 121, 40, 0.1);
   outline: none;
 }
 
-textarea {
+.form-group textarea {
   resize: none;
   height: 100px;
 }
 
-/* Styled button for image upload */
-.image-upload-button {
-  display: inline-block;
-  background-color: #2c6a21;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* Image Upload Section */
+.image-upload-section {
+  position: relative;
+}
+
+.image-upload-container {
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
   text-align: center;
+  transition: border-color 0.3s ease;
 }
 
-.image-upload-button:hover {
-  background-color: #24631a;
+.image-upload-container.dragover {
+  border-color: var(--primary-color);
+  background: rgba(52, 121, 40, 0.05);
 }
 
-input[type="file"] {
-  display: none; /* Hide the default file input */
+.image-preview-container {
+  position: relative;
+  margin-top: 1rem;
+  max-width: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-button.submit-button {
-  width: 100%;
-  background-color: #2c6a21;
+.remove-image-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(220, 38, 38, 0.9);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-button.submit-button:hover {
-  background-color: #24631a;
+.remove-image-button:hover {
+  background: #b91c1c;
+  transform: scale(1.1);
 }
 
-.preview-container {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.election-image {
-  max-width: 100%;
+/* Submit Button */
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  margin-top: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.submit-button:hover {
+  background: #2a6020;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(52, 121, 40, 0.2);
+}
+
+/* Mobile form grid becomes single column */
+@media screen and (max-width: 768px) {
+  .form-grid-container {
+    grid-template-columns: 1fr;
+  }
+  .create-election-form-container {
+    padding: 1.5rem;
+  }
 }
