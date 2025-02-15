@@ -1,17 +1,26 @@
 // src/Components/Admin/SignIn/AdminSideNavBar.jsx
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./AdminSideNavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTachometerAlt,
   faPlus,
   faUsers,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const AdminSideNavBar = () => {
-  // (No need to fetch admin profile anymore)
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear all items from local storage (including auth token and others)
+    localStorage.clear();
+    // Navigate to the /AdminIn page
+    navigate("/AdminIn");
+  };
+
   // Define navigation sections with unwanted links removed
   const navSections = [
     {
@@ -61,6 +70,20 @@ const AdminSideNavBar = () => {
             </ul>
           </div>
         ))}
+        {/* Logout Link */}
+        <div className="admin-nav-section">
+          <ul className="admin-nav-list">
+            <li className="admin-nav-list-item">
+              <button
+                onClick={handleLogout}
+                className="admin-nav-link logout-link"
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} className="admin-nav-icon" />
+                <span>Logout</span>
+              </button>
+            </li>
+          </ul>
+        </div>
       </nav>
     </aside>
   );

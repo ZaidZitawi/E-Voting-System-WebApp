@@ -6,7 +6,7 @@ import { decodeJWT, isTokenExpired } from "../../utils/jwt.js";
 import { toast } from "react-toastify";
 import "./AdminLoginForm.css";
 
-const LoginPage = () => {
+const AdminLoginForm = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -42,16 +42,21 @@ const LoginPage = () => {
       });
       const token = response.data; // Adjust based on your backend response structure
       if (token) {
-        // Store token in localStorage
-        localStorage.setItem("authToken", token);
-
-        // Optional: Decode token to get user info
+        // Decode token to get user info
         const decoded = decodeJWT(token);
         console.log("Logged in user:", decoded);
-
+        // Check if the user has the admin role
+        if (decoded.role !== "ROLE_ADMIN") {
+          setErrors({ form: "Unauthorized: Admin access only." });
+          toast.error("Unauthorized: Admin access only.");
+          // Clear any token if it was previously stored
+          localStorage.removeItem("authToken");
+          return;
+        }
+        // Store token in localStorage
+        localStorage.setItem("authToken", token);
         // Display success toast
         toast.success("Logged in successfully!");
-
         // Redirect to Admin Dashboard
         navigate("/AdminDashboard");
       } else {
@@ -60,17 +65,14 @@ const LoginPage = () => {
     } catch (error) {
       console.error("Login error:", error);
       if (error.response && error.response.data) {
-        // Backend returned an error response
         setErrors({
           form: error.response.data.message || "Login failed. Please try again.",
         });
       } else if (error.request) {
-        // Request was made but no response received
         setErrors({
           form: "No response from server. Please try again later.",
         });
       } else {
-        // Something else happened
         setErrors({ form: error.message || "An unexpected error occurred." });
       }
     } finally {
@@ -121,4 +123,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminLoginForm;

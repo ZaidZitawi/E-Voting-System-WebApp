@@ -1,6 +1,7 @@
 // src/components/admin/AdminDashboardOverview.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './AdminDashboardOverview.css';
+import axios from 'axios';
 import {
   LineChart,
   Line,
@@ -16,15 +17,55 @@ import {
 } from 'recharts';
 
 const AdminDashboardOverview = () => {
-  // Dummy metrics data for development purposes
+  // State for user statistics fetched from the backend
+  const [userStats, setUserStats] = useState({
+    totalUsers: 0,
+    roleBreakdown: {
+      ROLE_ADMIN: 0,
+      ROLE_CANDIDATE: 0,
+      ROLE_PARTY_MANAGER: 0,
+      ROLE_USER: 0,
+    },
+  });
+
+  // Fetch user statistics on component mount
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const response = await axios.get('http://localhost:8080/users/statistics', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // The response data should include totalUsers and roleBreakdown
+        setUserStats(response.data);
+      } catch (error) {
+        console.error('Error fetching user statistics:', error);
+      }
+    };
+
+    fetchUserStats();
+  }, []);
+
+  // Dummy elections data remains unchanged for now
   const totalElections = 20;
   const activeElections = 12;
   const liveElections = 5;
-  const totalUsers = 1500;
-  const voters = 1200;
-  const candidates = 200;
-  const admins = 100;
-  const parties = 50; // New metric for parties
+
+  // Destructure the fetched statistics
+  const { totalUsers, roleBreakdown } = userStats;
+
+  // Prepare data for the pie chart by mapping backend roles to display labels:
+  // ROLE_USER -> Voters, ROLE_CANDIDATE -> Candidates,
+  // ROLE_ADMIN -> Admins, ROLE_PARTY_MANAGER -> Parties
+  const userRolesData = [
+    { role: 'Voters', count: roleBreakdown.ROLE_USER },
+    { role: 'Candidates', count: roleBreakdown.ROLE_CANDIDATE },
+    { role: 'Admins', count: roleBreakdown.ROLE_ADMIN },
+    { role: 'Parties', count: roleBreakdown.ROLE_PARTY_MANAGER },
+  ];
+
+  // Colors for pie slices
+  const pieColors = ['#347928', '#FCCD2A', '#8884d8', '#82ca9d'];
 
   // Dummy data for elections trend chart (votes per month)
   const electionTrendData = [
@@ -41,17 +82,6 @@ const AdminDashboardOverview = () => {
     { month: 'Nov', votes: 2100 },
     { month: 'Dec', votes: 2500 },
   ];
-
-  // Dummy data for user roles breakdown (for a pie chart)
-  const userRolesData = [
-    { role: 'Voters', count: voters },
-    { role: 'Candidates', count: candidates },
-    { role: 'Admins', count: admins },
-    { role: 'Parties', count: parties },
-  ];
-
-  // Colors for pie slices
-  const pieColors = ['#347928', '#FCCD2A', '#8884d8', '#82ca9d'];
 
   return (
     <section className="admin-dashboard-overview">
@@ -70,9 +100,9 @@ const AdminDashboardOverview = () => {
         </div>
         <div className="admin-summary-card">
           <h3>Total Users</h3>
-          <p>{totalUsers + parties}</p>
+          <p>{totalUsers}</p>
           <small>
-            Voters: {voters} | Candidates: {candidates} | Admins: {admins} | {parties} Parties
+            Voters: {roleBreakdown.ROLE_USER} | Candidates: {roleBreakdown.ROLE_CANDIDATE} | Admins: {roleBreakdown.ROLE_ADMIN} | Parties: {roleBreakdown.ROLE_PARTY_MANAGER}
           </small>
         </div>
       </div>

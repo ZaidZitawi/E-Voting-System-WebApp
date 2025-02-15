@@ -1,8 +1,8 @@
 // src/Components/Admin/SignIn/AdminDashboard.jsx
 import React from "react";
 import "./AdminDashboard.css";
-import AdminDashboardOverview from "./AdminDashboardOverview";
-import ElectionsManagement from "./ElectionsManagement";
+import AdminDashboardOverview from "./AdminOverview/AdminDashboardOverview";
+import ElectionsManagement from "./ElectionsTable/ElectionsManagement";
 import AdminHeader from "../AdminHeader/AdminHeader";
 import AdminSideNavBar from "../AdminSideNavBar/AdminSideNavBar";
 import Footer from "../../Footer/Footer";

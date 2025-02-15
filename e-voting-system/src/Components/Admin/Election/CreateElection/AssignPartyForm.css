@@ -1,0 +1,218 @@
+/* AssignPartyForm.css */
+.assign-party-form-container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin: 2rem 0;
+  }
+  
+  .assign-party-title {
+    text-align: center;
+    color: #347928;
+    margin-bottom: 1.5rem;
+  }
+  
+  .party-form {
+    border: 1px solid #e4e7ec;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #101828;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e4e7ec;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: #347928;
+    box-shadow: 0 0 0 3px rgba(52, 121, 40, 0.1);
+    outline: none;
+  }
+  
+  .search-results {
+    border: 1px solid #e4e7ec;
+    background: #fff;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 0.5rem;
+  }
+  
+  .search-result-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #e4e7ec;
+  }
+  
+  .search-result-item:hover {
+    background: #f1f1f1;
+  }
+  
+  .add-party-button {
+    background: #347928;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-bottom: 1rem;
+  }
+  
+  .add-party-button:hover {
+    background: #2a6020;
+  }
+  
+  .remove-party-button {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .remove-party-button:hover {
+    background: #c0392b;
+  }
+  
+  /* Candidate Section */
+  .candidate-section {
+    margin-top: 1rem;
+    border-top: 1px dashed #e4e7ec;
+    padding-top: 1rem;
+  }
+  
+  .candidate-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #347928;
+    margin-bottom: 1rem;
+  }
+  
+  .candidate-form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .add-candidate-button {
+    background: #347928;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 0.5rem;
+  }
+  
+  .add-candidate-button:hover {
+    background: #2a6020;
+  }
+  
+  .remove-candidate-button {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .remove-candidate-button:hover {
+    background: #c0392b;
+  }
+  
+  .submit-button {
+    width: 100%;
+    background: #347928;
+    color: #fff;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  .submit-button:hover {
+    background: #2a6020;
+  }
+  
+  /* Loader overlay for blockchain export */
+  .exporting-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .exporting-panel {
+    background: #ffffff;
+    padding: 2rem 3rem;
+    border: 1px solid #e4e7ec;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .spinner {
+    margin-top: 1rem;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e4e7ec;
+    border-top: 4px solid #347928;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
